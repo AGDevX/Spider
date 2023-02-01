@@ -4,11 +4,12 @@ namespace AGDevX.Spider.Web
     {
         public static void Main(string[] args)
         {
-            var webApp = BuildwebApp(args);
+            var webApp = BuildWebApp(args);
+            ConfigureMiddlware(webApp);
             webApp.Run();
         }
 
-        public static WebApplication BuildwebApp(string[] args)
+        public static WebApplication BuildWebApp(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
