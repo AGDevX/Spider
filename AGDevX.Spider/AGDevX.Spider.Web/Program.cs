@@ -4,28 +4,36 @@ namespace AGDevX.Spider.Web
     {
         public static void Main(string[] args)
         {
+            var webApp = BuildwebApp(args);
+            webApp.Run();
+        }
+
+        public static WebApplication BuildwebApp(string[] args)
+        {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            var webApp = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            return webApp;
+        }
+
+        public static WebApplication ConfigureMiddlware(WebApplication webApp)
+        {
+            if (webApp.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                webApp.UseSwagger();
+                webApp.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            webApp.UseHttpsRedirection();
+            webApp.UseAuthorization();
+            webApp.MapControllers();
 
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+            return webApp;
         }
     }
 }
