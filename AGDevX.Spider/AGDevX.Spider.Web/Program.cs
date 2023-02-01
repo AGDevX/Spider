@@ -1,40 +1,46 @@
+using AGDevX.Web.Swagger;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace AGDevX.Spider.Web
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var webApp = BuildWebApp(args);
-            ConfigureMiddlware(webApp);
-            webApp.Run();
+            var webApi = BuildWebApi(args);
+
+            ConfigureMiddlware(webApi);
+            
+            webApi.Run();
         }
 
-        public static WebApplication BuildWebApp(string[] args)
+        public static WebApplication BuildWebApi(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerToApi();
 
-            var webApp = builder.Build();
+            var webApi = builder.Build();
 
-            return webApp;
+            return webApi;
         }
 
-        public static WebApplication ConfigureMiddlware(WebApplication webApp)
+        public static WebApplication ConfigureMiddlware(WebApplication webApi)
         {
-            if (webApp.Environment.IsDevelopment())
+            if (webApi.Environment.IsDevelopment())
             {
-                webApp.UseSwagger();
-                webApp.UseSwaggerUI();
+                webApi.UseSwaggerForApi();
             }
 
-            webApp.UseHttpsRedirection();
-            webApp.UseAuthorization();
-            webApp.MapControllers();
+            webApi.UseHttpsRedirection();
+            webApi.UseAuthorization();
+            webApi.MapControllers();
 
-            return webApp;
+            return webApi;
         }
     }
 }
