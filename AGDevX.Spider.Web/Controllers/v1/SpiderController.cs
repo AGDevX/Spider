@@ -6,7 +6,8 @@ using Microsoft.Extensions.Logging;
 namespace AGDevX.Spider.Web.Controllers.v1
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class SpiderController : ControllerBase
     {
         private readonly ILogger<SpiderController> _logger;
@@ -18,7 +19,7 @@ namespace AGDevX.Spider.Web.Controllers.v1
             _apiConfig = apiConfig;
         }
 
-        [HttpGet(Name = "GetSpider")]
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             return new OkObjectResult(_apiConfig);

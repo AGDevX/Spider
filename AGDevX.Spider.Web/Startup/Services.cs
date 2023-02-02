@@ -2,6 +2,8 @@
 using AGDevX.Assemblies;
 using AGDevX.Spider.Web.Config;
 using AGDevX.Web.Swagger;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,10 +15,11 @@ namespace AGDevX.Spider.Web.Startup
         {
             var apiConfig = services.ConfigureDependencyInjection(configuration);
 
-            services.ConfigureCors(apiConfig);
-            services.AddControllers();
+            services.AddDefaultCorsPolicy(apiConfig);
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerToApi();
+            services.AddApiVersioning();
+            services.AddSwaggerToApi(apiConfig);
+            services.AddControllers();
 
             return apiConfig;
         }
@@ -49,7 +52,38 @@ namespace AGDevX.Spider.Web.Startup
                                       .WithScopedLifetime());
         }
 
-        public static void ConfigureCors(this IServiceCollection services, ApiConfig apiConfig)
+        public static void AddApiVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
+                                                                    new HeaderApiVersionReader("x-api-version"),
+                                                                    new MediaTypeApiVersionReader("x-api-version"));
+            });
+
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+        }
+
+        public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            var swaggerConfig = new SwaggerConfig
+            {
+                Title = apiConfig.Api.Name,
+                Description = apiConfig.Api.Description
+            };
+
+
+            services.AddSwaggerToApi(swaggerConfig);
+        }
+
+        public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
         {
             var DEFAULT_CORS_POLICY = "DefaultCorsPolicy";
 

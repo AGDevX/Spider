@@ -1,23 +1,31 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AGDevX.Web.Swagger
 {
     public static class SwaggerExtensions
     {
-        public static IServiceCollection AddSwaggerToApi(this IServiceCollection services)
+        public static void AddSwaggerToApi(this IServiceCollection services, SwaggerConfig swaggerConfig)
         {
+            services.AddSingleton(swaggerConfig);
             services.AddSwaggerGen();
-            
-            return services;
+            services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
 
-        public static WebApplication UseSwaggerForApi(this WebApplication webApp)
+        public static void UseSwaggerForApi(this WebApplication webApp)
         {
-            webApp.UseSwagger();
-            webApp.UseSwaggerUI();
+            var apiVersionDescriptionProvider = webApp.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
-            return webApp;
+            webApp.UseSwagger();
+            webApp.UseSwaggerUI(options =>
+            {
+                foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
+                {
+                    options.SwaggerEndpoint($"/swagger/{ description.GroupName }/swagger.json", description.GroupName.ToUpperInvariant());
+                }
+            });
         }
     }
 }
