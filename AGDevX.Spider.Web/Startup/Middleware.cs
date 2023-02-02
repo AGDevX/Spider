@@ -1,5 +1,6 @@
 ﻿using AGDevX.Enums;
 using AGDevX.Environments;
+using AGDevX.Spider.Web.Config;
 using AGDevX.Strings;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
@@ -9,9 +10,11 @@ namespace AGDevX.Spider.Web.Startup
 {
     public static class Middlware
     {
-        public static WebApplication ConfigureMiddlware(this WebApplication webApi)
+        public static WebApplication ConfigureMiddlware(this WebApplication webApi, ApiConfig apiConfig)
         {
-            if (webApi.Environment.EnvironmentName.ToString().EqualsIgnoreCase(EnvironmentType.Local.StringValue()) || webApi.Environment.IsDevelopment())
+            if (apiConfig.Environment.IsOneOf(EnvironmentType.Local)
+                || webApi.Environment.EnvironmentName.ToString().EqualsIgnoreCase(EnvironmentType.Local.StringValue())
+                || webApi.Environment.IsDevelopment())
             {
             }
 

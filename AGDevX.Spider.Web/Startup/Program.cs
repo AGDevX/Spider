@@ -7,7 +7,6 @@ namespace AGDevX.Spider.Web.Startup
         public static void Main(string[] args)
         {
             var webApi = BuildWebApi(args);
-            webApi.ConfigureMiddlware();
             webApi.Run();
         }
 
@@ -16,9 +15,11 @@ namespace AGDevX.Spider.Web.Startup
             var builder = WebApplication.CreateBuilder(args);
             var configuration = builder.Configuration;
 
-            builder.Services.ConfigureServices(configuration);
+            var apiConfig = builder.Services.ConfigureServices(configuration);
 
             var webApi = builder.Build();
+            
+            webApi.ConfigureMiddlware(apiConfig);
 
             return webApi;
         }

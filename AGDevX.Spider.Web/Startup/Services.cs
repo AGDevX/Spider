@@ -1,4 +1,5 @@
-﻿using AGDevX.Assemblies;
+﻿using System.Linq;
+using AGDevX.Assemblies;
 using AGDevX.Spider.Web.Config;
 using AGDevX.Web.Swagger;
 using Microsoft.Extensions.Configuration;
@@ -8,33 +9,37 @@ namespace AGDevX.Spider.Web.Startup
 {
     public static class Services
     {
-        public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+        public static ApiConfig ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
+            var apiConfig = services.ConfigureDependencyInjection(configuration);
+
+            services.ConfigureCors(apiConfig);
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerToApi();
-            services.ConfigureDependencyInjection(configuration);
 
-            return services;
+            return apiConfig;
         }
 
-        public static IServiceCollection ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)
+        public static ApiConfig ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             var apiConfig = services.ConfigureConfigDependencyInjection(configuration);
+
             services.ConfigureSolutionDependencyInjection(apiConfig);
 
-            return services;
+            return apiConfig;
         }
 
         public static ApiConfig ConfigureConfigDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             var apiConfig = configuration.GetSection("ApiConfig").Get<ApiConfig>();
+            
             services.AddSingleton(apiConfig);
 
             return apiConfig;
         }
 
-        public static IServiceCollection ConfigureSolutionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
+        public static void ConfigureSolutionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
         {
             var assemblies = AssemblyUtility.GetAssemblies(null, apiConfig.Solution.AssemblyPrefixes);
 
@@ -42,8 +47,51 @@ namespace AGDevX.Spider.Web.Startup
                                       .AddClasses()
                                       .AsMatchingInterface()
                                       .WithScopedLifetime());
+        }
 
-            return services;
+        public static void ConfigureCors(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            var DEFAULT_CORS_POLICY = "DefaultCorsPolicy";
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(DEFAULT_CORS_POLICY, builder =>
+                {
+                    var allowedOrigins = apiConfig.Security.AllowedOrigins;
+                    var allowedHeaders = apiConfig.Security.AllowedHeaders;
+                    var allowedMethods = apiConfig.Security.AllowedMethods;
+
+                    //-- Origins
+                    if (allowedOrigins.Contains("*"))
+                    {
+                        builder.AllowAnyOrigin();
+                    }
+                    else
+                    {
+                        builder.WithOrigins(allowedOrigins);
+                    }
+
+                    //-- Methods
+                    if (allowedMethods.Contains("*"))
+                    {
+                        builder.AllowAnyMethod();
+                    }
+                    else
+                    {
+                        builder.WithMethods(allowedMethods);
+                    }
+
+                    //-- Headers
+                    if (allowedHeaders.Contains("*"))
+                    {
+                        builder.AllowAnyHeader();
+                    }
+                    else
+                    {
+                        builder.WithHeaders(allowedHeaders);
+                    }
+                });
+            });
         }
     }
 }

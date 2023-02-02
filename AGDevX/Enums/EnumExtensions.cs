@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Reflection;
 
 namespace AGDevX.Enums
@@ -28,6 +29,11 @@ namespace AGDevX.Enums
             });
 
             return stringValue;
+        }
+
+        public static bool IsOneOf(this Enum enumeration, params Enum[] enums)
+        {
+            return enums.Contains(enumeration);
         }
     }
 }
