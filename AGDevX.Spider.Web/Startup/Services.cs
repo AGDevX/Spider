@@ -75,10 +75,10 @@ namespace AGDevX.Spider.Web.Startup
         {
             var swaggerConfig = new SwaggerConfig
             {
+                Enabled = apiConfig.Api.EnableSwagger,
                 Title = apiConfig.Api.Name,
                 Description = apiConfig.Api.Description
             };
-
 
             services.AddSwaggerToApi(swaggerConfig);
         }

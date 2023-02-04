@@ -15,6 +15,7 @@ namespace AGDevX.Spider.Web.Config
     {
         public string Name { get; set; } = "Spider Api";
         public string Description { get; set; } = "RESTful .NET API seed application";
+        public bool EnableSwagger { get; set; } = true;
     }
 
     public class Solution
