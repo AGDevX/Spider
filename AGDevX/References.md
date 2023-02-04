@@ -1,0 +1,1 @@
+﻿https://josipmisko.com/posts/string-enums-in-c-sharp-everything-you-need-to-know#:~:text=static%20readonly%20vs%20const

@@ -18,11 +18,18 @@ namespace AGDevX.Spider.Web.Startup
             {
             }
 
-            webApi.UseCors(apiConfig.Security.CorsPolicy);
-            webApi.UseSwaggerForApi();
+            webApi.UseHsts();
             webApi.UseHttpsRedirection();
+
+            webApi.UseCors(apiConfig.Security.CorsPolicy);
+
+            webApi.UseAuthentication();
             webApi.UseAuthorization();
+
+            webApi.UseSwaggerForApi();
+
             webApi.MapControllers();
+
 
             return webApi;
         }

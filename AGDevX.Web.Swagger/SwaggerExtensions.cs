@@ -14,7 +14,7 @@ namespace AGDevX.Web.Swagger
             {
                 services.AddSingleton(swaggerConfig);
                 services.AddSwaggerGen();
-                services.ConfigureOptions<ConfigureSwaggerOptions>();
+                services.ConfigureOptions<ConfigureOAuth2SwaggerOptions>();
             }
         }
 
@@ -34,6 +34,12 @@ namespace AGDevX.Web.Swagger
                         {
                             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                         }
+
+                        options.OAuthAppName(swaggerConfig.Title);
+                        options.OAuthClientId(swaggerConfig.ClientId);
+                        options.OAuthClientSecret(swaggerConfig.ClientSecret);
+                        options.OAuthScopeSeparator(" ");
+                        options.OAuthUsePkce();
                     });
                 }
             }

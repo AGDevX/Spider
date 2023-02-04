@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AGDevX.Assemblies;
+using AGDevX.Spider.Web.AuthN;
 using AGDevX.Spider.Web.Config;
+using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -16,6 +19,7 @@ namespace AGDevX.Spider.Web.Startup
             var apiConfig = services.ConfigureDependencyInjection(configuration);
 
             services.AddDefaultCorsPolicy(apiConfig);
+            services.AddOAuth(apiConfig);
             services.AddEndpointsApiExplorer();
             services.AddApiVersioning();
             services.AddSwaggerToApi(apiConfig);
@@ -50,37 +54,6 @@ namespace AGDevX.Spider.Web.Startup
                                       .AddClasses()
                                       .AsMatchingInterface()
                                       .WithScopedLifetime());
-        }
-
-        public static void AddApiVersioning(this IServiceCollection services)
-        {
-            services.AddApiVersioning(options =>
-            {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = true;
-                options.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
-                                                                    new HeaderApiVersionReader("x-api-version"),
-                                                                    new MediaTypeApiVersionReader("x-api-version"));
-            });
-
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-        }
-
-        public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
-        {
-            var swaggerConfig = new SwaggerConfig
-            {
-                Enabled = apiConfig.Api.EnableSwagger,
-                Title = apiConfig.Api.Name,
-                Description = apiConfig.Api.Description
-            };
-
-            services.AddSwaggerToApi(swaggerConfig);
         }
 
         public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
@@ -124,6 +97,61 @@ namespace AGDevX.Spider.Web.Startup
                     }
                 });
             });
+        }
+
+        public static void AddOAuth(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            var jwtOAuthConfig = new JwtOAuthConfig
+            {
+                AuthenticationScheme = apiConfig.AuthN.OAuth.AuthenticationScheme,
+                Authority = apiConfig.AuthN.OAuth.Authority,
+                Issuer = apiConfig.AuthN.OAuth.Issuer,
+                Audience = apiConfig.AuthN.OAuth.Audience,
+                RequireHttpsMetadata = apiConfig.AuthN.OAuth.RequireHttpsMetadata,
+                OpenIDConnectDiscoveryUrl = apiConfig.AuthN.OAuth.OpenIDConnectDiscoveryUrl
+            };
+
+            var jwtBearerEvents = new JwtBearerEventsOverrides();
+            services.AddJwtOAuth(jwtOAuthConfig, jwtBearerEvents);
+        }
+
+        public static void AddApiVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
+                                                                    new HeaderApiVersionReader("x-api-version"),
+                                                                    new MediaTypeApiVersionReader("x-api-version"));
+            });
+
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+        }
+
+        public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            var swaggerConfig = new SwaggerConfig
+            {
+                Enabled = apiConfig.Api.EnableSwagger,
+                Author = apiConfig.Api.Author,
+                AuthorEmail = apiConfig.Api.AuthorEmail,
+                AuthorUrl = new Uri(apiConfig.Api.AuthorUrl),
+                Title = apiConfig.Api.Name,
+                Description = apiConfig.Api.Description,
+                AuthorizationUrl = new Uri(apiConfig.AuthN.OAuth.AuthorizationUrl),
+                TokenUrl = new Uri(apiConfig.AuthN.OAuth.TokenUrl),
+                ClientId = apiConfig.AuthN.OAuth.ApiClient.ClientId,
+                ClientSecret = apiConfig.AuthN.OAuth.ApiClient.ClientSecret,
+                Scopes = apiConfig.AuthN.OAuth.ApiScopes
+            };
+
+            services.AddSwaggerToApi(swaggerConfig);
         }
     }
 }
