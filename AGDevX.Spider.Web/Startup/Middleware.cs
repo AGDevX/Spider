@@ -18,6 +18,7 @@ namespace AGDevX.Spider.Web.Startup
             {
             }
 
+            webApi.UseCors(apiConfig.Security.CorsPolicy);
             webApi.UseSwaggerForApi();
             webApi.UseHttpsRedirection();
             webApi.UseAuthorization();

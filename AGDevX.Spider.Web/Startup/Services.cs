@@ -85,11 +85,9 @@ namespace AGDevX.Spider.Web.Startup
 
         public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
         {
-            var DEFAULT_CORS_POLICY = "DefaultCorsPolicy";
-
             services.AddCors(options =>
             {
-                options.AddPolicy(DEFAULT_CORS_POLICY, builder =>
+                options.AddPolicy(apiConfig.Security.CorsPolicy, builder =>
                 {
                     var allowedOrigins = apiConfig.Security.AllowedOrigins;
                     var allowedHeaders = apiConfig.Security.AllowedHeaders;

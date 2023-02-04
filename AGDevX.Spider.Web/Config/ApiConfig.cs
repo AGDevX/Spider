@@ -25,6 +25,7 @@ namespace AGDevX.Spider.Web.Config
 
     public class Security
     {
+        public string CorsPolicy { get; set; } = "DefaultCorsPolicy";
         public string[] AllowedOrigins { get; set; } = Array.Empty<string>();
         public string[] AllowedMethods { get; set; } = Array.Empty<string>();
         public string[] AllowedHeaders { get; set; } = Array.Empty<string>();
