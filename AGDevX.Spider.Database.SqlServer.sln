@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AGDevX.Spider.Database", "AGDevX.Spider.Database\AGDevX.Spider.Database.sqlproj", "{10B690DA-E52F-48A4-81D4-FC990425CEDE}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AGDevX.Spider.Database.SqlServer", "AGDevX.Spider.Database.SqlServer\AGDevX.Spider.Database.SqlServer.sqlproj", "{10B690DA-E52F-48A4-81D4-FC990425CEDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

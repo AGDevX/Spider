@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Web", "AGDevX.Spider.Web.Api\AGDevX.Spider.Web.Api.csproj", "{7E66D73C-601D-4355-97C5-7308491AFDFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Web.Api", "AGDevX.Spider.Web.Api\AGDevX.Spider.Web.Api.csproj", "{7E66D73C-601D-4355-97C5-7308491AFDFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX", "AGDevX\AGDevX.csproj", "{D1869070-5AFD-45C9-8A97-E29D83941BA5}"
 EndProject
@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.Swagger", "AGDev
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web", "AGDevX.Web\AGDevX.Web.csproj", "{00C06B0D-4208-4ACE-9D97-85D1AF285C5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGDevX.Web.AuthN", "AGDevX.Web.AuthN\AGDevX.Web.AuthN.csproj", "{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.AuthN", "AGDevX.Web.AuthN\AGDevX.Web.AuthN.csproj", "{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Database", "AGDevX.Spider.Database\AGDevX.Spider.Database.csproj", "{2476AC4E-CF5D-4A46-9261-521630E5384B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
