@@ -6,7 +6,7 @@ using AGDevX.Environments;
 using AGDevX.Strings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace AGDevX.Spider.Web.Config
+namespace AGDevX.Spider.Web.Api.Config
 {
     public class ApiConfig
     {
@@ -48,7 +48,7 @@ namespace AGDevX.Spider.Web.Config
     public class OAuth
     {
         public string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
-        
+
         public string Domain { get; set; } = string.Empty;
         public string Authority { get; set; } = string.Empty;
         public string Issuer { get; set; } = string.Empty;
@@ -91,7 +91,7 @@ namespace AGDevX.Spider.Web.Config
             }
             set => _authorizationUrl = value;
         }
-        
+
         public bool AuthorizationUrlRequiresAudience { get; set; } = false;
         public bool AuthorizationUrlRequiresNonce { get; set; } = false;
 
@@ -100,7 +100,7 @@ namespace AGDevX.Spider.Web.Config
 
         public Dictionary<string, string> _oidcScopes = new();
         public Dictionary<string, string> OidcScopes { get => _oidcScopes.ReverseKeysAndValues(); set => _oidcScopes = value; }
-        
+
         public Dictionary<string, string> _apiScopes = new();
         public Dictionary<string, string> ApiScopes { get => _apiScopes.ReverseKeysAndValues(); set => _apiScopes = value; }
 

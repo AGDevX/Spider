@@ -1,12 +1,12 @@
 ﻿using AGDevX.Enums;
 using AGDevX.Environments;
-using AGDevX.Spider.Web.Config;
+using AGDevX.Spider.Web.Api.Config;
 using AGDevX.Strings;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
-namespace AGDevX.Spider.Web.Startup
+namespace AGDevX.Spider.Web.Api.Startup
 {
     public static class Middlware
     {

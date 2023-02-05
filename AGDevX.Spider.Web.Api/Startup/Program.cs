@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace AGDevX.Spider.Web.Startup
+namespace AGDevX.Spider.Web.Api.Startup
 {
     public class Program
     {
@@ -18,7 +18,7 @@ namespace AGDevX.Spider.Web.Startup
             var apiConfig = builder.Services.ConfigureServices(configuration);
 
             var webApi = builder.Build();
-            
+
             webApi.ConfigureMiddlware(apiConfig);
 
             return webApi;

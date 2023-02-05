@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Web", "AGDevX.Spider.Web\AGDevX.Spider.Web.csproj", "{7E66D73C-601D-4355-97C5-7308491AFDFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Web", "AGDevX.Spider.Web.Api\AGDevX.Spider.Web.Api.csproj", "{7E66D73C-601D-4355-97C5-7308491AFDFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX", "AGDevX\AGDevX.csproj", "{D1869070-5AFD-45C9-8A97-E29D83941BA5}"
 EndProject

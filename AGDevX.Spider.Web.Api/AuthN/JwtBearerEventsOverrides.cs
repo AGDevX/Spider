@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace AGDevX.Spider.Web.AuthN
+namespace AGDevX.Spider.Web.Api.AuthN
 {
     public class JwtBearerEventsOverrides : JwtBearerEvents
     {

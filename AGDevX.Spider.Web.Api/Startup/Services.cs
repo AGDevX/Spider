@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using AGDevX.Assemblies;
-using AGDevX.Spider.Web.AuthN;
-using AGDevX.Spider.Web.Config;
+using AGDevX.Spider.Web.Api.AuthN;
+using AGDevX.Spider.Web.Api.Config;
+using AGDevX.Spider.Web.Api.Startup;
 using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AGDevX.Spider.Web.Startup
+namespace AGDevX.Spider.Web.Api.Startup
 {
     public static class Services
     {
@@ -40,7 +41,7 @@ namespace AGDevX.Spider.Web.Startup
         public static ApiConfig ConfigureConfigDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             var apiConfig = configuration.GetSection("ApiConfig").Get<ApiConfig>();
-            
+
             services.AddSingleton(apiConfig);
 
             return apiConfig;
