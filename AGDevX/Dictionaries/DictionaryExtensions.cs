@@ -11,7 +11,7 @@ namespace AGDevX.Strings
         {
             if (dictionary == null)
             {
-                throw new ArgumentNullException($"The { dictionary } parameter was null");
+                throw new ArgumentNullException($"The provided { nameof(dictionary) } argument was null");
             }
 
             return dictionary.ToDictionary(x => x.Value, x => x.Key);

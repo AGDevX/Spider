@@ -7,7 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\AGDevX.Database\AGDevX.Database.csproj" />
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AGDevX\AGDevX.csproj" />
 	</ItemGroup>
 
 </Project>

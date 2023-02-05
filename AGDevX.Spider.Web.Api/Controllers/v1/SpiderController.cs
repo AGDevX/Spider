@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using AGDevX.Spider.Web.Api.Config;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,7 +19,7 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             return new OkObjectResult(_apiConfig);
         }

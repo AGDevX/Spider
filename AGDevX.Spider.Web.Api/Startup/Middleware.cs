@@ -30,7 +30,6 @@ namespace AGDevX.Spider.Web.Api.Startup
 
             webApi.MapControllers();
 
-
             return webApi;
         }
     }

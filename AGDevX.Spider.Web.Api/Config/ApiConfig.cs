@@ -24,6 +24,7 @@ namespace AGDevX.Spider.Web.Api.Config
         public string AuthorUrl { get; set; } = "https://github.com/AGDevX";
         public string Name { get; set; } = "Spider Api";
         public string Description { get; set; } = "RESTful .NET API seed application";
+        public string ConnectionString { get; set; } = string.Empty;
         public bool EnableSwagger { get; set; } = true;
     }
 
@@ -61,13 +62,13 @@ namespace AGDevX.Spider.Web.Api.Config
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_authorizationUrl))
+                if (_authorizationUrl.IsNullOrWhiteSpace())
                 {
                     return _authorizationUrl;
                 }
 
                 var queryStrings = new List<string>();
-                var authorizeUrl = new StringBuilder(_authorizationUrl);
+                var authZUrl = new StringBuilder(_authorizationUrl);
 
                 if (AuthorizationUrlRequiresAudience)
                 {
@@ -81,13 +82,13 @@ namespace AGDevX.Spider.Web.Api.Config
 
                 if (queryStrings.Any())
                 {
-                    authorizeUrl.Append('?');
-                    authorizeUrl.Append(string.Join('&', queryStrings.ToArray()));
+                    authZUrl.Append('?');
+                    authZUrl.Append(string.Join('&', queryStrings.ToArray()));
                 }
 
-                var authorizeUrlWithQueryString = authorizeUrl.ToString();
+                var authZUrlWithQueryString = authZUrl.ToString();
 
-                return authorizeUrlWithQueryString;
+                return authZUrlWithQueryString;
             }
             set => _authorizationUrl = value;
         }
@@ -98,11 +99,8 @@ namespace AGDevX.Spider.Web.Api.Config
         public string TokenUrl { get; set; } = string.Empty;
         public string UserInfoUrl { get; set; } = string.Empty;
 
-        public Dictionary<string, string> _oidcScopes = new();
-        public Dictionary<string, string> OidcScopes { get => _oidcScopes.ReverseKeysAndValues(); set => _oidcScopes = value; }
-
-        public Dictionary<string, string> _apiScopes = new();
-        public Dictionary<string, string> ApiScopes { get => _apiScopes.ReverseKeysAndValues(); set => _apiScopes = value; }
+        public Dictionary<string, string> OidcScopes { get; set; } = new();
+        public Dictionary<string, string> ApiScopes { get; set; } = new();
 
         public Client ApiClient { get; set; } = new Client();
         public Client SpaClient { get; set; } = new Client();

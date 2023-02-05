@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
 using AGDevX.Assemblies;
+using AGDevX.Database.Connections;
+using AGDevX.Exceptions;
 using AGDevX.Spider.Web.Api.AuthN;
 using AGDevX.Spider.Web.Api.Config;
 using AGDevX.Spider.Web.Api.Startup;
+using AGDevX.Strings;
 using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +27,7 @@ namespace AGDevX.Spider.Web.Api.Startup
             services.AddEndpointsApiExplorer();
             services.AddApiVersioning();
             services.AddSwaggerToApi(apiConfig);
+            services.AddAutoMapper(apiConfig);
             services.AddControllers();
 
             return apiConfig;
@@ -34,13 +38,15 @@ namespace AGDevX.Spider.Web.Api.Startup
             var apiConfig = services.ConfigureConfigDependencyInjection(configuration);
 
             services.ConfigureSolutionDependencyInjection(apiConfig);
+            services.ConfigureDbConnectionDependencyInjection(apiConfig);
 
             return apiConfig;
         }
 
         public static ApiConfig ConfigureConfigDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
-            var apiConfig = configuration.GetSection("ApiConfig").Get<ApiConfig>();
+            var apiConfig = configuration.GetRequiredSection("ApiConfig").Get<ApiConfig>()
+                ?? throw new ApplicationStartupException("An exception occurred while retrieving the ApiConfig section");
 
             services.AddSingleton(apiConfig);
 
@@ -55,6 +61,13 @@ namespace AGDevX.Spider.Web.Api.Startup
                                       .AddClasses()
                                       .AsMatchingInterface()
                                       .WithScopedLifetime());
+        }
+
+        public static void ConfigureDbConnectionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            services.AddScoped<IDbConnectionProvider>(serviceProvider => {
+                return new SqlServerConnectionProvider(apiConfig.Api.ConnectionString);
+            });
         }
 
         public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
@@ -149,10 +162,17 @@ namespace AGDevX.Spider.Web.Api.Startup
                 TokenUrl = new Uri(apiConfig.AuthN.OAuth.TokenUrl),
                 ClientId = apiConfig.AuthN.OAuth.ApiClient.ClientId,
                 ClientSecret = apiConfig.AuthN.OAuth.ApiClient.ClientSecret,
-                Scopes = apiConfig.AuthN.OAuth.ApiScopes
+                Scopes = apiConfig.AuthN.OAuth.ApiScopes.ReverseKeysAndValues()
             };
 
             services.AddSwaggerToApi(swaggerConfig);
+        }
+
+        public static void AddAutoMapper(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            var assemblies = AssemblyUtility.GetAssemblies(null, apiConfig.Solution.AssemblyPrefixes);
+
+            services.AddAutoMapper(assemblies);
         }
     }
 }

@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.AuthN", "AGDevX.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Database", "AGDevX.Spider.Database\AGDevX.Spider.Database.csproj", "{2476AC4E-CF5D-4A46-9261-521630E5384B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGDevX.Database", "AGDevX.Database\AGDevX.Database.csproj", "{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGDevX.Spider.Service", "AGDevX.Spider.Service\AGDevX.Spider.Service.csproj", "{189275CF-84FE-42B8-BA49-6DB2FCD22238}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{189275CF-84FE-42B8-BA49-6DB2FCD22238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{189275CF-84FE-42B8-BA49-6DB2FCD22238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{189275CF-84FE-42B8-BA49-6DB2FCD22238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{189275CF-84FE-42B8-BA49-6DB2FCD22238}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

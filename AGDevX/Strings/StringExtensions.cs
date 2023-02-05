@@ -8,12 +8,12 @@ namespace AGDevX.Strings
         {
             if (sourceString == null)
             {
-                throw new ArgumentNullException($"The { sourceString } parameter was null");
+                throw new ArgumentNullException($"The provided { nameof(sourceString) } argument was null");
             }
 
             if (equals == null)
             {
-                throw new ArgumentNullException($"The { equals } parameter was null");
+                throw new ArgumentNullException($"The provided { nameof(equals) } argument was null");
             }
 
             return sourceString.Equals(equals, stringComparison);
@@ -23,15 +23,20 @@ namespace AGDevX.Strings
         {
             if (sourceString == null)
             {
-                throw new ArgumentNullException($"The { sourceString } parameter was null");
+                throw new ArgumentNullException($"The provided { nameof(sourceString) } argument was null");
             }
 
             if (startsWith == null)
             {
-                throw new ArgumentNullException($"The { startsWith } parameter was null");
+                throw new ArgumentNullException($"The provided { nameof(startsWith) } argument was null");
             }
 
             return sourceString.StartsWith(startsWith, stringComparison);
+        }
+
+        public static bool IsNullOrWhiteSpace(this string? str)
+        {
+            return string.IsNullOrWhiteSpace(str);
         }
     }
 }

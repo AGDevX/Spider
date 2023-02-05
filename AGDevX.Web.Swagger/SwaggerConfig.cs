@@ -6,15 +6,15 @@ namespace AGDevX.Web.Swagger
     public sealed class SwaggerConfig
     {
         public bool Enabled { get; set; } = true;
-        public string Author { get; set; } = "AGDevX";
-        public string AuthorEmail { get; set; } = "AGDevX@gmail.com";
-        public Uri AuthorUrl { get; set; } = new Uri("https://github.com/AGDevX");
-        public string Title { get; set; } = ".NET Web API";
-        public string Description { get; set; } = "RESTful .NET Web API";
+        public string? Author { get; set; }
+        public string? AuthorEmail { get; set; }
+        public Uri? AuthorUrl { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
         public Uri? AuthorizationUrl { get; set; }
         public Uri? TokenUrl { get; set; }
-        public string ClientId { get; set; } = string.Empty;
-        public string ClientSecret { get; set; } = string.Empty;
+        public string? ClientId { get; set; }
+        public string? ClientSecret { get; set; }
         public Dictionary<string, string> Scopes { get; set; } = new Dictionary<string, string>();
     }
 }

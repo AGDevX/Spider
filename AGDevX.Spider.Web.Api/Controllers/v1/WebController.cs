@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using AGDevX.Spider.Web.Api.Config;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class WebController : ControllerBase
     {
         private readonly ILogger<SpiderController> _logger;
@@ -21,8 +21,7 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
         }
 
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             return new OkObjectResult(_apiConfig);
         }

@@ -13,7 +13,7 @@ namespace AGDevX.Enums
         {
             if (value == null)
             {
-                throw new ArgumentNullException($"The provided { value } was null");
+                throw new ArgumentNullException($"The provided { nameof(value) } argument was null");
             }
 
             var key = $"{ value.GetType().FullName }.{ value }";

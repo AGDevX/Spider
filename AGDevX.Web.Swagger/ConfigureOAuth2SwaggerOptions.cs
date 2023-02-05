@@ -20,7 +20,7 @@ namespace AGDevX.Web.Swagger
             _swaggerConfig = swaggerConfig;
         }
 
-        public void Configure(string name, SwaggerGenOptions options)
+        public void Configure(string? name, SwaggerGenOptions options)
         {
             Configure(options);
         }
