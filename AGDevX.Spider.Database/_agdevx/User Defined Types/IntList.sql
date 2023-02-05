@@ -1,0 +1,1 @@
+﻿CREATE TYPE [agdevx].IntList AS TABLE (Id INT NOT NULL)
