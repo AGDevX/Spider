@@ -9,6 +9,7 @@ using AGDevX.Spider.Web.Api.Startup;
 using AGDevX.Strings;
 using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.Swagger;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,7 @@ namespace AGDevX.Spider.Web.Api.Startup
             var apiConfig = services.ConfigureDependencyInjection(configuration);
 
             services.AddDefaultCorsPolicy(apiConfig);
-            services.AddOAuth(apiConfig);
+            services.AddSecurity(apiConfig);
             services.AddEndpointsApiExplorer();
             services.AddApiVersioning();
             services.AddSwaggerToApi(apiConfig);
@@ -65,9 +66,8 @@ namespace AGDevX.Spider.Web.Api.Startup
 
         public static void ConfigureDbConnectionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
         {
-            services.AddScoped<IDbConnectionProvider>(serviceProvider => {
-                return new SqlServerConnectionProvider(apiConfig.Api.ConnectionString);
-            });
+            services.AddSingleton(new DatabaseConnection { ConnectionString = apiConfig.Api.ConnectionString });
+            services.AddScoped<IDbConnectionProvider, SqlServerConnectionFactory>();
         }
 
         public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
@@ -111,6 +111,12 @@ namespace AGDevX.Spider.Web.Api.Startup
                     }
                 });
             });
+        }
+
+        public static void AddSecurity(this IServiceCollection services, ApiConfig apiConfig)
+        {
+            services.AddOAuth(apiConfig);
+            services.AddScoped<IClaimsTransformation, AddUserIdentityToClaimsTransformation>();
         }
 
         public static void AddOAuth(this IServiceCollection services, ApiConfig apiConfig)

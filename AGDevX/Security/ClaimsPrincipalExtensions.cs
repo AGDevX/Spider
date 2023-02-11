@@ -102,11 +102,17 @@ namespace AGDevX.Security
                         ?? throw new ClaimNotFoundException($"A Website claim was not found");
         }
 
-        public static string GetEmail(this ClaimsPrincipal claimsPrincipal)
+        public static string? GetEmail(this ClaimsPrincipal claimsPrincipal, bool throwExceptionOnNotFound = true)
         {
-            return  claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Email.StringValue())
-                        ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.Email)
-                        ?? throw new ClaimNotFoundException($"An Email claim was not found");
+            var email = claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Email.StringValue())
+                        ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.Email);
+
+            if (email == null && throwExceptionOnNotFound)
+            {
+                throw new ClaimNotFoundException($"An Email claim was not found");
+            }
+
+            return email;
         }
 
         public static bool GetEmailVerified(this ClaimsPrincipal claimsPrincipal)

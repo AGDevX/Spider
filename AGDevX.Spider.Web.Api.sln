@@ -9,15 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX", "AGDevX\AGDevX.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.Swagger", "AGDevX.Web.Swagger\AGDevX.Web.Swagger.csproj", "{CF740EB9-1021-48AE-8C4A-37002CFBB289}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web", "AGDevX.Web\AGDevX.Web.csproj", "{00C06B0D-4208-4ACE-9D97-85D1AF285C5B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.AuthN", "AGDevX.Web.AuthN\AGDevX.Web.AuthN.csproj", "{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Database", "AGDevX.Spider.Database\AGDevX.Spider.Database.csproj", "{2476AC4E-CF5D-4A46-9261-521630E5384B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGDevX.Database", "AGDevX.Database\AGDevX.Database.csproj", "{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Database", "AGDevX.Database\AGDevX.Database.csproj", "{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGDevX.Spider.Service", "AGDevX.Spider.Service\AGDevX.Spider.Service.csproj", "{189275CF-84FE-42B8-BA49-6DB2FCD22238}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Service", "AGDevX.Spider.Service\AGDevX.Spider.Service.csproj", "{189275CF-84FE-42B8-BA49-6DB2FCD22238}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00C06B0D-4208-4ACE-9D97-85D1AF285C5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00C06B0D-4208-4ACE-9D97-85D1AF285C5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00C06B0D-4208-4ACE-9D97-85D1AF285C5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00C06B0D-4208-4ACE-9D97-85D1AF285C5B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -7,7 +7,9 @@
 	[ModifiedAt]		  DATETIME2(7)		NOT NULL CONSTRAINT DF_Users_ModifiedAt DEFAULT GETUTCDATE(),
 	[IsActive]	          BIT				NOT NULL CONSTRAINT DF_Users_IsActive DEFAULT 1,
 	[FirstName]           NVARCHAR(25)		NOT NULL,
+	[MiddleName]		  NVARCHAR(25)		NULL,
 	[LastName]            NVARCHAR(25)		NOT NULL,
+	[Suffix]              NVARCHAR(5)		NULL,
 	[Email]				  NVARCHAR(50)		NOT NULL,
 
 	CONSTRAINT CHK_Users_Id CHECK (Id <> '00000000-0000-0000-0000-000000000000'),

@@ -23,6 +23,8 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
         [HttpGet]
         public IActionResult Get()
         {
+            var user = User;
+
             return new OkObjectResult(_apiConfig);
         }
     }

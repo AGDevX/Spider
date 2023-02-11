@@ -27,8 +27,6 @@ namespace AGDevX.Spider.Web.Api.Startup
             webApi.UseAuthentication();
             webApi.UseAuthorization();
 
-            webApi.UseUserIdentity();
-
             webApi.UseSwaggerForApi();
 
             webApi.MapControllers();
