@@ -1,9 +1,9 @@
 ﻿using System;
 using AGDevX.DateTimes;
 
-namespace AGDevX.Spider.Web.Api.Models
+namespace AGDevX.Spider.WebApi.Models
 {
-    public sealed class User
+    public sealed class Role
     {
         public required Guid Id { get; set; }
 
@@ -18,10 +18,8 @@ namespace AGDevX.Spider.Web.Api.Models
         public required DateTime ModifiedAt { get => _modifiedAt; set => _modifiedAt = value.SpecifyKind(DateTimeKind.Utc); }
 
         public required bool IsActive { get; set; }
-        public required string FirstName { get; set; }
-        public string? MiddleName { get; set; }
-        public required string LastName { get; set; }
-        public string? Suffix { get; set; }
-        public required string Email { get; set; }
+        public required string Name { get; set; }
+        public required string Code { get; set; }
+        public required string Description { get; set; }
     }
 }

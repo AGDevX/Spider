@@ -1,4 +1,4 @@
-using AGDevX.Spider.Web.Api.Startup;
+using AGDevX.Spider.WebApi.Startup;
 using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);

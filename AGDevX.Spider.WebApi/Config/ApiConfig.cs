@@ -6,7 +6,7 @@ using AGDevX.Environments;
 using AGDevX.Strings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace AGDevX.Spider.Web.Api.Config
+namespace AGDevX.Spider.WebApi.Config
 {
     public sealed class ApiConfig
     {

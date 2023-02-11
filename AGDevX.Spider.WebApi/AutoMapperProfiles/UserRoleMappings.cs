@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Api = AGDevX.Spider.Web.Api.Models;
+using Api = AGDevX.Spider.WebApi.Models;
 using Svc = AGDevX.Spider.Service.Models;
 
 namespace AGDevX.Spider.Service.AutoMapperProfiles

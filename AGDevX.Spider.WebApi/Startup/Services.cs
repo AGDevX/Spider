@@ -3,9 +3,9 @@ using System.Linq;
 using AGDevX.Assemblies;
 using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
-using AGDevX.Spider.Web.Api.AuthN;
-using AGDevX.Spider.Web.Api.Config;
-using AGDevX.Spider.Web.Api.Startup;
+using AGDevX.Spider.WebApi.AuthN;
+using AGDevX.Spider.WebApi.Config;
+using AGDevX.Spider.WebApi.Startup;
 using AGDevX.Strings;
 using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.Swagger;
@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AGDevX.Spider.Web.Api.Startup
+namespace AGDevX.Spider.WebApi.Startup
 {
     public static class Services
     {

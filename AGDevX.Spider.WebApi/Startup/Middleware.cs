@@ -1,13 +1,13 @@
 ﻿using AGDevX.Enums;
 using AGDevX.Environments;
-using AGDevX.Spider.Web.Api.AuthN;
-using AGDevX.Spider.Web.Api.Config;
+using AGDevX.Spider.WebApi.AuthN;
+using AGDevX.Spider.WebApi.Config;
 using AGDevX.Strings;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
-namespace AGDevX.Spider.Web.Api.Startup
+namespace AGDevX.Spider.WebApi.Startup
 {
     public static class Middlware
     {

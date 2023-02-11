@@ -1,8 +1,8 @@
-using AGDevX.Spider.Web.Api.Config;
+using AGDevX.Spider.WebApi.Config;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Spider.Web.Api.Controllers.v1
+namespace AGDevX.Spider.WebApi.Controllers.v1
 {
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]

@@ -1,7 +1,7 @@
 ﻿using System;
 using AGDevX.DateTimes;
 
-namespace AGDevX.Spider.Web.Api.Models
+namespace AGDevX.Spider.WebApi.Models
 {
     public sealed class UserRole
     {

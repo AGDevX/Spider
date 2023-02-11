@@ -8,7 +8,7 @@ using AGDevX.Spider.Service.Contracts;
 using AGDevX.Strings;
 using Microsoft.AspNetCore.Authentication;
 
-namespace AGDevX.Spider.Web.Api.AuthN
+namespace AGDevX.Spider.WebApi.AuthN
 {
     public sealed class AddUserIdentityToClaimsTransformation : IClaimsTransformation
     {

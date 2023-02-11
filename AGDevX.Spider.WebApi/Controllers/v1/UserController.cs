@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AGDevX.Guids;
 using AGDevX.Spider.Service.Contracts;
-using AGDevX.Spider.Web.Api.Models;
+using AGDevX.Spider.WebApi.Models;
 using AGDevX.Strings;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Spider.Web.Api.Controllers.v1
+namespace AGDevX.Spider.WebApi.Controllers.v1
 {
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
