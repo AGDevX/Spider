@@ -19,7 +19,7 @@ namespace AGDevX.Spider.Service
             _roleRepository = roleRepository;
         }
 
-        public async Task<Guid> AddRole(Role role)
+        public Task<Guid> AddRole(Role role)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,12 @@ namespace AGDevX.Spider.Service
             return svcRoles;
         }
 
-        public async Task UpdateRole(Role Role)
+        public Task UpdateRole(Role Role)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteRole(Guid? RoleId = default, string? code = default)
+        public Task DeleteRole(Guid? RoleId = default, string? code = default)
         {
             throw new NotImplementedException();
         }

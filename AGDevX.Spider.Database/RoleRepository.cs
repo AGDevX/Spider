@@ -8,7 +8,7 @@ using AGDevX.Spider.Database.Models;
 
 namespace AGDevX.Spider.Database.Contracts
 {
-    public class RoleRepository : IRoleRepository
+    public sealed class RoleRepository : IRoleRepository
     {
         private readonly IDbConnectionProvider _dbConnectionProvider;
 
@@ -17,7 +17,7 @@ namespace AGDevX.Spider.Database.Contracts
             _dbConnectionProvider = dbConnectionProvider;
         }
 
-        public async Task<Guid> AddRole(Role role)
+        public Task<Guid> AddRole(Role role)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,12 @@ namespace AGDevX.Spider.Database.Contracts
             }
         }
 
-        public async Task UpdateRole(Role Role)
+        public Task UpdateRole(Role Role)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteRole(Guid? RoleId = default, string? code = default)
+        public Task DeleteRole(Guid? RoleId = default, string? code = default)
         {
             throw new NotImplementedException();
         }

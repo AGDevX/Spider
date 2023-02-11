@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AGDevX.Spider.Web.Api.Config
 {
-    public class ApiConfig
+    public sealed class ApiConfig
     {
         public EnvironmentType Environment { get; set; } = EnvironmentType.Local;
         public Api Api { get; set; } = new Api();
@@ -17,7 +17,7 @@ namespace AGDevX.Spider.Web.Api.Config
         public AuthN AuthN { get; set; } = new AuthN();
     }
 
-    public class Api
+    public sealed class Api
     {
         public string Author { get; set; } = "AGDevX";
         public string AuthorEmail { get; set; } = "AGDevX@gmail.com";
@@ -28,12 +28,12 @@ namespace AGDevX.Spider.Web.Api.Config
         public bool EnableSwagger { get; set; } = true;
     }
 
-    public class Solution
+    public sealed class Solution
     {
         public string[] AssemblyPrefixes { get; set; } = Array.Empty<string>();
     }
 
-    public class Security
+    public sealed class Security
     {
         public string CorsPolicy { get; set; } = "DefaultCorsPolicy";
         public string[] AllowedOrigins { get; set; } = Array.Empty<string>();
@@ -41,12 +41,12 @@ namespace AGDevX.Spider.Web.Api.Config
         public string[] AllowedHeaders { get; set; } = Array.Empty<string>();
     }
 
-    public class AuthN
+    public sealed class AuthN
     {
         public OAuth OAuth { get; set; } = new OAuth();
     }
 
-    public class OAuth
+    public sealed class OAuth
     {
         public string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
 
@@ -106,7 +106,7 @@ namespace AGDevX.Spider.Web.Api.Config
         public Client SpaClient { get; set; } = new Client();
     }
 
-    public class Client
+    public sealed class Client
     {
         public string ClientId { get; set; } = string.Empty;
         public string ClientSecret { get; set; } = string.Empty;

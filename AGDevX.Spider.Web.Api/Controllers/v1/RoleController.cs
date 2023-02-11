@@ -11,7 +11,7 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class RoleController : ControllerBase
+    public sealed class RoleController : ControllerBase
     {
         private readonly ILogger<RoleController> _logger;
         private readonly IMapper _autoMapper;

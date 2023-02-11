@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AGDevX.Spider.Web.Api.AuthN
 {
-    public class JwtBearerEventsOverrides : JwtBearerEvents
+    public sealed class JwtBearerEventsOverrides : JwtBearerEvents
     {
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task Challenge(JwtBearerChallengeContext context)

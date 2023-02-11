@@ -18,7 +18,7 @@ namespace AGDevX.Spider.Service.Contracts
             _userRepository = userRepository;
         }
 
-        public async Task<Guid> AddUser(User user)
+        public Task<Guid> AddUser(User user)
         {
             throw new NotImplementedException();
         }
@@ -37,12 +37,12 @@ namespace AGDevX.Spider.Service.Contracts
             return svcUsers;
         }
 
-        public async Task UpdateUser(User user)
+        public Task UpdateUser(User user)
         {
             throw new NotImplementedException();
         }
 
-        public async Task DeleteUser(Guid? userId = default, string? email = default)
+        public Task DeleteUser(Guid? userId = default, string? email = default)
         {
             throw new NotImplementedException();
         }

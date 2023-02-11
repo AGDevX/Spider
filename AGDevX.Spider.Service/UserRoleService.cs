@@ -18,7 +18,7 @@ namespace AGDevX.Spider.Service.Contracts
             _userRoleRepository = userRoleRepository;
         }
 
-        public async Task<Guid> AddUserRole(Guid userId, Guid roleId)
+        public Task<Guid> AddUserRole(Guid userId, Guid roleId)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace AGDevX.Spider.Service.Contracts
             return svcUserRoles;
         }
 
-        public async Task DeleteUserRole(Guid userId, Guid roleId)
+        public Task DeleteUserRole(Guid userId, Guid roleId)
         {
             throw new NotImplementedException();
         }

@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AGDevX.Core.Swagger.OperationFilter
 {
-    class AuthorizeOperationFilter : IOperationFilter
+    public sealed class AuthorizeOperationFilter : IOperationFilter
     {
         private readonly string _scheme;
 

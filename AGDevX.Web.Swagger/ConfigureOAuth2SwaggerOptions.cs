@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AGDevX.Web.Swagger
 {
-    public class ConfigureOAuth2SwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
+    public sealed class ConfigureOAuth2SwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
     {
         private readonly string _scheme = "OAuth2";
 

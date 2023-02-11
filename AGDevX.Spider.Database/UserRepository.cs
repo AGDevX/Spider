@@ -19,7 +19,7 @@ namespace AGDevX.Spider.Database.Contracts
             _dbConnectionProvider = dbConnectionProvider;
         }
 
-        public async Task<Guid> AddUser(User user)
+        public Task<Guid> AddUser(User user)
         {
             throw new NotImplementedException();
         }

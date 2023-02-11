@@ -7,7 +7,7 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class SpiderController : ControllerBase
+    public sealed class SpiderController : ControllerBase
     {
         private readonly ILogger<SpiderController> _logger;
         private readonly ApiConfig _apiConfig;
