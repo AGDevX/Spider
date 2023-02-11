@@ -15,6 +15,7 @@ namespace AGDevX.Spider.Web.Api.AuthN
 
         public async Task InvokeAsync(HttpContext context)
         {
+            var user = context.User;
             await _next(context);
         }
     }

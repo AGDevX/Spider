@@ -150,6 +150,9 @@ namespace AGDevX.Spider.Web.Api.Startup
 
         public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
         {
+            var apiScopes = apiConfig.AuthN.OAuth.ApiScopes;
+            var oidcScopes = apiConfig.AuthN.OAuth.OidcScopes;
+
             var swaggerConfig = new SwaggerConfig
             {
                 Enabled = apiConfig.Api.EnableSwagger,
@@ -162,7 +165,7 @@ namespace AGDevX.Spider.Web.Api.Startup
                 TokenUrl = new Uri(apiConfig.AuthN.OAuth.TokenUrl),
                 ClientId = apiConfig.AuthN.OAuth.ApiClient.ClientId,
                 ClientSecret = apiConfig.AuthN.OAuth.ApiClient.ClientSecret,
-                Scopes = apiConfig.AuthN.OAuth.ApiScopes.ReverseKeysAndValues()
+                Scopes = apiScopes.Concatenate(oidcScopes)
             };
 
             services.AddSwaggerToApi(swaggerConfig);

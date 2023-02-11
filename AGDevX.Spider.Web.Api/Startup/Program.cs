@@ -1,27 +1,14 @@
+using AGDevX.Spider.Web.Api.Startup;
 using Microsoft.AspNetCore.Builder;
 
-namespace AGDevX.Spider.Web.Api.Startup
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var webApi = BuildWebApi(args);
-            webApi.Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
 
-        public static WebApplication BuildWebApi(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-            var configuration = builder.Configuration;
+var configuration = builder.Configuration;
 
-            var apiConfig = builder.Services.ConfigureServices(configuration);
+var apiConfig = builder.Services.ConfigureServices(configuration);
 
-            var webApi = builder.Build();
+var webApi = builder.Build();
 
-            webApi.ConfigureMiddlware(apiConfig);
+webApi.ConfigureMiddlware(apiConfig);
 
-            return webApi;
-        }
-    }
-}
+webApi.Run();

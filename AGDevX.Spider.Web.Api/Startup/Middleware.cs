@@ -1,5 +1,6 @@
 ﻿using AGDevX.Enums;
 using AGDevX.Environments;
+using AGDevX.Spider.Web.Api.AuthN;
 using AGDevX.Spider.Web.Api.Config;
 using AGDevX.Strings;
 using AGDevX.Web.Swagger;
@@ -25,6 +26,8 @@ namespace AGDevX.Spider.Web.Api.Startup
 
             webApi.UseAuthentication();
             webApi.UseAuthorization();
+
+            webApi.UseUserIdentity();
 
             webApi.UseSwaggerForApi();
 
