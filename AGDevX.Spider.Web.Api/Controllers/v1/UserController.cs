@@ -33,12 +33,12 @@ namespace AGDevX.Spider.Web.Api.Controllers.v1
             if (userId.IsNullOrEmpty() && email.IsNullOrWhiteSpace())
             {
                 var svcUsers = await _userService.GetUsers();
-                var apiUsers = _autoMapper.Map<List<GetUserResponse>>(svcUsers);
+                var apiUsers = _autoMapper.Map<List<User>>(svcUsers);
                 return Ok(apiUsers);
             }
 
             var svcUser = await _userService.GetUser(userId, email);
-            var apiUser = _autoMapper.Map<GetUserResponse>(svcUser);
+            var apiUser = _autoMapper.Map<User>(svcUser);
             return Ok(apiUser);
         }
     }

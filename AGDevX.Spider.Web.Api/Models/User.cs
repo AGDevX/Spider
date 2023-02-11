@@ -1,7 +1,7 @@
 ﻿using System;
 using AGDevX.DateTimes;
 
-namespace AGDevX.Spider.Service.Models
+namespace AGDevX.Spider.Web.Api.Models
 {
     public sealed class User
     {
