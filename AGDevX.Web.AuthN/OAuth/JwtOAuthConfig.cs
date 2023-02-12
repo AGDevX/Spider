@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Security.Claims;
+using AGDevX.Enums;
+using AGDevX.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AGDevX.Web.AuthN.OAuth
 {
     public sealed class JwtOAuthConfig
     {
-        public required string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
+        public string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
+        public string NameClaimType { get; set; } = ClaimTypes.NameIdentifier;
+        public string RoleClaimType { get; set; } = JwtClaimTypes.Roles.StringValue();
         public required string Authority { get; set; }
         public required string Issuer { get; set; }
         public required string Audience { get; set; }

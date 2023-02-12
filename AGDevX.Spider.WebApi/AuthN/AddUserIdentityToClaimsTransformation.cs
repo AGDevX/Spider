@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AGDevX.Enums;
 using AGDevX.Security;
 using AGDevX.Spider.Service.Contracts;
+using AGDevX.Spider.WebApi.Config;
 using AGDevX.Strings;
 using Microsoft.AspNetCore.Authentication;
 
@@ -12,15 +14,18 @@ namespace AGDevX.Spider.WebApi.AuthN
 {
     public sealed class AddUserIdentityToClaimsTransformation : IClaimsTransformation
     {
+        private readonly ApiConfig _apiConfig;
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IUserRoleService _userRoleService;
 
         public AddUserIdentityToClaimsTransformation (
+            ApiConfig apiConfig,
             IUserService userService,
             IRoleService roleService,
             IUserRoleService userRoleService)
         {
+            _apiConfig = apiConfig;
             _userService = userService;
             _roleService = roleService;
             _userRoleService = userRoleService;
@@ -28,12 +33,7 @@ namespace AGDevX.Spider.WebApi.AuthN
 
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal claimsPrincipal)
         {
-            if (!claimsPrincipal.Identities.Any())
-            {
-                return claimsPrincipal;
-            }
-
-            var identity = (ClaimsIdentity)claimsPrincipal.Identity!;
+            var claims = new List<Claim>();
 
             var email = claimsPrincipal.GetEmail(false);
 
@@ -61,9 +61,21 @@ namespace AGDevX.Spider.WebApi.AuthN
                     var roleString = rolesStringBuilder.ToString().Trim();
 
                     var claim = new Claim(JwtClaimTypes.Roles.StringValue(), roleString);
-                    identity.AddClaim(claim);
+                    claims.Add(claim);
                 }
             }
+
+            var userIdentity = new ClaimsIdentity (
+                claims,
+                _apiConfig.AuthN.OAuth.AuthenticationScheme,
+                _apiConfig.AuthN.OAuth.NameClaimType,
+                _apiConfig.AuthN.OAuth.RoleClaimType
+            )
+            {
+                Label = _apiConfig.Api.Name
+            };
+
+            claimsPrincipal.AddIdentity(userIdentity);
 
             return claimsPrincipal;
         }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
+using AGDevX.Enums;
 using AGDevX.Environments;
+using AGDevX.Security;
 using AGDevX.Strings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -44,18 +47,19 @@ namespace AGDevX.Spider.WebApi.Config
     public sealed class AuthN
     {
         public OAuth OAuth { get; set; } = new OAuth();
+        public Oidc Oidc { get; set; } = new Oidc();
     }
 
     public sealed class OAuth
     {
         public string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
+        public string NameClaimType { get; set; } = ClaimTypes.NameIdentifier;
+        public string RoleClaimType { get; set; } = JwtClaimTypes.Roles.StringValue();
 
         public string Domain { get; set; } = string.Empty;
         public string Authority { get; set; } = string.Empty;
         public string Issuer { get; set; } = string.Empty;
         public string Audience { get; set; } = string.Empty;
-        public bool RequireHttpsMetadata { get; set; } = true;
-        public string OpenIDConnectDiscoveryUrl { get; set; } = string.Empty;
 
         public string _authorizationUrl = string.Empty;
         public string AuthorizationUrl
@@ -99,7 +103,6 @@ namespace AGDevX.Spider.WebApi.Config
         public string TokenUrl { get; set; } = string.Empty;
         public string UserInfoUrl { get; set; } = string.Empty;
 
-        public Dictionary<string, string> OidcScopes { get; set; } = new();
         public Dictionary<string, string> ApiScopes { get; set; } = new();
 
         public Client ApiClient { get; set; } = new Client();
@@ -110,5 +113,12 @@ namespace AGDevX.Spider.WebApi.Config
     {
         public string ClientId { get; set; } = string.Empty;
         public string ClientSecret { get; set; } = string.Empty;
+    }
+
+    public sealed class Oidc
+    {
+        public string OpenIDConnectDiscoveryUrl { get; set; } = string.Empty;
+        public bool RequireHttpsMetadata { get; set; } = true;
+        public Dictionary<string, string> Scopes { get; set; } = new();
     }
 }

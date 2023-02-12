@@ -17,6 +17,7 @@ namespace AGDevX.Security
         public static string GetSubject(this ClaimsPrincipal claimsPrincipal)
         {
             return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Subject.StringValue())
+                        ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.NameIdentifier)
                         ?? throw new ClaimNotFoundException($"A Subject claim was not found");
         }
 

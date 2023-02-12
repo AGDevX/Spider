@@ -21,6 +21,7 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Get()
         {
             var user = User;

@@ -124,11 +124,13 @@ namespace AGDevX.Spider.WebApi.Startup
             var jwtOAuthConfig = new JwtOAuthConfig
             {
                 AuthenticationScheme = apiConfig.AuthN.OAuth.AuthenticationScheme,
+                NameClaimType = apiConfig.AuthN.OAuth.NameClaimType,
+                RoleClaimType = apiConfig.AuthN.OAuth.RoleClaimType,
                 Authority = apiConfig.AuthN.OAuth.Authority,
                 Issuer = apiConfig.AuthN.OAuth.Issuer,
                 Audience = apiConfig.AuthN.OAuth.Audience,
-                RequireHttpsMetadata = apiConfig.AuthN.OAuth.RequireHttpsMetadata,
-                OpenIDConnectDiscoveryUrl = apiConfig.AuthN.OAuth.OpenIDConnectDiscoveryUrl
+                RequireHttpsMetadata = apiConfig.AuthN.Oidc.RequireHttpsMetadata,
+                OpenIDConnectDiscoveryUrl = apiConfig.AuthN.Oidc.OpenIDConnectDiscoveryUrl
             };
 
             var jwtBearerEvents = new JwtBearerEventsOverrides();
@@ -157,7 +159,7 @@ namespace AGDevX.Spider.WebApi.Startup
         public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
         {
             var apiScopes = apiConfig.AuthN.OAuth.ApiScopes;
-            var oidcScopes = apiConfig.AuthN.OAuth.OidcScopes;
+            var oidcScopes = apiConfig.AuthN.Oidc.Scopes;
 
             var swaggerConfig = new SwaggerConfig
             {
