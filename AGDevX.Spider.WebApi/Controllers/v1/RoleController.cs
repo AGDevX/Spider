@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AGDevX.Spider.Service.Contracts;
+using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
         }
 
         [HttpGet]
+        [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin)]
         public async Task<IActionResult> Get()
         {
             var svcRoles = await _roleService.GetRoles();

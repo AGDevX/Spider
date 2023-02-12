@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using AGDevX.Enums;
 using AGDevX.Exceptions;
@@ -228,11 +230,13 @@ namespace AGDevX.Security
                         ?? throw new ClaimNotFoundException($"A ClientId claim was not found");
         }
 
-        public static string GetRoles(this ClaimsPrincipal claimsPrincipal)
+        public static List<string> GetRoles(this ClaimsPrincipal claimsPrincipal)
         {
-            //-- TODO: Parse into array
-            return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Roles.StringValue())
-                        ?? throw new ClaimNotFoundException($"A Roles claim was not found");
+            var rolesStr = claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Roles.StringValue())
+                                ?? throw new ClaimNotFoundException($"A Roles claim was not found");
+
+            var roles = rolesStr.Split(' ').ToList();
+            return roles;
         }
 
         private static T? GetClaimValue<T>(this ClaimsPrincipal claimsPrincipal, string claimType)
@@ -249,6 +253,11 @@ namespace AGDevX.Security
 
         private static Claim? GetClaim(this ClaimsPrincipal claimsPrincipal, string claimType)
         {
+            if (claimType.IsNullOrWhiteSpace())
+            {
+                return default;
+            }
+
             if (!claimsPrincipal.HasClaim(c => c.Type.EqualsIgnoreCase(claimType)))
             {
                 return default;

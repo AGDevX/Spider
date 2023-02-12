@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AGDevX.Strings
+namespace AGDevX.IEnumerables
 {
     public static class DictionaryExtensions
     {
@@ -11,7 +11,7 @@ namespace AGDevX.Strings
         {
             if (dictionary == null)
             {
-                throw new ArgumentNullException($"The provided { nameof(dictionary) } argument was null");
+                throw new ArgumentNullException($"The provided {nameof(dictionary)} argument was null");
             }
 
             return dictionary.ToDictionary(x => x.Value, x => x.Key);

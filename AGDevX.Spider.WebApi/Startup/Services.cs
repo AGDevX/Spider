@@ -3,10 +3,11 @@ using System.Linq;
 using AGDevX.Assemblies;
 using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
+using AGDevX.IEnumerables;
 using AGDevX.Spider.WebApi.AuthN;
+using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Spider.WebApi.Startup;
-using AGDevX.Strings;
 using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Authentication;
@@ -117,6 +118,7 @@ namespace AGDevX.Spider.WebApi.Startup
         {
             services.AddOAuth(apiConfig);
             services.AddScoped<IClaimsTransformation, AddUserIdentityToClaimsTransformation>();
+            services.AddScoped<LogAuthorizeAttributeActionFilter>();
         }
 
         public static void AddOAuth(this IServiceCollection services, ApiConfig apiConfig)
