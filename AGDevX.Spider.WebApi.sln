@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX", "AGDevX\AGDevX.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.Swagger", "AGDevX.Web.Swagger\AGDevX.Web.Swagger.csproj", "{CF740EB9-1021-48AE-8C4A-37002CFBB289}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.AuthN", "AGDevX.Web.AuthN\AGDevX.Web.AuthN.csproj", "{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web", "AGDevX.Web\AGDevX.Web.csproj", "{82CC4E65-FB31-4AF0-A168-C481A91B9EA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Database", "AGDevX.Spider.Database\AGDevX.Spider.Database.csproj", "{2476AC4E-CF5D-4A46-9261-521630E5384B}"
 EndProject

@@ -25,7 +25,7 @@ namespace AGDevX.Web.AuthN.OAuth
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = jwtOAuthConfig.NameClaimType,
-                    RoleClaimType= jwtOAuthConfig.RoleClaimType,
+                    RoleClaimType = jwtOAuthConfig.RoleClaimType,
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuer = true,
                     ValidIssuers = new List<string>
