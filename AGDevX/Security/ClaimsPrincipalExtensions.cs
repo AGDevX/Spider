@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using AGDevX.Enums;
 using AGDevX.Exceptions;
+using AGDevX.IEnumerables;
 using AGDevX.Strings;
 
 namespace AGDevX.Security
@@ -23,10 +24,9 @@ namespace AGDevX.Security
                         ?? throw new ClaimNotFoundException($"A Subject claim was not found");
         }
 
-        public static string GetAudience(this ClaimsPrincipal claimsPrincipal)
+        public static List<string> GetAudiences(this ClaimsPrincipal claimsPrincipal)
         {
-            //-- TODO: Could be a string or an array of strings
-            return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Audience.StringValue())
+            return claimsPrincipal.GetClaimValues<string>(JwtClaimTypes.Audience.StringValue())
                         ?? throw new ClaimNotFoundException($"An Audience claim was not found");
         }
 
@@ -267,6 +267,33 @@ namespace AGDevX.Security
             }
 
             return claimsPrincipal.FindFirst(claimType)!;
+        }
+
+        private static List<T>? GetClaimValues<T>(this ClaimsPrincipal claimsPrincipal, string claimType)
+        {
+            var claims = claimsPrincipal.GetClaims(claimType);
+
+            if (claims!.IsNullOrEmpty())
+            {
+                return default;
+            }
+
+            return claims!.Select(c => (T)Convert.ChangeType(c.Value, typeof(T))).ToList();
+        }
+
+        private static List<Claim>? GetClaims(this ClaimsPrincipal claimsPrincipal, string claimType)
+        {
+            if (claimType.IsNullOrWhiteSpace())
+            {
+                return default;
+            }
+
+            if (!claimsPrincipal.HasClaim(c => c.Type.EqualsIgnoreCase(claimType)))
+            {
+                return default;
+            }
+
+            return claimsPrincipal.FindAll(claimType).ToList()!;
         }
     }
 }

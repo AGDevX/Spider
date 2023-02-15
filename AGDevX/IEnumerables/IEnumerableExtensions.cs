@@ -6,6 +6,13 @@ namespace AGDevX.IEnumerables
 {
     public static class IEnumerableExtensions
     {
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
+        {
+            var isNullOrEmpty = enumerable == null;
+            isNullOrEmpty = isNullOrEmpty || !enumerable!.Any();
+            return isNullOrEmpty;
+        }
+
         public static bool HasCommonElement(this IEnumerable<string> enumerable1, IEnumerable<string> enumerable2, StringComparer? stringComparer = default)
         {
             if (enumerable1 == null)

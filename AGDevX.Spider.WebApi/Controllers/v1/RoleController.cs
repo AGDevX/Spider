@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AGDevX.IEnumerables;
+using AGDevX.Security;
 using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
@@ -31,6 +33,10 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
         [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin)]
         public async Task<IActionResult> Get()
         {
+            var aud = User.GetAudiences();
+            List<string>  asdf = null;
+            var a = asdf.IsNullOrEmpty();
+
             var svcRoles = await _roleService.GetRoles();
             var apiRoles = _autoMapper.Map<List<Role>>(svcRoles);
             return Ok(apiRoles);
