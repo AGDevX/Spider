@@ -26,6 +26,7 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
         }
 
         [HttpGet]
+        [AuthorizedScopes(Scopes.ApiAccess)]
         [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin)]
         public async Task<IActionResult> Get()
         {

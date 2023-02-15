@@ -218,10 +218,13 @@ namespace AGDevX.Security
                         ?? throw new ClaimNotFoundException($"A SessionId claim was not found");
         }
 
-        public static string GetScope(this ClaimsPrincipal claimsPrincipal)
+        public static List<string> GetScopes(this ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Scope.StringValue())
-                        ?? throw new ClaimNotFoundException($"A Scope claim was not found");
+            var scopeStr = claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Scope.StringValue())
+                                ?? throw new ClaimNotFoundException($"A Scope claim was not found");
+
+            var scopes = scopeStr.Split(' ').ToList();
+            return scopes;
         }
 
         public static string GetClientId(this ClaimsPrincipal claimsPrincipal)

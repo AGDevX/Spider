@@ -42,6 +42,11 @@ namespace AGDevX.Spider.WebApi.AuthZ
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            if (!_authorizedRoles.Any())
+            {
+                throw new ArgumentNullException("No Authorized Roles were provided to the LogAuthorize attribute");
+            }
+
             var userRoles = context.HttpContext.User.GetRoles();
             var isAuthorized = _authorizedRoles.HasCommonElement(userRoles);
 
