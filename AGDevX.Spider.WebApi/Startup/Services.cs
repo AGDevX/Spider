@@ -110,6 +110,8 @@ namespace AGDevX.Spider.WebApi.Startup
                     {
                         builder.WithHeaders(allowedHeaders);
                     }
+
+                    builder.Build();
                 });
             });
         }

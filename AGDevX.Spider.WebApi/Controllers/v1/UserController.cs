@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AGDevX.Guids;
 using AGDevX.Spider.Service.Contracts;
+using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
 using AGDevX.Strings;
+using AGDevX.Web.AuthZ;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -40,6 +42,15 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
             var svcUser = await _userService.GetUser(userId, email);
             var apiUser = _autoMapper.Map<User>(svcUser);
             return Ok(apiUser);
+        }
+
+        [HttpGet, Route("GetUserInfo")]
+        [AuthorizedScopes(Scopes.ApiAccess)]
+        [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin, Roles.Regular)]
+        public IActionResult GetUserInfo()
+        {
+            var asdf = new { info = "got the info" };
+            return new OkObjectResult(asdf);
         }
     }
 }

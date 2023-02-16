@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AGDevX.Enums;
+using AGDevX.Exceptions;
 using AGDevX.Security;
 using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.WebApi.Config;
@@ -19,7 +20,7 @@ namespace AGDevX.Spider.WebApi.AuthN
         private readonly IRoleService _roleService;
         private readonly IUserRoleService _userRoleService;
 
-        public AddUserIdentityToClaimsTransformation (
+        public AddUserIdentityToClaimsTransformation(
             ApiConfig apiConfig,
             IUserService userService,
             IRoleService roleService,
@@ -37,35 +38,37 @@ namespace AGDevX.Spider.WebApi.AuthN
 
             var email = claimsPrincipal.GetEmail(false);
 
-            if (!email.IsNullOrWhiteSpace())
+            if (email.IsNullOrWhiteSpace())
             {
-                //-- TODO: This needs cleaned up REAL bad
-
-                var roles = await _roleService.GetRoles();
-                var roleIds = roles.Select(r => r.Id).ToList();
-                var user = await _userService.GetUser(null, email);
-
-                if (user != null)
-                {
-                    var userRoles = await _userRoleService.GetUserRoles(user.Id);
-
-                    var rolesStringBuilder = new StringBuilder();
-                    foreach (var userRole in userRoles)
-                    {
-                        if (roleIds.Contains(userRole.RoleId))
-                        {
-                            rolesStringBuilder.Append($"{roles.FirstOrDefault(r => r.Id == userRole.RoleId).Code} ");
-                        }
-                    }
-
-                    var roleString = rolesStringBuilder.ToString().Trim();
-
-                    var claim = new Claim(JwtClaimTypes.Roles.StringValue(), roleString);
-                    claims.Add(claim);
-                }
+                throw new MissingRequiredClaimException("The required email claim could not be found");
             }
 
-            var userIdentity = new ClaimsIdentity (
+            //-- TODO: This needs cleaned up REAL bad
+
+            var roles = await _roleService.GetRoles();
+            var roleIds = roles.Select(r => r.Id).ToList();
+            var user = await _userService.GetUser(null, email);
+
+            if (user != null)
+            {
+                var userRoles = await _userRoleService.GetUserRoles(user.Id);
+
+                var rolesStringBuilder = new StringBuilder();
+                foreach (var userRole in userRoles)
+                {
+                    if (roleIds.Contains(userRole.RoleId))
+                    {
+                        rolesStringBuilder.Append($"{roles.FirstOrDefault(r => r.Id == userRole.RoleId).Code} ");
+                    }
+                }
+
+                var roleString = rolesStringBuilder.ToString().Trim();
+
+                var claim = new Claim(JwtClaimTypes.Roles.StringValue(), roleString);
+                claims.Add(claim);
+            }
+
+            var userIdentity = new ClaimsIdentity(
                 claims,
                 _apiConfig.AuthN.OAuth.AuthenticationScheme,
                 _apiConfig.AuthN.OAuth.NameClaimType,
