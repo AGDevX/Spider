@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AGDevX.Database.Connections;
 using AGDevX.Database.Dapper;
+using AGDevX.Database.Exceptions;
 using AGDevX.Guids;
+using AGDevX.IEnumerables;
 using AGDevX.Spider.Database.Models;
 using AGDevX.Strings;
 
@@ -19,16 +22,46 @@ namespace AGDevX.Spider.Database.Contracts
             _dbConnectionProvider = dbConnectionProvider;
         }
 
-        public Task<Guid> AddUser(User user)
+        public async Task<Guid> AddUser(AddUser user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var conn = _dbConnectionProvider.GetOpenConnection())
+                {
+                    var args = new
+                    {
+                        createdBy = user.CreatedBy,
+                        isActive = user.IsActive,
+                        firstName = user.FirstName,
+                        middleName = user.MiddleName,
+                        lastName = user.LastName,
+                        suffix = user.Suffix,
+                        email = user.Email,
+                        externalId = user.ExternalId,
+                        roleIds = user.RoleIds.ToIdDataTable()
+                    };
+
+                    var userId = (await conn.ExecuteSproc<Guid>("[agdevx].AddUser", args)).First();
+                    return userId;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                //-- Log
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //-- Log
+                throw;
+            }
         }
 
         public async Task<User?> GetUser(Guid? userId = default, string? email = default)
         {
             if (userId.IsNullOrEmpty() && email.IsNullOrWhiteSpace())
             {
-                throw new ArgumentNullException("At least one argument must be provided.");
+                throw new MissingSprocArgument("At least one argument must be provided");
             }
 
             var users = await GetUsers(userId, email);
@@ -41,18 +74,81 @@ namespace AGDevX.Spider.Database.Contracts
             return await GetUsers(null, null);
         }
 
-        private async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
+        public async Task<UserInfo?> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default)
         {
-            using (var conn = _dbConnectionProvider.GetOpenConnection())
+            if (userId.IsNullOrEmpty() && externalUserId.IsNullOrWhiteSpace() && email.IsNullOrWhiteSpace())
+            {
+                throw new MissingSprocArgument("At least one argument must be provided");
+            }
+
+            try
             {
                 var args = new
                 {
                     userId,
+                    externalUserId,
                     email
                 };
 
-                var users = (await conn.ExecuteSproc<User>("[agdevx].GetUsers", args))?.ToList() ?? new List<User>();
-                return users;
+                using (var conn = _dbConnectionProvider.GetOpenConnection())
+                using (var gridReader = await conn.QueryMultiple("[agdevx].GetUserInfo", args))
+                {
+                    UserInfo? userInfo = default;
+
+                    try
+                    {
+                        var person = (await gridReader.ReadAsync<UserInfo.Person>()).First();
+                        userInfo = new UserInfo { User = person };
+
+                        var externalUserIds = (await gridReader.ReadAsync<UserInfo.ExternalUserId>()).ToList();
+                        userInfo.ExternalUserIds = externalUserIds;
+
+                        var roles = (await gridReader.ReadAsync<UserInfo.UserRole>()).ToList();
+                        userInfo.Roles = roles;
+
+                        return userInfo;
+                    }
+                    catch (InvalidOperationException ioex)
+                        when (ioex.Message.Contains("No columns were selected")) { return userInfo; }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                //-- Log
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //-- Log
+                throw;
+            }
+        }
+
+        private async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
+        {
+            try
+            {
+                using (var conn = _dbConnectionProvider.GetOpenConnection())
+                {
+                    var args = new
+                    {
+                        userId,
+                        email
+                    };
+
+                    var users = (await conn.ExecuteSproc<User>("[agdevx].GetUsers", args))?.ToList() ?? new List<User>();
+                    return users;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                //-- Log
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //-- Log
+                throw;
             }
         }
 

@@ -29,6 +29,14 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
             _userService = userService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddUser(AddUser user)
+        {
+            var svcUser = _autoMapper.Map<Service.Models.AddUser>(user);
+            var userId = await _userService.AddUser(svcUser);
+            return new ObjectResult(new { userId });
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get(Guid? userId = default, string? email = default)
         {
@@ -46,11 +54,12 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
 
         [HttpGet, Route("GetUserInfo")]
         [AuthorizedScopes(Scopes.ApiAccess)]
-        [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin, Roles.Regular)]
-        public IActionResult GetUserInfo()
+        [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin, Roles.Normal)]
+        public async Task<IActionResult> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default)
         {
-            var asdf = new { info = "got the info" };
-            return new OkObjectResult(asdf);
+            var svcUserInfo = await _userService.GetUserInfo(userId, externalUserId, email);
+            var apiUserInfo = _autoMapper.Map<UserInfo>(svcUserInfo);
+            return new OkObjectResult(apiUserInfo);
         }
     }
 }

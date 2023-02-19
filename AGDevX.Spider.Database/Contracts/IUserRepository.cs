@@ -7,9 +7,10 @@ namespace AGDevX.Spider.Database.Contracts
 {
     public interface IUserRepository
     {
-        public Task<Guid>AddUser(User user);
+        public Task<Guid>AddUser(AddUser user);
         public Task<User?> GetUser(Guid? userId = default, string? email = default);
         public Task<List<User>> GetUsers();
+        public Task<UserInfo?> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default);
         public Task UpdateUser(User user);
         public Task DeleteUser(Guid? userId = default, string? email = default);
     }

@@ -7,10 +7,14 @@ namespace AGDevX.Database.Dapper
 {
     public static class DapperExtensions
     {
-        public static async Task<IEnumerable<T>> ExecuteSproc<T>(this IDbConnection conn, string name, object? paramObject = default)
+        public static async Task<IEnumerable<T>> ExecuteSproc<T>(this IDbConnection conn, string sprocName, object? paramObject = default)
         {
-            var data = await conn.QueryAsync<T>(name, paramObject, commandType: CommandType.StoredProcedure);
-            return data;
+            return await conn.QueryAsync<T>(sprocName, paramObject, commandType: CommandType.StoredProcedure);
+        }
+
+        public static async Task<SqlMapper.GridReader> QueryMultiple(this IDbConnection conn, string sprocName, object? paramObject = default)
+        {
+            return await SqlMapper.QueryMultipleAsync(conn, sprocName, paramObject, commandType: CommandType.StoredProcedure);
         }
     }
 }

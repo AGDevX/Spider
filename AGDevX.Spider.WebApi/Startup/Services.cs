@@ -119,7 +119,7 @@ namespace AGDevX.Spider.WebApi.Startup
         public static void AddSecurity(this IServiceCollection services, ApiConfig apiConfig)
         {
             services.AddOAuth(apiConfig);
-            services.AddScoped<IClaimsTransformation, AddUserIdentityToClaimsTransformation>();
+            services.AddScoped<IClaimsTransformation, AddUserIdentityClaimsTransformation>();
             services.AddScoped<LogAuthorizeAttributeActionFilter>();
         }
 

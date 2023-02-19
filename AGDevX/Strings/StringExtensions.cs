@@ -34,6 +34,21 @@ namespace AGDevX.Strings
             return sourceString.StartsWith(startsWith, stringComparison);
         }
 
+        public static bool ContainsIgnoreCase(this string sourceString, string contains, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+        {
+            if (sourceString == null)
+            {
+                throw new ArgumentNullException($"The provided {nameof(sourceString)} argument was null");
+            }
+
+            if (contains == null)
+            {
+                throw new ArgumentNullException($"The provided {nameof(contains)} argument was null");
+            }
+
+            return sourceString.Contains(contains, stringComparison);
+        }
+
         public static bool IsNullOrWhiteSpace(this string? str)
         {
             return string.IsNullOrWhiteSpace(str);

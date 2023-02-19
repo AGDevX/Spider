@@ -17,11 +17,18 @@ namespace AGDevX.Security
                         ?? throw new ClaimNotFoundException($"An Issuer claim was not found");
         }
 
-        public static string GetSubject(this ClaimsPrincipal claimsPrincipal)
+        public static string? GetSubject(this ClaimsPrincipal claimsPrincipal, bool throwExceptionWhenMissing = true)
         {
-            return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Subject.StringValue())
-                        ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.NameIdentifier)
-                        ?? throw new ClaimNotFoundException($"A Subject claim was not found");
+            var subject = claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Subject.StringValue())
+                            ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.NameIdentifier)
+                            ?? throw new ClaimNotFoundException($"A Subject claim was not found");
+
+            if (subject.IsNullOrWhiteSpace() && throwExceptionWhenMissing)
+            {
+                throw new ClaimNotFoundException($"A Subject claim was not found");
+            }
+
+            return subject;
         }
 
         public static List<string> GetAudiences(this ClaimsPrincipal claimsPrincipal)
@@ -60,19 +67,27 @@ namespace AGDevX.Security
         public static string GetGivenName(this ClaimsPrincipal claimsPrincipal)
         {
             return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.GivenName.StringValue())
-                        ?? throw new ClaimNotFoundException($"A GivenName claim was not found");
+                        ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.GivenName)
+                        ?? throw new ClaimNotFoundException($"A Given Name claim was not found");
         }
 
         public static string GetFamilyName(this ClaimsPrincipal claimsPrincipal)
         {
             return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.FamilyName.StringValue())
-                        ?? throw new ClaimNotFoundException($"A FamilyName claim was not found");
+                        ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.Surname)
+                        ?? throw new ClaimNotFoundException($"A Family Name claim was not found");
         }
 
-        public static string GetMiddleName(this ClaimsPrincipal claimsPrincipal)
+        public static string? GetMiddleName(this ClaimsPrincipal claimsPrincipal, bool throwExceptionWhenMissing = true)
         {
-            return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.MiddleName.StringValue())
-                        ?? throw new ClaimNotFoundException($"A MiddleName claim was not found");
+            var middleName = claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.MiddleName.StringValue());
+
+            if (middleName.IsNullOrWhiteSpace() && throwExceptionWhenMissing)
+            {
+                throw new ClaimNotFoundException($"A Middle Name claim was not found");
+            }
+
+            return middleName;
         }
 
         public static string GetNickname(this ClaimsPrincipal claimsPrincipal)
@@ -84,7 +99,7 @@ namespace AGDevX.Security
         public static string GetPreferredUsername(this ClaimsPrincipal claimsPrincipal)
         {
             return claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.PreferredUsername.StringValue())
-                        ?? throw new ClaimNotFoundException($"A PreferredUsername claim was not found");
+                        ?? throw new ClaimNotFoundException($"A Preferred Username claim was not found");
         }
 
         public static string GetProfile(this ClaimsPrincipal claimsPrincipal)
@@ -105,12 +120,12 @@ namespace AGDevX.Security
                         ?? throw new ClaimNotFoundException($"A Website claim was not found");
         }
 
-        public static string? GetEmail(this ClaimsPrincipal claimsPrincipal, bool throwExceptionOnNotFound = true)
+        public static string? GetEmail(this ClaimsPrincipal claimsPrincipal, bool throwExceptionWhenMissing = true)
         {
             var email = claimsPrincipal.GetClaimValue<string>(JwtClaimTypes.Email.StringValue())
                         ?? claimsPrincipal.GetClaimValue<string>(ClaimTypes.Email);
 
-            if (email == null && throwExceptionOnNotFound)
+            if (email.IsNullOrWhiteSpace() && throwExceptionWhenMissing)
             {
                 throw new ClaimNotFoundException($"An Email claim was not found");
             }
@@ -240,6 +255,24 @@ namespace AGDevX.Security
 
             var roles = rolesStr.Split(' ').ToList();
             return roles;
+        }
+
+        public static string? GetExternalId(this ClaimsPrincipal claimsPrincipal, bool throwExceptionWhenMissing = true)
+        {
+            var externalId = claimsPrincipal.GetSubject(false)
+                                ?? claimsPrincipal.GetClaimValue<string>(AGDevXClaimTypes.UserId.StringValue());
+
+            if (externalId.IsNullOrWhiteSpace() && throwExceptionWhenMissing)
+            {
+                throw new ClaimNotFoundException($"An External Id claim was not found");
+            }
+
+            return externalId;
+        }
+
+        public static bool IsActive(this ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.GetClaimValue<bool>(AGDevXClaimTypes.IsActive.StringValue());
         }
 
         private static T? GetClaimValue<T>(this ClaimsPrincipal claimsPrincipal, string claimType)

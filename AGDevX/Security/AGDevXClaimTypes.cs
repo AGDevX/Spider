@@ -14,6 +14,9 @@ namespace AGDevX.Security
         CreatedAt,
 
         [EnumStringValue("user_id")]
-        UserId
+        UserId,
+
+        [EnumStringValue("isActive")]
+        IsActive
     }
 }

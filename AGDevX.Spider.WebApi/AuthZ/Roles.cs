@@ -5,6 +5,6 @@
         public const string Service = "SERVICE";
         public const string AGDevXAdmin = "AGDXADMIN";
         public const string Admin = "ADMIN";
-        public const string Regular = "REGULAR";
+        public const string Normal = "NORMAL";
     }
 }

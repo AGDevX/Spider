@@ -1,6 +1,6 @@
-﻿using AGDevX.Enums;
+﻿using AGDevX.Amara.Api.User.Middleware;
+using AGDevX.Enums;
 using AGDevX.Environments;
-using AGDevX.Spider.WebApi.AuthN;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Strings;
 using AGDevX.Web.Swagger;
@@ -26,6 +26,7 @@ namespace AGDevX.Spider.WebApi.Startup
 
             webApi.UseAuthentication();
             webApi.UseAuthorization();
+            webApi.UseUserAuthentication();
 
             webApi.UseSwaggerForApi();
 

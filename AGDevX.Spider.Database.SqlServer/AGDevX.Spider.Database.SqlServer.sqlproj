@@ -70,7 +70,6 @@
     <Build Include="_agdevx\Tables\ExternalUserIds.sql" />
     <Build Include="_agdevx\Sprocs\GetUsers.sql" />
     <Build Include="_agdevx\Sprocs\AddUser.sql" />
-    <Build Include="_agdevx\Sprocs\UpdateUser.sql" />
     <Build Include="_agdevx\Sprocs\DeleteUser.sql" />
     <Build Include="_agdevx\Sprocs\GetExternalUserIds.sql" />
     <Build Include="_agdevx\Sprocs\AddExternalUserId.sql" />
@@ -89,6 +88,8 @@
     <Build Include="_agdevx\User Defined Types\IntList.sql" />
     <Build Include="_agdevx\User Defined Types\StringList.sql" />
     <None Include="Deployment Scripts\2023_02_05 - Initial Seed.sql" />
+    <Build Include="_agdevx\Sprocs\GetUserInfo.sql" />
+    <Build Include="_agdevx\Sprocs\UpdateUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Comparisons\Project to Spider_Local.scmp" />

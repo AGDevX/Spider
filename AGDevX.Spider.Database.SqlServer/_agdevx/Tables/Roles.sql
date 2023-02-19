@@ -6,6 +6,7 @@
 	[ModifiedBy]	      UNIQUEIDENTIFIER	NOT NULL,
 	[ModifiedAt]		  DATETIME2(7)		NOT NULL CONSTRAINT DF_Roles_ModifiedAt DEFAULT GETUTCDATE(),
 	[IsActive]	          BIT				NOT NULL CONSTRAINT DF_Roles_IsActive DEFAULT 1,
+	[IsDefault]			  BIT				NOT NULL CONSTRAINT DF_Roles_IsDefault DEFAULT 0,
 	[Name]		          NVARCHAR(25)		NOT NULL CONSTRAINT UC_Roles_Name UNIQUE ([Name]),
 	[Code]		          NVARCHAR(10)		NOT NULL CONSTRAINT UC_Roles_Code UNIQUE (Code),
 	[Description]         NVARCHAR(200)		NOT NULL,

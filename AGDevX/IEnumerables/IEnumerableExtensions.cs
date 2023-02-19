@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AGDevX.IEnumerables
 {
@@ -28,6 +30,24 @@ namespace AGDevX.IEnumerables
             stringComparer ??= StringComparer.OrdinalIgnoreCase;
 
             return enumerable1.Intersect(enumerable2, stringComparer).Any();
+        }
+
+        public static DataTable ToIdDataTable<T>(this IEnumerable<T> ids, string idColumnName = "Id")
+        {
+            var dataTable = new DataTable("IdDataTable");
+            dataTable.Columns.Add(idColumnName);
+
+            if (ids.IsNullOrEmpty())
+            {
+                return dataTable;
+            }
+
+            Parallel.ForEach(ids, id =>
+            {
+                dataTable.Rows.Add(id);
+            });
+
+            return dataTable;
         }
     }
 }

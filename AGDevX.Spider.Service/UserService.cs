@@ -18,9 +18,11 @@ namespace AGDevX.Spider.Service.Contracts
             _userRepository = userRepository;
         }
 
-        public Task<Guid> AddUser(User user)
+        public async Task<Guid> AddUser(AddUser user)
         {
-            throw new NotImplementedException();
+            var dbUser = _autoMapper.Map<Database.Models.AddUser>(user);
+            var userId = await _userRepository.AddUser(dbUser);
+            return userId;
         }
 
         public async Task<User?> GetUser(Guid? userId = default, string? email = default)
@@ -35,6 +37,13 @@ namespace AGDevX.Spider.Service.Contracts
             var dbUsers = await _userRepository.GetUsers();
             var svcUsers = _autoMapper.Map<List<User>>(dbUsers);
             return svcUsers;
+        }
+
+        public async Task<UserInfo?> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default)
+        {
+            var dbUserInfo = await _userRepository.GetUserInfo(userId, externalUserId, email);
+            var svcUserInfo = _autoMapper.Map<UserInfo>(dbUserInfo);
+            return svcUserInfo;
         }
 
         public Task UpdateUser(User user)

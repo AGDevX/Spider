@@ -75,32 +75,32 @@ BEGIN
 
 	-- Service
 	DECLARE @roleServiceCode NVARCHAR(10) = 'SERVICE'
-	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, [Name], Code, [Description])
-	SELECT @userAgId, @now, @userAgId, @now, 1, 'Service', @roleServiceCode, 'Service account access level'
+	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, IsDefault, [Name], Code, [Description])
+	SELECT @userAgId, @now, @userAgId, @now, 1, 0, 'Service', @roleServiceCode, 'Service account access level'
 	WHERE NOT EXISTS (select 1 from [agdevx].Roles r where r.Code = @roleServiceCode)
 
 	-- AGDevX Admin
 	DECLARE @roleAGDevXAdminCode NVARCHAR(10) = 'AGDXADMIN'
-	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, [Name], Code, [Description])
-	SELECT @userAgId, @now, @userAgId, @now, 1, 'AGDevX Admin', @roleAGDevXAdminCode, 'A member of the AGDevX team'
+	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, IsDefault, [Name], Code, [Description])
+	SELECT @userAgId, @now, @userAgId, @now, 1, 0, 'AGDevX Admin', @roleAGDevXAdminCode, 'A member of the AGDevX team'
 	WHERE NOT EXISTS (select 1 from [agdevx].Roles r where r.Code = @roleAGDevXAdminCode)
 
 	-- Admin
 	DECLARE @roleAdminCode NVARCHAR(10) = 'ADMIN'
-	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, [Name], Code, [Description])
-	SELECT @userAgId, @now, @userAgId, @now, 1, 'Admin', @roleAdminCode, 'Administrator'
+	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, IsDefault, [Name], Code, [Description])
+	SELECT @userAgId, @now, @userAgId, @now, 1, 0, 'Admin', @roleAdminCode, 'Administrator'
 	WHERE NOT EXISTS (select 1 from [agdevx].Roles r where r.Code = @roleAdminCode)
 
-	-- Regular
-	DECLARE @roleRegularCode NVARCHAR(10) = 'REGULAR'
-	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, [Name], Code, [Description])
-	SELECT @userAgId, @now, @userAgId, @now, 1, 'Regular', @roleRegularCode, 'Typical user access level'
-	WHERE NOT EXISTS (select 1 from [agdevx].Roles r where r.Code = @roleRegularCode)
+	-- Normal
+	DECLARE @roleNormalCode NVARCHAR(10) = 'NORMAL'
+	INSERT INTO [agdevx].Roles (CreatedBy, CreatedAt, ModifiedBy, ModifiedAt, IsActive, IsDefault, [Name], Code, [Description])
+	SELECT @userAgId, @now, @userAgId, @now, 1, 1, 'Normal', @roleNormalCode, 'Typical user access level'
+	WHERE NOT EXISTS (select 1 from [agdevx].Roles r where r.Code = @roleNormalCode)
 
 	DECLARE @roleServiceId UNIQUEIDENTIFIER = (select Id from [agdevx].Roles r where r.Code = @roleServiceCode)
 	DECLARE @roleAGDevXAdminId UNIQUEIDENTIFIER = (select Id from [agdevx].Roles r where r.Code = @roleAGDevXAdminCode)
 	DECLARE @roleAdminId UNIQUEIDENTIFIER = (select Id from [agdevx].Roles r where r.Code = @roleAdminCode)
-	DECLARE @roleRegularId UNIQUEIDENTIFIER = (select Id from [agdevx].Roles r where r.Code = @roleRegularCode)
+	DECLARE @roleNormalId UNIQUEIDENTIFIER = (select Id from [agdevx].Roles r where r.Code = @roleNormalCode)
 
 END
 
@@ -133,7 +133,7 @@ BEGIN
 
 	-- Rimmer
 	INSERT INTO [agdevx].UserRoles (CreatedBy, CreatedAt, UserId, RoleId)
-	SELECT @userAgId, @now, @userArId, @roleRegularId
-	WHERE NOT EXISTS (select 1 from [agdevx].UserRoles ur where ur.UserId = @userArId and ur.RoleId = @roleRegularId)
+	SELECT @userAgId, @now, @userArId, @roleNormalId
+	WHERE NOT EXISTS (select 1 from [agdevx].UserRoles ur where ur.UserId = @userArId and ur.RoleId = @roleNormalId)
 
 END
