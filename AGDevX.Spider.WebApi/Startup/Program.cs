@@ -1,14 +1,35 @@
+using System;
 using AGDevX.Spider.WebApi.Startup;
 using Microsoft.AspNetCore.Builder;
+using Serilog;
+using Serilog.Events;
 
-var builder = WebApplication.CreateBuilder(args);
+try
+{
+    //-- Setup Serilog to provide logging while the application starts
+    Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Console()
+                    .CreateBootstrapLogger();
 
-var configuration = builder.Configuration;
+    var builder = WebApplication.CreateBuilder(args);
 
-var apiConfig = builder.Services.ConfigureServices(configuration);
+    var configuration = builder.Configuration;
 
-var webApi = builder.Build();
+    var apiConfig = builder.ConfigureServices(configuration);
 
-webApi.ConfigureMiddlware(apiConfig);
+    var webApi = builder.Build();
 
-webApi.Run();
+    webApi.ConfigureMiddlware(apiConfig);
+
+    webApi.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

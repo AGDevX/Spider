@@ -30,7 +30,7 @@ namespace AGDevX.Amara.Api.User.Middleware
             }
             else
             {
-                if (httpContext.User.Identities.Any(i => i.Name?.EqualsIgnoreCase(_apiConfig.Api.Name) ?? false)
+                if (httpContext.User.Identities.Any(i => i.Label?.EqualsIgnoreCase(_apiConfig.Api.Name) ?? false)
                     || !httpContext.User.IsActive())
                 {
                     await _next(httpContext);

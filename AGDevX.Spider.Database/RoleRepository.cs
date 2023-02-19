@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 using AGDevX.Database.Connections;
 using AGDevX.Database.Dapper;
 using AGDevX.Spider.Database.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AGDevX.Spider.Database.Contracts
 {
     public sealed class RoleRepository : IRoleRepository
     {
+        private readonly ILogger<UserRepository> _logger;
         private readonly IDbConnectionProvider _dbConnectionProvider;
 
-        public RoleRepository(IDbConnectionProvider dbConnectionProvider)
+        public RoleRepository(ILogger<UserRepository> logger, IDbConnectionProvider dbConnectionProvider)
         {
+            _logger = logger;
             _dbConnectionProvider = dbConnectionProvider;
         }
 
@@ -35,12 +38,12 @@ namespace AGDevX.Spider.Database.Contracts
             }
             catch (SqlException sqlEx)
             {
-                //-- Log
+                _logger.LogError(sqlEx, sqlEx.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                //-- Log
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
         }

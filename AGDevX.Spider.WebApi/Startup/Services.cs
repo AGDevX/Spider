@@ -11,28 +11,39 @@ using AGDevX.Web.AuthN.OAuth;
 using AGDevX.Web.AuthZ;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace AGDevX.Spider.WebApi.Startup
 {
     public static class Services
     {
-        public static ApiConfig ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+        public static ApiConfig ConfigureServices(this WebApplicationBuilder builder, IConfiguration configuration)
         {
-            var apiConfig = services.ConfigureDependencyInjection(configuration);
+            builder.ConfigureLogging();
 
-            services.AddDefaultCorsPolicy(apiConfig);
-            services.AddSecurity(apiConfig);
-            services.AddEndpointsApiExplorer();
-            services.AddApiVersioning();
-            services.AddSwaggerToApi(apiConfig);
-            services.AddAutoMapper(apiConfig);
-            services.AddControllers();
+            var apiConfig = builder.Services.ConfigureDependencyInjection(configuration);
+
+            builder.Services.AddDefaultCorsPolicy(apiConfig);
+            builder.Services.AddSecurity(apiConfig);
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddApiVersioning();
+            builder.Services.AddSwaggerToApi(apiConfig);
+            builder.Services.AddAutoMapper(apiConfig);
+            builder.Services.AddControllers();
 
             return apiConfig;
+        }
+
+        public static void ConfigureLogging(this WebApplicationBuilder builder)
+        {
+            builder.Host.UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services));
         }
 
         public static ApiConfig ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)

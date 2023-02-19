@@ -10,15 +10,18 @@ using AGDevX.Guids;
 using AGDevX.IEnumerables;
 using AGDevX.Spider.Database.Models;
 using AGDevX.Strings;
+using Microsoft.Extensions.Logging;
 
 namespace AGDevX.Spider.Database.Contracts
 {
     public sealed class UserRepository : IUserRepository
     {
+        private readonly ILogger<UserRepository> _logger;
         private readonly IDbConnectionProvider _dbConnectionProvider;
 
-        public UserRepository(IDbConnectionProvider dbConnectionProvider)
+        public UserRepository(ILogger<UserRepository> logger, IDbConnectionProvider dbConnectionProvider)
         {
+            _logger = logger;
             _dbConnectionProvider = dbConnectionProvider;
         }
 
@@ -47,12 +50,12 @@ namespace AGDevX.Spider.Database.Contracts
             }
             catch (SqlException sqlEx)
             {
-                //-- Log
+                _logger.LogError(sqlEx,sqlEx.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                //-- Log
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
         }
@@ -114,12 +117,12 @@ namespace AGDevX.Spider.Database.Contracts
             }
             catch (SqlException sqlEx)
             {
-                //-- Log
+                _logger.LogError(sqlEx, sqlEx.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                //-- Log
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
         }
@@ -142,12 +145,12 @@ namespace AGDevX.Spider.Database.Contracts
             }
             catch (SqlException sqlEx)
             {
-                //-- Log
+                _logger.LogError(sqlEx, sqlEx.Message);
                 throw;
             }
             catch (Exception ex)
             {
-                //-- Log
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
         }

@@ -6,6 +6,7 @@ using AGDevX.Strings;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace AGDevX.Spider.WebApi.Startup
 {
@@ -18,6 +19,8 @@ namespace AGDevX.Spider.WebApi.Startup
                 || webApi.Environment.IsDevelopment())
             {
             }
+
+            webApi.UseSerilogRequestLogging();
 
             webApi.UseHsts();
             webApi.UseHttpsRedirection();
