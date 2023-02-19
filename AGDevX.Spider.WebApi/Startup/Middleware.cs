@@ -3,6 +3,7 @@ using AGDevX.Enums;
 using AGDevX.Environments;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Strings;
+using AGDevX.Web.Exceptions;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,7 @@ namespace AGDevX.Spider.WebApi.Startup
             }
 
             webApi.UseSerilogRequestLogging();
+            webApi.UseUnhandledExceptionMiddleware(apiConfig.Solution.AssemblyPrefixes);
 
             webApi.UseHsts();
             webApi.UseHttpsRedirection();

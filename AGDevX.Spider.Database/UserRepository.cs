@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AGDevX.Database.Connections;
@@ -27,36 +26,23 @@ namespace AGDevX.Spider.Database.Contracts
 
         public async Task<Guid> AddUser(AddUser user)
         {
-            try
+            using (var conn = _dbConnectionProvider.GetOpenConnection())
             {
-                using (var conn = _dbConnectionProvider.GetOpenConnection())
+                var args = new
                 {
-                    var args = new
-                    {
-                        createdBy = user.CreatedBy,
-                        isActive = user.IsActive,
-                        firstName = user.FirstName,
-                        middleName = user.MiddleName,
-                        lastName = user.LastName,
-                        suffix = user.Suffix,
-                        email = user.Email,
-                        externalId = user.ExternalId,
-                        roleIds = user.RoleIds.ToIdDataTable()
-                    };
+                    createdBy = user.CreatedBy,
+                    isActive = user.IsActive,
+                    firstName = user.FirstName,
+                    middleName = user.MiddleName,
+                    lastName = user.LastName,
+                    suffix = user.Suffix,
+                    email = user.Email,
+                    externalId = user.ExternalId,
+                    roleIds = user.RoleIds.ToIdDataTable()
+                };
 
-                    var userId = (await conn.ExecuteSproc<Guid>("[agdevx].AddUser", args)).First();
-                    return userId;
-                }
-            }
-            catch (SqlException sqlEx)
-            {
-                _logger.LogError(sqlEx,sqlEx.Message);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw;
+                var userId = (await conn.ExecuteSproc<Guid>("[agdevx].AddUser", args)).First();
+                return userId;
             }
         }
 
@@ -84,74 +70,48 @@ namespace AGDevX.Spider.Database.Contracts
                 throw new MissingSprocArgument("At least one argument must be provided");
             }
 
-            try
+            var args = new
             {
-                var args = new
+                userId,
+                externalUserId,
+                email
+            };
+
+            using (var conn = _dbConnectionProvider.GetOpenConnection())
+            using (var gridReader = await conn.QueryMultiple("[agdevx].GetUserInfo", args))
+            {
+                UserInfo? userInfo = default;
+
+                try
                 {
-                    userId,
-                    externalUserId,
-                    email
-                };
+                    var person = (await gridReader.ReadAsync<UserInfo.Person>()).First();
+                    userInfo = new UserInfo { User = person };
 
-                using (var conn = _dbConnectionProvider.GetOpenConnection())
-                using (var gridReader = await conn.QueryMultiple("[agdevx].GetUserInfo", args))
-                {
-                    UserInfo? userInfo = default;
+                    var externalUserIds = (await gridReader.ReadAsync<UserInfo.ExternalUserId>()).ToList();
+                    userInfo.ExternalUserIds = externalUserIds;
 
-                    try
-                    {
-                        var person = (await gridReader.ReadAsync<UserInfo.Person>()).First();
-                        userInfo = new UserInfo { User = person };
+                    var roles = (await gridReader.ReadAsync<UserInfo.UserRole>()).ToList();
+                    userInfo.Roles = roles;
 
-                        var externalUserIds = (await gridReader.ReadAsync<UserInfo.ExternalUserId>()).ToList();
-                        userInfo.ExternalUserIds = externalUserIds;
-
-                        var roles = (await gridReader.ReadAsync<UserInfo.UserRole>()).ToList();
-                        userInfo.Roles = roles;
-
-                        return userInfo;
-                    }
-                    catch (InvalidOperationException ioex)
-                        when (ioex.Message.Contains("No columns were selected")) { return userInfo; }
+                    return userInfo;
                 }
-            }
-            catch (SqlException sqlEx)
-            {
-                _logger.LogError(sqlEx, sqlEx.Message);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw;
+                catch (InvalidOperationException ioex)
+                    when (ioex.Message.Contains("No columns were selected")) { return userInfo; }
             }
         }
 
         private async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
         {
-            try
+            using (var conn = _dbConnectionProvider.GetOpenConnection())
             {
-                using (var conn = _dbConnectionProvider.GetOpenConnection())
+                var args = new
                 {
-                    var args = new
-                    {
-                        userId,
-                        email
-                    };
+                    userId,
+                    email
+                };
 
-                    var users = (await conn.ExecuteSproc<User>("[agdevx].GetUsers", args))?.ToList() ?? new List<User>();
-                    return users;
-                }
-            }
-            catch (SqlException sqlEx)
-            {
-                _logger.LogError(sqlEx, sqlEx.Message);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw;
+                var users = (await conn.ExecuteSproc<User>("[agdevx].GetUsers", args))?.ToList() ?? new List<User>();
+                return users;
             }
         }
 

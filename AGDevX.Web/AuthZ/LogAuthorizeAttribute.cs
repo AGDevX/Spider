@@ -50,9 +50,9 @@ namespace AGDevX.Web.AuthZ
             var userRoles = context.HttpContext.User.GetRoles();
             var isAuthorized = _authorizedRoles.HasCommonElement(userRoles);
 
-            _logger.LogInformation($"Authorized Roles: {string.Join(',', _authorizedRoles)}");
-            _logger.LogInformation($"User Roles: {string.Join(',', userRoles)}");
-            _logger.LogInformation($"IsAuthorized: {isAuthorized}");
+            _logger.LogInformation($"Authorized Roles: { string.Join(',', _authorizedRoles) }");
+            _logger.LogInformation($"User Roles: { string.Join(',', userRoles) }");
+            _logger.LogInformation($"IsAuthorized: { isAuthorized }");
 
             if (!isAuthorized)
             {

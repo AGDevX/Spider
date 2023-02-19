@@ -39,7 +39,7 @@ namespace AGDevX.Amara.Api.User.Middleware
                 {
                     httpContext.Response.Clear();
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    await httpContext.Response.WriteAsync("This user is not authorized to call this API");
+                    await httpContext.Response.WriteAsync("The current user is not authorized to make this call");
                     return;
                 }
             }

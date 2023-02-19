@@ -50,9 +50,9 @@ namespace AGDevX.Web.AuthZ
             var scopes = context.HttpContext.User.GetScopes();
             var isAuthorized = _authorizedScopes.HasCommonElement(scopes);
 
-            _logger.LogInformation($"Authorized Scopes: {string.Join(',', _authorizedScopes)}");
-            _logger.LogInformation($"User Scopes: {string.Join(',', scopes)}");
-            _logger.LogInformation($"IsAuthorized: {isAuthorized}");
+            _logger.LogInformation($"Authorized Scopes: { string.Join(',', _authorizedScopes) }");
+            _logger.LogInformation($"User Scopes: { string.Join(',', scopes) }");
+            _logger.LogInformation($"IsAuthorized: { isAuthorized }");
 
             if (!isAuthorized)
             {

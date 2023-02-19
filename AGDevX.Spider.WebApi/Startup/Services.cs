@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
 using AGDevX.Assemblies;
 using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
@@ -16,6 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Serilog;
 
 namespace AGDevX.Spider.WebApi.Startup
@@ -32,6 +35,7 @@ namespace AGDevX.Spider.WebApi.Startup
             builder.Services.AddSecurity(apiConfig);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddApiVersioning();
+            builder.Services.ConfigureJson();
             builder.Services.AddSwaggerToApi(apiConfig);
             builder.Services.AddAutoMapper(apiConfig);
             builder.Services.AddControllers();
@@ -169,6 +173,16 @@ namespace AGDevX.Spider.WebApi.Startup
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
+        }
+
+        public static void ConfigureJson(this IServiceCollection services)
+        {
+            services.ConfigureHttpJsonOptions(options => options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+            
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
 
         public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)

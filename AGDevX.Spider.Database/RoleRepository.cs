@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AGDevX.Database.Connections;
@@ -28,23 +27,10 @@ namespace AGDevX.Spider.Database.Contracts
 
         public async Task<List<Role>> GetRoles()
         {
-            try
+            using (var conn = _dbConnectionProvider.GetOpenConnection())
             {
-                using (var conn = _dbConnectionProvider.GetOpenConnection())
-                {
-                    var roles = (await conn.ExecuteSproc<Role>("[agdevx].GetRoles"))?.ToList() ?? new List<Role>();
-                    return roles;
-                }
-            }
-            catch (SqlException sqlEx)
-            {
-                _logger.LogError(sqlEx, sqlEx.Message);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw;
+                var roles = (await conn.ExecuteSproc<Role>("[agdevx].GetRoles"))?.ToList() ?? new List<Role>();
+                return roles;
             }
         }
 

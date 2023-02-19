@@ -2,8 +2,11 @@
 
 namespace AGDevX.Exceptions
 {
-    public sealed class ApplicationStartupException : ApplicationException
+    public sealed class ApplicationStartupException : AGDevXException
     {
+        public override int HttpStatusCode => (int)System.Net.HttpStatusCode.InternalServerError;
+        public override string Code => "AGDX_STARTUP_EXCEPTION";
+
         public ApplicationStartupException()
         {
         }

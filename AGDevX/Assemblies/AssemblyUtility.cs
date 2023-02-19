@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AGDevX.Strings;
 
 namespace AGDevX.Assemblies
 {
@@ -19,6 +20,13 @@ namespace AGDevX.Assemblies
                 .Where(a => !assemblyPrefixes.Any() || a.StartsWithPrefixes(assemblyPrefixes))
                 .Distinct()
                 .ToList();
+        }
+
+        public static bool AssemblyNameStartsWithAnyPrefix(string? assemblyName, IEnumerable<string> assemblyPrefixes)
+        {
+            return assemblyName.IsNullOrWhiteSpace()
+                    ? false
+                    : assemblyPrefixes.Any(ap => assemblyName!.StartsWithIgnoreCase(ap));
         }
     }
 }
