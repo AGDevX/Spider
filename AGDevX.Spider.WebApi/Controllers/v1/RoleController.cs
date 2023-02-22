@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AGDevX.IEnumerables;
-using AGDevX.Security;
 using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
-using AGDevX.Web.AuthZ;
+using AGDevX.Web.AuthZ.Attributes;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

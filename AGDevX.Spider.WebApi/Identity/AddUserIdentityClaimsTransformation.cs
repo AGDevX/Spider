@@ -69,9 +69,9 @@ namespace AGDevX.Spider.WebApi.AuthN
 
                 var userIdentity = new ClaimsIdentity(
                     claims,
-                    _apiConfig.AuthN.OAuth.AuthenticationScheme,
-                    _apiConfig.AuthN.OAuth.NameClaimType,
-                    _apiConfig.AuthN.OAuth.RoleClaimType)
+                    _apiConfig.Auth.OAuth.AuthenticationScheme,
+                    _apiConfig.Auth.OAuth.NameClaimType,
+                    _apiConfig.Auth.OAuth.RoleClaimType)
                     {
                         Label = _apiConfig.Api.Name
                     };

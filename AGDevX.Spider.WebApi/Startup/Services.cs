@@ -6,10 +6,11 @@ using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
 using AGDevX.IEnumerables;
 using AGDevX.Spider.WebApi.AuthN;
+using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Spider.WebApi.Startup;
-using AGDevX.Web.AuthN.OAuth;
-using AGDevX.Web.AuthZ;
+using AGDevX.Web.AuthZ.Attributes;
+using AGDevX.Web.AuthZ.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -142,14 +143,14 @@ namespace AGDevX.Spider.WebApi.Startup
         {
             var jwtOAuthConfig = new JwtOAuthConfig
             {
-                AuthenticationScheme = apiConfig.AuthN.OAuth.AuthenticationScheme,
-                NameClaimType = apiConfig.AuthN.OAuth.NameClaimType,
-                RoleClaimType = apiConfig.AuthN.OAuth.RoleClaimType,
-                Authority = apiConfig.AuthN.OAuth.Authority,
-                Issuer = apiConfig.AuthN.OAuth.Issuer,
-                Audience = apiConfig.AuthN.OAuth.Audience,
-                RequireHttpsMetadata = apiConfig.AuthN.Oidc.RequireHttpsMetadata,
-                OpenIDConnectDiscoveryUrl = apiConfig.AuthN.Oidc.OpenIDConnectDiscoveryUrl
+                AuthenticationScheme = apiConfig.Auth.OAuth.AuthenticationScheme,
+                NameClaimType = apiConfig.Auth.OAuth.NameClaimType,
+                RoleClaimType = apiConfig.Auth.OAuth.RoleClaimType,
+                Authority = apiConfig.Auth.OAuth.Authority,
+                Issuer = apiConfig.Auth.OAuth.Issuer,
+                Audience = apiConfig.Auth.OAuth.Audience,
+                RequireHttpsMetadata = apiConfig.Auth.Oidc.RequireHttpsMetadata,
+                OpenIDConnectDiscoveryUrl = apiConfig.Auth.Oidc.OpenIDConnectDiscoveryUrl
             };
 
             var jwtBearerEvents = new JwtBearerEventsOverrides();
@@ -187,8 +188,8 @@ namespace AGDevX.Spider.WebApi.Startup
 
         public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
         {
-            var apiScopes = apiConfig.AuthN.OAuth.ApiScopes;
-            var oidcScopes = apiConfig.AuthN.Oidc.Scopes;
+            var apiScopes = apiConfig.Auth.OAuth.ApiScopes;
+            var oidcScopes = apiConfig.Auth.Oidc.Scopes;
 
             var swaggerConfig = new SwaggerConfig
             {
@@ -198,10 +199,10 @@ namespace AGDevX.Spider.WebApi.Startup
                 AuthorUrl = new Uri(apiConfig.Api.AuthorUrl),
                 Title = apiConfig.Api.Name,
                 Description = apiConfig.Api.Description,
-                AuthorizationUrl = new Uri(apiConfig.AuthN.OAuth.AuthorizationUrl),
-                TokenUrl = new Uri(apiConfig.AuthN.OAuth.TokenUrl),
-                ClientId = apiConfig.AuthN.OAuth.ApiClient.ClientId,
-                ClientSecret = apiConfig.AuthN.OAuth.ApiClient.ClientSecret,
+                AuthorizationUrl = new Uri(apiConfig.Auth.OAuth.AuthorizationUrl),
+                TokenUrl = new Uri(apiConfig.Auth.OAuth.TokenUrl),
+                ClientId = apiConfig.Auth.OAuth.ApiClient.ClientId,
+                ClientSecret = apiConfig.Auth.OAuth.ApiClient.ClientSecret,
                 Scopes = apiScopes.Concatenate(oidcScopes)
             };
 

@@ -7,14 +7,14 @@ using AGDevX.Strings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace AGDevX.Amara.Api.User.Middleware
+namespace AGDevX.Spider.WebApi.AuthZ
 {
-    public class UserAuthenticationMiddleware
+    public class UserAuthorizationMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ApiConfig _apiConfig;
 
-        public UserAuthenticationMiddleware(RequestDelegate next, ApiConfig apiConfig)
+        public UserAuthorizationMiddleware(RequestDelegate next, ApiConfig apiConfig)
         {
             _next = next;
             _apiConfig = apiConfig;
@@ -23,7 +23,7 @@ namespace AGDevX.Amara.Api.User.Middleware
         public async Task Invoke(HttpContext httpContext)
         {
             var ignoreRequest = httpContext.Request.Path.HasValue ? httpContext.Request.Path.Value.ContainsIgnoreCase("swagger") : false;
-            
+
             if (ignoreRequest)
             {
                 await _next(httpContext);
@@ -46,11 +46,11 @@ namespace AGDevX.Amara.Api.User.Middleware
         }
     }
 
-    public static class UserAuthenticationMiddlewareExtensions
+    public static class UserAuthorizationMiddlewareExtensions
     {
-        public static IApplicationBuilder UseUserAuthentication(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseUserAuthorization(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<UserAuthenticationMiddleware>();
+            return builder.UseMiddleware<UserAuthorizationMiddleware>();
         }
     }
 }

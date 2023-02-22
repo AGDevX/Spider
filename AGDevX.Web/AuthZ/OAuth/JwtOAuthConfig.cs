@@ -3,7 +3,7 @@ using AGDevX.Enums;
 using AGDevX.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace AGDevX.Web.AuthN.OAuth
+namespace AGDevX.Web.AuthZ.OAuth
 {
     public sealed class JwtOAuthConfig
     {

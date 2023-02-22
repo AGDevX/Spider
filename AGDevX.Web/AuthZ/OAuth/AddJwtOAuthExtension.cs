@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AGDevX.Web.AuthN.OAuth
+namespace AGDevX.Web.AuthZ.OAuth
 {
     public static class AddJwtOAuthExtension
     {

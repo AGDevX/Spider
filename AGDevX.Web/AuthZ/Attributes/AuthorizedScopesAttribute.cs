@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Web.AuthZ
+namespace AGDevX.Web.AuthZ.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizedScopesAttribute : AuthorizeAttribute, IFilterFactory
@@ -50,9 +50,9 @@ namespace AGDevX.Web.AuthZ
             var scopes = context.HttpContext.User.GetScopes();
             var isAuthorized = _authorizedScopes.HasCommonElement(scopes);
 
-            _logger.LogInformation($"Authorized Scopes: { string.Join(',', _authorizedScopes) }");
-            _logger.LogInformation($"User Scopes: { string.Join(',', scopes) }");
-            _logger.LogInformation($"IsAuthorized: { isAuthorized }");
+            _logger.LogInformation($"Authorized Scopes: {string.Join(',', _authorizedScopes)}");
+            _logger.LogInformation($"User Scopes: {string.Join(',', scopes)}");
+            _logger.LogInformation($"IsAuthorized: {isAuthorized}");
 
             if (!isAuthorized)
             {

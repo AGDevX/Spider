@@ -17,7 +17,7 @@ namespace AGDevX.Spider.WebApi.Config
         public Api Api { get; set; } = new Api();
         public Solution Solution { get; set; } = new Solution();
         public Security Security { get; set; } = new Security();
-        public AuthN AuthN { get; set; } = new AuthN();
+        public Auth Auth { get; set; } = new Auth();
     }
 
     public sealed class Api
@@ -47,7 +47,7 @@ namespace AGDevX.Spider.WebApi.Config
         public string[] AllowedHeaders { get; set; } = Array.Empty<string>();
     }
 
-    public sealed class AuthN
+    public sealed class Auth
     {
         public OAuth OAuth { get; set; } = new OAuth();
         public Oidc Oidc { get; set; } = new Oidc();
@@ -105,11 +105,11 @@ namespace AGDevX.Spider.WebApi.Config
 
         public string TokenUrl { get; set; } = string.Empty;
         public string UserInfoUrl { get; set; } = string.Empty;
+        public string JsonWebKeySetUrl { get; set; } = string.Empty;
 
         public Dictionary<string, string> ApiScopes { get; set; } = new();
 
         public Client ApiClient { get; set; } = new Client();
-        public Client SpaClient { get; set; } = new Client();
     }
 
     public sealed class Client

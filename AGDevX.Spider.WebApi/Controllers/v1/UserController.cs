@@ -6,7 +6,7 @@ using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
 using AGDevX.Strings;
-using AGDevX.Web.AuthZ;
+using AGDevX.Web.AuthZ.Attributes;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
