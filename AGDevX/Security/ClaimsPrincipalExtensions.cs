@@ -275,6 +275,12 @@ namespace AGDevX.Security
             return claimsPrincipal.GetClaimValue<bool>(AGDevXClaimTypes.IsActive.StringValue());
         }
 
+        public static string GetGrantType(this ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.GetClaimValue<string>(Auth0ClaimTypes.GrantType.StringValue())
+                        ?? throw new ClaimNotFoundException($"A Grant Type claim was not found");
+        }
+
         private static T? GetClaimValue<T>(this ClaimsPrincipal claimsPrincipal, string claimType)
         {
             var claim = claimsPrincipal.GetClaim(claimType);

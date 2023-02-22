@@ -26,6 +26,7 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\AGDevX.Spider.Service\AGDevX.Spider.Service.csproj" />
+		<ProjectReference Include="..\AGDevX.Web.Auth0\AGDevX.Web.Auth0.csproj" />
 		<ProjectReference Include="..\AGDevX.Web.Swagger\AGDevX.Web.Swagger.csproj" />
 		<ProjectReference Include="..\AGDevX.Web\AGDevX.Web.csproj" />
 		<ProjectReference Include="..\AGDevX\AGDevX.csproj" />

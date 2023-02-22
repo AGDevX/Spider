@@ -1,4 +1,6 @@
+using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
+using AGDevX.Web.AuthZ.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,11 +23,9 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
         }
 
         [HttpGet]
-        [Authorize(Roles = "ADMIN")]
+        [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin, Roles.Normal)]
         public IActionResult Get()
         {
-            var user = User;
-
             return new OkObjectResult(_apiConfig);
         }
     }
