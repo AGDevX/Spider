@@ -7,6 +7,7 @@ using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
 using AGDevX.Strings;
 using AGDevX.Web.AuthZ.Attributes;
+using AGDevX.Web.Response;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -44,12 +45,28 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
             {
                 var svcUsers = await _userService.GetUsers();
                 var apiUsers = _autoMapper.Map<List<User>>(svcUsers);
-                return Ok(apiUsers);
+                return new OkObjectResult(new AGDevXWebResponse<List<User>>
+                {
+                    Code = AGDevXWebResponseCodes.Success,
+                    Messages = new List<AGDevXMessage>
+                    {
+                        new AGDevXMessage
+                        {
+                            Code = AGDevXMessageCodes.Information,
+                            Message = $"Found { apiUsers.Count } users"
+                        }
+                    },
+                    Value = apiUsers
+                });
             }
 
             var svcUser = await _userService.GetUser(userId, email);
             var apiUser = _autoMapper.Map<User>(svcUser);
-            return Ok(apiUser);
+
+            return new OkObjectResult(new AGDevXWebResponse<User> {
+                Code = AGDevXWebResponseCodes.Success,
+                Value = apiUser
+            });
         }
 
         [HttpGet, Route("GetUserInfo")]
