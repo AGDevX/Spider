@@ -48,14 +48,7 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
                 return new OkObjectResult(new AGDevXWebResponse<List<User>>
                 {
                     Code = AGDevXWebResponseCodes.Success,
-                    Messages = new List<AGDevXMessage>
-                    {
-                        new AGDevXMessage
-                        {
-                            Code = AGDevXMessageCodes.Information,
-                            Message = $"Found { apiUsers.Count } users"
-                        }
-                    },
+                    Messages = new List<string> { $"Found { apiUsers.Count } users" },
                     Value = apiUsers
                 });
             }
