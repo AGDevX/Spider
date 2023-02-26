@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AGDevX.Spider.WebApi.Controllers.v1
 {
+    /// <summary>
+    /// Manages Roles
+    /// </summary>
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
@@ -28,7 +31,7 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
 
         [HttpGet]
         [AuthorizedScopes(Scopes.ApiAccess)]
-        [LogAuthorize(Roles.AGDevXAdmin, Roles.Admin)]
+        [AuthorizedRoles(Roles.AGDevXAdmin, Roles.Admin)]
         public async Task<IActionResult> Get()
         {
             var svcRoles = await _roleService.GetRoles();

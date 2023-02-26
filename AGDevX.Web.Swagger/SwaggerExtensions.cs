@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using AGDevX.Strings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +16,14 @@ namespace AGDevX.Web.Swagger
             if (swaggerConfig.Enabled)
             {
                 services.AddSingleton(swaggerConfig);
-                services.AddSwaggerGen();
+                services.AddSwaggerGen(options =>
+                {
+                    if (!swaggerConfig.ApiXmlDocumentationFilename.IsNullOrWhiteSpace())
+                    {
+                        var xmlPath = Path.Combine(AppContext.BaseDirectory, swaggerConfig.ApiXmlDocumentationFilename!);
+                        options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+                    }
+                });
                 services.ConfigureOptions<ConfigureOAuth2SwaggerOptions>();
             }
         }

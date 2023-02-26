@@ -12,29 +12,34 @@ using Microsoft.Extensions.Logging;
 
 namespace AGDevX.Web.AuthZ.Attributes
 {
+    public static class AuthorizedRoles
+    {
+        public const string Any = "ANY";
+    }
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class LogAuthorizeAttribute : AuthorizeAttribute, IFilterFactory
+    public class AuthorizedRolesAttribute : AuthorizeAttribute, IFilterFactory
     {
         public bool IsReusable => false;
         private readonly List<string> _authorizedRoles;
 
-        public LogAuthorizeAttribute(params string[] authorizedRoles)
+        public AuthorizedRolesAttribute(params string[] authorizedRoles)
         {
             _authorizedRoles = authorizedRoles.ToList();
         }
 
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            return ActivatorUtilities.CreateInstance<LogAuthorizeAttributeActionFilter>(serviceProvider, _authorizedRoles);
+            return ActivatorUtilities.CreateInstance<AuthorizedRolesAttributeActionFilter>(serviceProvider, _authorizedRoles);
         }
     }
 
-    public class LogAuthorizeAttributeActionFilter : IAsyncActionFilter
+    public class AuthorizedRolesAttributeActionFilter : IAsyncActionFilter
     {
         private readonly List<string> _authorizedRoles;
-        private readonly ILogger<LogAuthorizeAttributeActionFilter> _logger;
+        private readonly ILogger<AuthorizedRolesAttributeActionFilter> _logger;
 
-        public LogAuthorizeAttributeActionFilter(ILogger<LogAuthorizeAttributeActionFilter> logger, List<string> authorizedRoles)
+        public AuthorizedRolesAttributeActionFilter(ILogger<AuthorizedRolesAttributeActionFilter> logger, List<string> authorizedRoles)
         {
             _logger = logger;
             _authorizedRoles = authorizedRoles;
@@ -48,7 +53,8 @@ namespace AGDevX.Web.AuthZ.Attributes
             }
 
             var userRoles = context.HttpContext.User.GetRoles();
-            var isAuthorized = _authorizedRoles.HasCommonElement(userRoles);
+            var isAuthorized = _authorizedRoles.HasCommonStringElement(userRoles)
+                                || (_authorizedRoles.ContainsStringIgnoreCase(AuthorizedRoles.Any) && userRoles.Any());
 
             _logger.LogInformation($"Authorized Roles: {string.Join(',', _authorizedRoles)}");
             _logger.LogInformation($"User Roles: {string.Join(',', userRoles)}");

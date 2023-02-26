@@ -9,7 +9,7 @@ namespace AGDevX.Spider.Service.Contracts
     {
         public Task<Guid> AddUser(AddUser user);
         public Task<User?> GetUser(Guid? userId = default, string? email = default);
-        public Task<List<User>> GetUsers();
+        public Task<List<User>> GetUsers(Guid? userId = default, string? email = default);
         public Task<UserInfo?> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default);
         public Task UpdateUser(User user);
         public Task DeleteUser(Guid? userId = default, string? email = default);

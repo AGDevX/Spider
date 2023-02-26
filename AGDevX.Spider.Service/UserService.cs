@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AGDevX.Guids;
 using AGDevX.Spider.Database.Contracts;
 using AGDevX.Spider.Service.Models;
+using AGDevX.Strings;
 using AutoMapper;
 
 namespace AGDevX.Spider.Service.Contracts
@@ -32,10 +34,24 @@ namespace AGDevX.Spider.Service.Contracts
             return svcUser;
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
         {
-            var dbUsers = await _userRepository.GetUsers();
-            var svcUsers = _autoMapper.Map<List<User>>(dbUsers);
+            var svcUsers = new List<User>();
+
+            if (userId.IsNullOrEmpty() && email.IsNullOrWhiteSpace())
+            {
+                var dbUsers = await _userRepository.GetUsers();
+                svcUsers.AddRange(_autoMapper.Map<List<User>>(dbUsers));
+            }
+            else
+            {
+                var svcUser = await GetUser(userId, email);
+                if (svcUser != null)
+                {
+                    svcUsers.Add(svcUser);
+                }
+            }
+
             return svcUsers;
         }
 

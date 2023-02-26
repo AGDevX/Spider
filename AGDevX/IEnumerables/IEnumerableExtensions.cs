@@ -15,7 +15,7 @@ namespace AGDevX.IEnumerables
             return isNullOrEmpty;
         }
 
-        public static bool HasCommonElement(this IEnumerable<string> enumerable1, IEnumerable<string> enumerable2, StringComparer? stringComparer = default)
+        public static bool HasCommonStringElement(this IEnumerable<string> enumerable1, IEnumerable<string> enumerable2, StringComparer? stringComparer = default)
         {
             if (enumerable1 == null)
             {
@@ -48,6 +48,18 @@ namespace AGDevX.IEnumerables
             });
 
             return dataTable;
+        }
+
+        public static bool ContainsStringIgnoreCase(this IEnumerable<string> strings, string str, StringComparer? stringComparer = default)
+        {
+            if (strings.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException($"The provided {nameof(strings)} argument was null");
+            }
+
+            stringComparer ??= StringComparer.OrdinalIgnoreCase;
+
+            return strings.Contains(str, stringComparer);
         }
     }
 }

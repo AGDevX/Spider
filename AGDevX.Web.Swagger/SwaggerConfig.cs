@@ -6,6 +6,7 @@ namespace AGDevX.Web.Swagger
     public sealed class SwaggerConfig
     {
         public bool Enabled { get; set; } = true;
+        public string? ApiXmlDocumentationFilename { get; set; }
         public string? Author { get; set; }
         public string? AuthorEmail { get; set; }
         public Uri? AuthorUrl { get; set; }

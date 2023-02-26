@@ -23,6 +23,7 @@ namespace AGDevX.Spider.WebApi.Config
         public string Description { get; set; } = "RESTful .NET API seed application";
         public string ConnectionString { get; set; } = string.Empty;
         public bool EnableSwagger { get; set; } = true;
+        public string? ApiXmlDocumentationFilename { get; set; }
         public bool AutoCreateUsers { get; set; }
         public bool NewUsersActiveByDefault { get; set; }
         public Guid SystemUserId { get; set; }

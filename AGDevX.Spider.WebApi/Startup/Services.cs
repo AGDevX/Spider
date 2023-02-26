@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using AGDevX.Assemblies;
 using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
@@ -19,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 
@@ -137,7 +141,6 @@ namespace AGDevX.Spider.WebApi.Startup
             services.AddOAuth(apiConfig);
             services.AddAuth0(apiConfig.Auth.OAuth);
             services.AddScoped<IClaimsTransformation, AddUserIdentityClaimsTransformation>();
-            services.AddScoped<LogAuthorizeAttributeActionFilter>();
         }
 
         public static void AddOAuth(this IServiceCollection services, ApiConfig apiConfig)
@@ -179,11 +182,15 @@ namespace AGDevX.Spider.WebApi.Startup
 
         public static void ConfigureJson(this IServiceCollection services)
         {
-            services.ConfigureHttpJsonOptions(options => options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+            services.Configure<JsonOptions>(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
             
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = new List<Newtonsoft.Json.JsonConverter> { new StringEnumConverter() }
             };
         }
 
@@ -195,6 +202,7 @@ namespace AGDevX.Spider.WebApi.Startup
             var swaggerConfig = new SwaggerConfig
             {
                 Enabled = apiConfig.Api.EnableSwagger,
+                ApiXmlDocumentationFilename = apiConfig.Api.ApiXmlDocumentationFilename ?? $"{Assembly.GetExecutingAssembly().GetName().Name}.xml",
                 Author = apiConfig.Api.Author,
                 AuthorEmail = apiConfig.Api.AuthorEmail,
                 AuthorUrl = new Uri(apiConfig.Api.AuthorUrl),
