@@ -4,7 +4,9 @@ using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
 using AGDevX.Web.AuthZ.Attributes;
+using AGDevX.Web.Responses;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -29,14 +31,23 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
             _roleService = roleService;
         }
 
+        /// <summary>
+        /// Returns all Roles configured for this API
+        /// </summary>
         [HttpGet]
         [AuthorizedScopes(Scopes.ApiAccess)]
         [AuthorizedRoles(Roles.AGDevXAdmin, Roles.Admin)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             var svcRoles = await _roleService.GetRoles();
             var apiRoles = _autoMapper.Map<List<Role>>(svcRoles);
-            return Ok(apiRoles);
+
+            return new OkJsonResponse<List<Role>>
+            {
+                Code = ApiResponseCodes.Success,
+                Value = apiRoles
+            };
         }
     }
 }

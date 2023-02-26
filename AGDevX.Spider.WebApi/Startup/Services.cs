@@ -186,6 +186,16 @@ namespace AGDevX.Spider.WebApi.Startup
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
+
+            services.ConfigureHttpJsonOptions(options =>
+            {
+                options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.SerializerOptions.AllowTrailingCommas = false;
+                options.SerializerOptions.PropertyNameCaseInsensitive = true;
+                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.SerializerOptions.WriteIndented = true;
+                options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {

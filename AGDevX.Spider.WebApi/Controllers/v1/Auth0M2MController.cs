@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Web.Auth0.Client.Contracts;
 using AGDevX.Web.AuthZ.Attributes;
+using AGDevX.Web.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -29,15 +31,24 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
             _auth0Client = auth0Client;
         }
 
+        /// <summary>
+        /// Returns an access token in the context of this API for a downstream API (never expose an endpoint like this)
+        /// </summary>
         [HttpGet]
         [AuthorizedScopes(AuthorizedScopes.Any)]
         [AuthorizedRoles(AuthorizedRoles.Any)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             //-- This call typically wouldn't be made in a controller. It would be made in a class that needs to
             //--    make a call to a downstream api so it can send an access token to that API
-            var at = await _auth0Client.GetAccessToken(_apiConfig.Auth.OAuth.Audience);
-            return new OkObjectResult(at);
+            var accessToken = await _auth0Client.GetAccessToken(_apiConfig.Auth.OAuth.Audience);
+
+            return new OkJsonResponse<string>
+            {
+                Code = ApiResponseCodes.Success,
+                Value = accessToken
+            };
         }
     }
 }

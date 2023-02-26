@@ -29,7 +29,6 @@ namespace AGDevX.Core.Swagger.OperationFilter
             }
 
             operation.Responses.Add(StatusCodes.Status401Unauthorized.ToString(), new OpenApiResponse { Description = nameof(HttpStatusCode.Unauthorized) });
-            operation.Responses.Add(StatusCodes.Status403Forbidden.ToString(), new OpenApiResponse { Description = nameof(HttpStatusCode.Forbidden) });
 
             var oauth2SecurityScheme = new OpenApiSecurityScheme()
             {
