@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace AGDevX.Web.Responses
+namespace AGDevX.Web.Responses;
+
+public sealed class OkJsonResponse<T> : JsonResponse<T>
 {
-    public sealed class OkJsonResponse<T> : JsonResponse<T>
+    public OkJsonResponse() : base(StatusCodes.Status200OK)
     {
-        public OkJsonResponse() : base(StatusCodes.Status200OK)
-        {
-            Code = ApiResponseCode.Success;
-        }
+        Code = ApiResponseCode.Success;
     }
 }

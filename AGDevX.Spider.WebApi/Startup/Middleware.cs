@@ -9,35 +9,34 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace AGDevX.Spider.WebApi.Startup
+namespace AGDevX.Spider.WebApi.Startup;
+
+public static class Middlware
 {
-    public static class Middlware
+    public static WebApplication ConfigureMiddlware(this WebApplication webApi, ApiConfig apiConfig)
     {
-        public static WebApplication ConfigureMiddlware(this WebApplication webApi, ApiConfig apiConfig)
+        if (apiConfig.Environment.IsOneOf(EnvironmentType.Local)
+            || webApi.Environment.EnvironmentName.ToString().EqualsIgnoreCase(EnvironmentType.Local.StringValue())
+            || webApi.Environment.IsDevelopment())
         {
-            if (apiConfig.Environment.IsOneOf(EnvironmentType.Local)
-                || webApi.Environment.EnvironmentName.ToString().EqualsIgnoreCase(EnvironmentType.Local.StringValue())
-                || webApi.Environment.IsDevelopment())
-            {
-            }
-
-            webApi.UseSerilogRequestLogging();
-            webApi.UseUnhandledExceptionMiddleware(apiConfig.Solution.AssemblyPrefixes);
-
-            webApi.UseHsts();
-            webApi.UseHttpsRedirection();
-
-            webApi.UseCors(apiConfig.Security.CorsPolicy);
-
-            webApi.UseAuthentication();
-            webApi.UseAuthorization();
-            webApi.UseUserAuthorization();
-
-            webApi.UseSwaggerForApi();
-
-            webApi.MapControllers();
-
-            return webApi;
         }
+
+        webApi.UseSerilogRequestLogging();
+        webApi.UseUnhandledExceptionMiddleware(apiConfig.Solution.AssemblyPrefixes);
+
+        webApi.UseHsts();
+        webApi.UseHttpsRedirection();
+
+        webApi.UseCors(apiConfig.Security.CorsPolicy);
+
+        webApi.UseAuthentication();
+        webApi.UseAuthorization();
+        webApi.UseUserAuthorization();
+
+        webApi.UseSwaggerForApi();
+
+        webApi.MapControllers();
+
+        return webApi;
     }
 }

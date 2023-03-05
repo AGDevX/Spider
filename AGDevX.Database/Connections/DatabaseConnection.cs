@@ -1,7 +1,6 @@
-﻿namespace AGDevX.Database.Connections
+﻿namespace AGDevX.Database.Connections;
+
+public sealed class DatabaseConnection
 {
-    public sealed class DatabaseConnection
-    {
-        public required string SqlServerConnectionString { get; set; }
-    }
+    public required string SqlServerConnectionString { get; set; }
 }

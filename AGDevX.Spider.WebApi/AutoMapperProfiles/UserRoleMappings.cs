@@ -2,14 +2,13 @@
 using Api = AGDevX.Spider.WebApi.Models;
 using Svc = AGDevX.Spider.Service.Models;
 
-namespace AGDevX.Spider.Service.AutoMapperProfiles
+namespace AGDevX.Spider.Service.AutoMapperProfiles;
+
+public sealed class UserRoleMappings : Profile
 {
-    public sealed class UserRoleMappings : Profile
+    public UserRoleMappings()
     {
-        public UserRoleMappings()
-        {
-            //-- Svc --> Api
-            CreateMap<Svc.UserRole, Api.UserRole>().ReverseMap();
-        }
+        //-- Svc --> Api
+        CreateMap<Svc.UserRole, Api.UserRole>().ReverseMap();
     }
 }

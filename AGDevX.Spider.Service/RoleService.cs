@@ -6,39 +6,38 @@ using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.Service.Models;
 using AutoMapper;
 
-namespace AGDevX.Spider.Service
+namespace AGDevX.Spider.Service;
+
+public sealed class RoleService : IRoleService
 {
-    public sealed class RoleService : IRoleService
+    private readonly IMapper _autoMapper;
+    private readonly IRoleRepository _roleRepository;
+
+    public RoleService(IMapper autoMapper, IRoleRepository roleRepository)
     {
-        private readonly IMapper _autoMapper;
-        private readonly IRoleRepository _roleRepository;
+        _autoMapper = autoMapper;
+        _roleRepository = roleRepository;
+    }
 
-        public RoleService(IMapper autoMapper, IRoleRepository roleRepository)
-        {
-            _autoMapper = autoMapper;
-            _roleRepository = roleRepository;
-        }
+    public Task<Guid> AddRole(Role role)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task<Guid> AddRole(Role role)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task<List<Role>> GetRoles()
+    {
+        var dbRoles = await _roleRepository.GetRoles();
+        var svcRoles = _autoMapper.Map<List<Role>>(dbRoles);
+        return svcRoles;
+    }
 
-        public async Task<List<Role>> GetRoles()
-        {
-            var dbRoles = await _roleRepository.GetRoles();
-            var svcRoles = _autoMapper.Map<List<Role>>(dbRoles);
-            return svcRoles;
-        }
+    public Task UpdateRole(Role Role)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task UpdateRole(Role Role)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteRole(Guid? RoleId = default, string? code = default)
-        {
-            throw new NotImplementedException();
-        }
+    public Task DeleteRole(Guid? RoleId = default, string? code = default)
+    {
+        throw new NotImplementedException();
     }
 }

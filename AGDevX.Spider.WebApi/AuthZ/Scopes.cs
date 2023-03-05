@@ -1,7 +1,6 @@
-﻿namespace AGDevX.Spider.WebApi.AuthZ
+﻿namespace AGDevX.Spider.WebApi.AuthZ;
+
+public static class Scopes
 {
-    public static class Scopes
-    {
-        public const string ApiAccess = "api:access";
-    }
+    public const string ApiAccess = "api:access";
 }

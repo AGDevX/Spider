@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel;
 using AGDevX.Enums;
 
-namespace AGDevX.Security
+namespace AGDevX.Security;
+
+public enum Auth0ClaimType
 {
-    public enum Auth0ClaimType
-    {
-        [Description("gty")]
-        [EnumStringValue("gty")]
-        GrantType = 1
-    }
+    [Description("gty")]
+    [EnumStringValue("gty")]
+    GrantType = 1
 }

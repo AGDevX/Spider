@@ -5,40 +5,39 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AGDevX.Core.Swagger.OperationFilter
+namespace AGDevX.Core.Swagger.OperationFilter;
+
+public sealed class AuthorizeOperationFilter : IOperationFilter
 {
-    public sealed class AuthorizeOperationFilter : IOperationFilter
+    private readonly string _scheme;
+
+    public AuthorizeOperationFilter(string scheme)
     {
-        private readonly string _scheme;
+        _scheme = scheme;
+    }
 
-        public AuthorizeOperationFilter(string scheme)
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        var authorize = (context.MethodInfo.DeclaringType != null && context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any())
+                            || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
+
+        var allowAnonymous = context.MethodInfo.GetCustomAttributes(true).OfType<AllowAnonymousAttribute>().Any();
+
+        if (!authorize || allowAnonymous)
         {
-            _scheme = scheme;
+            return;
         }
 
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        operation.Responses.Add(StatusCodes.Status401Unauthorized.ToString(), new OpenApiResponse { Description = nameof(HttpStatusCode.Unauthorized) });
+
+        var oauth2SecurityScheme = new OpenApiSecurityScheme()
         {
-            var authorize = (context.MethodInfo.DeclaringType != null && context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any())
-                                || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
+            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = _scheme },
+        };
 
-            var allowAnonymous = context.MethodInfo.GetCustomAttributes(true).OfType<AllowAnonymousAttribute>().Any();
-
-            if (!authorize || allowAnonymous)
-            {
-                return;
-            }
-
-            operation.Responses.Add(StatusCodes.Status401Unauthorized.ToString(), new OpenApiResponse { Description = nameof(HttpStatusCode.Unauthorized) });
-
-            var oauth2SecurityScheme = new OpenApiSecurityScheme()
-            {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = _scheme },
-            };
-
-            operation.Security.Add(new OpenApiSecurityRequirement()
-            {
-                [oauth2SecurityScheme] = new[] { _scheme }
-            });
-        }
+        operation.Security.Add(new OpenApiSecurityRequirement()
+        {
+            [oauth2SecurityScheme] = new[] { _scheme }
+        });
     }
 }

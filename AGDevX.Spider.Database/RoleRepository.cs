@@ -7,41 +7,40 @@ using AGDevX.Database.Dapper;
 using AGDevX.Spider.Database.Models;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Spider.Database.Contracts
+namespace AGDevX.Spider.Database.Contracts;
+
+public sealed class RoleRepository : IRoleRepository
 {
-    public sealed class RoleRepository : IRoleRepository
+    private readonly ILogger<UserRepository> _logger;
+    private readonly IDbConnectionFactory _dbConnectionFactory;
+
+    public RoleRepository(ILogger<UserRepository> logger, IDbConnectionFactory dbConnectionFactory)
     {
-        private readonly ILogger<UserRepository> _logger;
-        private readonly IDbConnectionFactory _dbConnectionFactory;
+        _logger = logger;
+        _dbConnectionFactory = dbConnectionFactory;
+    }
 
-        public RoleRepository(ILogger<UserRepository> logger, IDbConnectionFactory dbConnectionFactory)
-        {
-            _logger = logger;
-            _dbConnectionFactory = dbConnectionFactory;
-        }
+    public Task<Guid> AddRole(Role role)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task<Guid> AddRole(Role role)
+    public async Task<List<Role>> GetRoles()
+    {
+        using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
         {
-            throw new NotImplementedException();
+            var roles = (await conn.ExecuteSproc<Role>("[agdevx].GetRoles"))?.ToList() ?? new List<Role>();
+            return roles;
         }
+    }
 
-        public async Task<List<Role>> GetRoles()
-        {
-            using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
-            {
-                var roles = (await conn.ExecuteSproc<Role>("[agdevx].GetRoles"))?.ToList() ?? new List<Role>();
-                return roles;
-            }
-        }
+    public Task UpdateRole(Role Role)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task UpdateRole(Role Role)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteRole(Guid? RoleId = default, string? code = default)
-        {
-            throw new NotImplementedException();
-        }
+    public Task DeleteRole(Guid? RoleId = default, string? code = default)
+    {
+        throw new NotImplementedException();
     }
 }

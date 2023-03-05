@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace AGDevX.Web.Responses
+namespace AGDevX.Web.Responses;
+
+public sealed class CreatedJsonResponse<T> : JsonResponse<T>
 {
-    public sealed class CreatedJsonResponse<T> : JsonResponse<T>
+    public CreatedJsonResponse() : base(StatusCodes.Status201Created)
     {
-        public CreatedJsonResponse() : base(StatusCodes.Status201Created)
-        {
-        }
     }
 }

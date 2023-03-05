@@ -10,63 +10,62 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Web.AuthZ.Attributes
-{
-    public static class AuthorizedScopes
+namespace AGDevX.Web.AuthZ.Attributes;
+
+public static class AuthorizedScopes
+    {
+        public const string Any = "ANY";
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class AuthorizedScopesAttribute : AuthorizeAttribute, IFilterFactory
+    {
+        public bool IsReusable => false;
+        private readonly List<string> _authorizedScopes;
+
+        public AuthorizedScopesAttribute(params string[] authorizedScopes)
         {
-            public const string Any = "ANY";
+            _authorizedScopes = authorizedScopes.ToList();
         }
 
-        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public class AuthorizedScopesAttribute : AuthorizeAttribute, IFilterFactory
+        public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            public bool IsReusable => false;
-            private readonly List<string> _authorizedScopes;
+            return ActivatorUtilities.CreateInstance<AuthorizedScopesAttributeActionFilter>(serviceProvider, _authorizedScopes);
+        }
+    }
 
-            public AuthorizedScopesAttribute(params string[] authorizedScopes)
-            {
-                _authorizedScopes = authorizedScopes.ToList();
-            }
+    public class AuthorizedScopesAttributeActionFilter : IAsyncActionFilter
+    {
+        private readonly List<string> _authorizedScopes;
+        private readonly ILogger<AuthorizedScopesAttributeActionFilter> _logger;
 
-            public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
-            {
-                return ActivatorUtilities.CreateInstance<AuthorizedScopesAttributeActionFilter>(serviceProvider, _authorizedScopes);
-            }
+        public AuthorizedScopesAttributeActionFilter(ILogger<AuthorizedScopesAttributeActionFilter> logger, List<string> authorizedScopes)
+        {
+            _logger = logger;
+            _authorizedScopes = authorizedScopes;
         }
 
-        public class AuthorizedScopesAttributeActionFilter : IAsyncActionFilter
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            private readonly List<string> _authorizedScopes;
-            private readonly ILogger<AuthorizedScopesAttributeActionFilter> _logger;
-
-            public AuthorizedScopesAttributeActionFilter(ILogger<AuthorizedScopesAttributeActionFilter> logger, List<string> authorizedScopes)
+            if (!_authorizedScopes.Any())
             {
-                _logger = logger;
-                _authorizedScopes = authorizedScopes;
+                throw new ArgumentNullException("No Authorized Scopes were provided to the AuthorizedScopes attribute");
             }
 
-            public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+            var scopes = context.HttpContext.User.GetScopes();
+            var isAuthorized = _authorizedScopes.HasCommonStringElement(scopes)
+                                || (_authorizedScopes.ContainsStringIgnoreCase(AuthorizedScopes.Any) && scopes.Any());
+
+            _logger.LogInformation($"Authorized Scopes: {string.Join(',', _authorizedScopes)}");
+            _logger.LogInformation($"User Scopes: {string.Join(',', scopes)}");
+            _logger.LogInformation($"IsAuthorized: {isAuthorized}");
+
+            if (!isAuthorized)
             {
-                if (!_authorizedScopes.Any())
-                {
-                    throw new ArgumentNullException("No Authorized Scopes were provided to the AuthorizedScopes attribute");
-                }
-
-                var scopes = context.HttpContext.User.GetScopes();
-                var isAuthorized = _authorizedScopes.HasCommonStringElement(scopes)
-                                    || (_authorizedScopes.ContainsStringIgnoreCase(AuthorizedScopes.Any) && scopes.Any());
-
-                _logger.LogInformation($"Authorized Scopes: {string.Join(',', _authorizedScopes)}");
-                _logger.LogInformation($"User Scopes: {string.Join(',', scopes)}");
-                _logger.LogInformation($"IsAuthorized: {isAuthorized}");
-
-                if (!isAuthorized)
-                {
-                    context.Result = new ForbidResult();
-                    return;
-                }
-
-                await next();
+                context.Result = new ForbidResult();
+                return;
             }
+
+            await next();
         }
     }

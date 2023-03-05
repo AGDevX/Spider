@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel;
 using AGDevX.Enums;
 
-namespace AGDevX.Environments
+namespace AGDevX.Environments;
+
+public enum EnvironmentType
 {
-    public enum EnvironmentType
-    {
-        [Description("Local")]
-        [EnumStringValue("Local")]
-        Local = 1
-    }
+    [Description("Local")]
+    [EnumStringValue("Local")]
+    Local = 1
 }

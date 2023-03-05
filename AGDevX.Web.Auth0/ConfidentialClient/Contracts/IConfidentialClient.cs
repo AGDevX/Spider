@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using AGDevX.Web.Auth0.ConfidentialClient.Models;
 
-namespace AGDevX.Web.Auth0.ConfidentialClient.Contracts
+namespace AGDevX.Web.Auth0.ConfidentialClient.Contracts;
+
+public interface IConfidentialClient
 {
-    public interface IConfidentialClient
-    {
-        Task<TokenResponse> AcquireToken();
-    }
+    Task<TokenResponse> AcquireToken();
 }
