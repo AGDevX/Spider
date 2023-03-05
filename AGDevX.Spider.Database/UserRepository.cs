@@ -16,17 +16,17 @@ namespace AGDevX.Spider.Database.Contracts
     public sealed class UserRepository : IUserRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        private readonly IDbConnectionProvider _dbConnectionProvider;
+        private readonly IDbConnectionFactory _dbConnectionFactory;
 
-        public UserRepository(ILogger<UserRepository> logger, IDbConnectionProvider dbConnectionProvider)
+        public UserRepository(ILogger<UserRepository> logger, IDbConnectionFactory dbConnectionFactory)
         {
             _logger = logger;
-            _dbConnectionProvider = dbConnectionProvider;
+            _dbConnectionFactory = dbConnectionFactory;
         }
 
         public async Task<Guid> AddUser(AddUser user)
         {
-            using (var conn = _dbConnectionProvider.GetOpenConnection())
+            using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
             {
                 var args = new
                 {
@@ -77,7 +77,7 @@ namespace AGDevX.Spider.Database.Contracts
                 email
             };
 
-            using (var conn = _dbConnectionProvider.GetOpenConnection())
+            using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
             using (var gridReader = await conn.QueryMultiple("[agdevx].GetUserInfo", args))
             {
                 UserInfo? userInfo = default;
@@ -102,7 +102,7 @@ namespace AGDevX.Spider.Database.Contracts
 
         private async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
         {
-            using (var conn = _dbConnectionProvider.GetOpenConnection())
+            using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
             {
                 var args = new
                 {

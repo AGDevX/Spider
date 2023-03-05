@@ -9,6 +9,7 @@ namespace AGDevX.Spider.WebApi.Config
     {
         public EnvironmentType Environment { get; set; } = EnvironmentType.Local;
         public Api Api { get; set; } = new Api();
+        public Database Database { get; set; } = new Database();
         public Solution Solution { get; set; } = new Solution();
         public Security Security { get; set; } = new Security();
         public Auth Auth { get; set; } = new Auth();
@@ -21,12 +22,16 @@ namespace AGDevX.Spider.WebApi.Config
         public string AuthorUrl { get; set; } = "https://github.com/AGDevX";
         public string Name { get; set; } = "Spider Api";
         public string Description { get; set; } = "RESTful .NET API seed application";
-        public string ConnectionString { get; set; } = string.Empty;
         public bool EnableSwagger { get; set; } = true;
         public string? ApiXmlDocumentationFilename { get; set; }
         public bool AutoCreateUsers { get; set; }
         public bool NewUsersActiveByDefault { get; set; }
         public Guid SystemUserId { get; set; }
+    }
+
+    public sealed class Database
+    {
+        public string SqlServerConnectionString { get; set; } = string.Empty;
     }
 
     public sealed class Solution

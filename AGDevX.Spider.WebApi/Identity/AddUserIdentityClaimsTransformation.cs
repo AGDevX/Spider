@@ -63,8 +63,8 @@ namespace AGDevX.Spider.WebApi.AuthN
 
                 claims.AddRange(new List<Claim>
                 {
-                    new Claim(AGDevXClaimTypes.IsActive.StringValue(), userInfo!.User.IsActive.ToString()),
-                    new Claim(JwtClaimTypes.Roles.StringValue(), string.Join(' ', userInfo!.Roles.Select(r => r.RoleCode)))
+                    new Claim(AGDevXClaimType.IsActive.StringValue(), userInfo!.User.IsActive.ToString()),
+                    new Claim(JwtClaimType.Roles.StringValue(), string.Join(' ', userInfo!.Roles.Select(r => r.RoleCode)))
                 });
 
                 var userIdentity = new ClaimsIdentity(

@@ -87,8 +87,10 @@ namespace AGDevX.Spider.WebApi.Startup
 
         public static void ConfigureDbConnectionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
         {
-            services.AddSingleton(new DatabaseConnection { ConnectionString = apiConfig.Api.ConnectionString });
-            services.AddScoped<IDbConnectionProvider, SqlServerConnectionFactory>();
+            services.AddSingleton(new DatabaseConnection
+            {
+                SqlServerConnectionString = apiConfig.Database.SqlServerConnectionString
+            });
         }
 
         public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
@@ -222,7 +224,7 @@ namespace AGDevX.Spider.WebApi.Startup
                 TokenUrl = new Uri(apiConfig.Auth.OAuth.TokenUrl),
                 ClientId = apiConfig.Auth.OAuth.ApiClient.ClientId,
                 ClientSecret = apiConfig.Auth.OAuth.ApiClient.ClientSecret,
-                Scopes = apiScopes.Concatenate(oidcScopes)
+                Scopes = apiScopes.Concatenate(oidcScopes).ReverseKeysAndValues()
             };
 
             services.AddSwaggerToApi(swaggerConfig);

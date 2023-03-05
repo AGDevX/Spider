@@ -12,12 +12,12 @@ namespace AGDevX.Spider.Database.Contracts
     public sealed class RoleRepository : IRoleRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        private readonly IDbConnectionProvider _dbConnectionProvider;
+        private readonly IDbConnectionFactory _dbConnectionFactory;
 
-        public RoleRepository(ILogger<UserRepository> logger, IDbConnectionProvider dbConnectionProvider)
+        public RoleRepository(ILogger<UserRepository> logger, IDbConnectionFactory dbConnectionFactory)
         {
             _logger = logger;
-            _dbConnectionProvider = dbConnectionProvider;
+            _dbConnectionFactory = dbConnectionFactory;
         }
 
         public Task<Guid> AddRole(Role role)
@@ -27,7 +27,7 @@ namespace AGDevX.Spider.Database.Contracts
 
         public async Task<List<Role>> GetRoles()
         {
-            using (var conn = _dbConnectionProvider.GetOpenConnection())
+            using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
             {
                 var roles = (await conn.ExecuteSproc<Role>("[agdevx].GetRoles"))?.ToList() ?? new List<Role>();
                 return roles;

@@ -6,6 +6,7 @@ namespace AGDevX.Web.Responses
     {
         public OkJsonResponse() : base(StatusCodes.Status200OK)
         {
+            Code = ApiResponseCode.Success;
         }
     }
 }

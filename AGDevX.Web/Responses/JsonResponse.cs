@@ -14,7 +14,7 @@ namespace AGDevX.Web.Responses
     {
         public int? StatusCode { get; }
 
-        public ApiResponseCodes Code { get; set; }
+        public ApiResponseCode Code { get; set; }
         public List<string> Messages { get; set; } = new();
         public T? Value { get; set; } = default;
 

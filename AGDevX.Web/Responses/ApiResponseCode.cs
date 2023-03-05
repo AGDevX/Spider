@@ -1,12 +1,15 @@
-﻿using AGDevX.Enums;
+﻿using System.ComponentModel;
+using AGDevX.Enums;
 
 namespace AGDevX.Web.Responses
 {
-    public enum ApiResponseCodes
+    public enum ApiResponseCode
     {
+        [Description("Success")]
         [EnumStringValue("Success")]
         Success = 1,
 
+        [Description("User(s) Not Found")]
         [EnumStringValue("User(s) Not Found")]
         UsersNotFound = 2
 

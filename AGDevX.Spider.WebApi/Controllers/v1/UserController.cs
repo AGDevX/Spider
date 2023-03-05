@@ -49,7 +49,6 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
 
             return new CreatedJsonResponse<Guid>
             {
-                Code = ApiResponseCodes.Success,
                 Value = userId
             };
         }
@@ -77,18 +76,17 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
             var svcUsers = await _userService.GetUsers(userId, email);
             var apiUsers = _autoMapper.Map<List<User>>(svcUsers);
             
-            if (apiUsers.Any())
+            if (!apiUsers.Any())
             {
                 return new NotFoundJsonResponse<List<User>>
                 {
-                    Code = ApiResponseCodes.UsersNotFound,
+                    Code = ApiResponseCode.UsersNotFound,
                     Messages = new List<string> { $"Found 0 users" }
                 };
             }
 
             return new OkJsonResponse<List<User>>
             {
-                Code = ApiResponseCodes.Success,
                 Messages = new List<string> { $"Found { apiUsers.Count } user(s)" },
                 Value = apiUsers
             };
@@ -116,7 +114,6 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
 
             return new OkJsonResponse<UserInfo>
             {
-                Code = ApiResponseCodes.Success,
                 Value = apiUserInfo
             };
         }

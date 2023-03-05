@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using AGDevX.Exceptions;
 
 namespace AGDevX.Enums
 {
@@ -13,7 +15,7 @@ namespace AGDevX.Enums
         {
             if (value == null)
             {
-                throw new ArgumentNullException($"The provided { nameof(value) } argument was null");
+                throw new ExtensionMethodParameterNullException($"The provided { nameof(value) } argument was null");
             }
 
             var key = $"{ value.GetType().FullName }.{ value }";

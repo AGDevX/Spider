@@ -15,6 +15,8 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
+    [AuthorizedScopes(AuthorizedScopes.Any)]
+    [AuthorizedRoles(AuthorizedRoles.Any)]
     public sealed class Auth0M2MController : ControllerBase
     {
         private readonly ILogger<Auth0M2MController> _logger;
@@ -35,8 +37,6 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
         /// Returns an access token in the context of this API for a downstream API (never expose an endpoint like this)
         /// </summary>
         [HttpGet]
-        [AuthorizedScopes(AuthorizedScopes.Any)]
-        [AuthorizedRoles(AuthorizedRoles.Any)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
@@ -46,7 +46,6 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
 
             return new OkJsonResponse<string>
             {
-                Code = ApiResponseCodes.Success,
                 Value = accessToken
             };
         }

@@ -9,7 +9,7 @@ namespace AGDevX.Web.AuthZ.OAuth
     {
         public string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
         public string NameClaimType { get; set; } = ClaimTypes.NameIdentifier;
-        public string RoleClaimType { get; set; } = JwtClaimTypes.Roles.StringValue();
+        public string RoleClaimType { get; set; } = JwtClaimType.Roles.StringValue();
         public required string Authority { get; set; }
         public required string Issuer { get; set; }
         public required string Audience { get; set; }

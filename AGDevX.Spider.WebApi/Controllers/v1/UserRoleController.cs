@@ -47,7 +47,6 @@ namespace AGDevX.Spider.WebApi.Controllers.v1
 
             return new OkJsonResponse<List<UserRole>>
             {
-                Code = ApiResponseCodes.Success,
                 Value = apiUserRoles
             };
         }
