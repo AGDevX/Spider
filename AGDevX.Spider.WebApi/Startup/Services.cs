@@ -12,7 +12,6 @@ using AGDevX.Spider.WebApi.AuthN;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Spider.WebApi.Startup;
-using AGDevX.Web.AuthZ.Attributes;
 using AGDevX.Web.AuthZ.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Authentication;

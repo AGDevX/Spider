@@ -1,18 +1,18 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using AGDevX.IEnumerables;
-    using AGDevX.Security;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Filters;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AGDevX.IEnumerables;
+using AGDevX.Security;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-    namespace AGDevX.Web.AuthZ.Attributes
-    {
-        public static class AuthorizedScopes
+namespace AGDevX.Web.AuthZ.Attributes
+{
+    public static class AuthorizedScopes
         {
             public const string Any = "ANY";
         }
