@@ -1,0 +1,22 @@
+﻿CREATE TABLE [agdevx].Users
+(
+	[Id]                  UNIQUEIDENTIFIER	NOT NULL CONSTRAINT PK_Users_Id PRIMARY KEY CLUSTERED DEFAULT NEWSEQUENTIALID(),
+	[CreatedBy]			  UNIQUEIDENTIFIER	NOT NULL,
+	[CreatedAt]			  DATETIME2(7)		NOT NULL CONSTRAINT DF_Users_CreatedAt DEFAULT GETUTCDATE(),
+	[ModifiedBy]	      UNIQUEIDENTIFIER	NOT NULL,
+	[ModifiedAt]		  DATETIME2(7)		NOT NULL CONSTRAINT DF_Users_ModifiedAt DEFAULT GETUTCDATE(),
+	[IsActive]	          BIT				NOT NULL CONSTRAINT DF_Users_IsActive DEFAULT 1,
+	[FirstName]           NVARCHAR(25)		NOT NULL,
+	[MiddleName]		  NVARCHAR(25)		NULL,
+	[LastName]            NVARCHAR(25)		NOT NULL,
+	[Suffix]              NVARCHAR(5)		NULL,
+	[Email]				  NVARCHAR(50)		NOT NULL,
+
+	CONSTRAINT CHK_Users_Id CHECK (Id <> '00000000-0000-0000-0000-000000000000'),
+	CONSTRAINT FK_Users_Users_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES [agdevx].Users(Id),
+	CONSTRAINT FK_Users_Users_ModifiedBy FOREIGN KEY (ModifiedBy) REFERENCES [agdevx].Users(Id)
+)
+GO
+
+CREATE UNIQUE INDEX UC_Users_Email ON [agdevx].Users (Email ASC)
+GO

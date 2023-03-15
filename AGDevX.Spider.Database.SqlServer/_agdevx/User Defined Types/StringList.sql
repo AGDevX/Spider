@@ -1,0 +1,1 @@
+﻿CREATE TYPE [agdevx].StringList AS TABLE (Id NVARCHAR(MAX) NOT NULL)
