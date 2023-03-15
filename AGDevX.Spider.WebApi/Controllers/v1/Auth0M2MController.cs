@@ -44,7 +44,7 @@ public sealed class Auth0M2MController : ControllerBase
         //--    make a call to a downstream api so it can send an access token to that API
         var accessToken = await _auth0Client.GetAccessToken(_apiConfig.Auth.OAuth.Audience);
 
-        return new OkJsonResponse<string>
+        return new OkResponse<string>
         {
             Value = accessToken
         };

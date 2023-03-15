@@ -47,7 +47,7 @@ public sealed class UserController : ControllerBase
         var svcUser = _autoMapper.Map<Service.Models.AddUser>(user);
         var userId = await _userService.AddUser(svcUser);
 
-        return new CreatedJsonResponse<Guid>
+        return new CreatedResponse<Guid>
         {
             Value = userId
         };
@@ -78,14 +78,14 @@ public sealed class UserController : ControllerBase
         
         if (!apiUsers.Any())
         {
-            return new NotFoundJsonResponse<List<User>>
+            return new NotFoundResponse<List<User>>
             {
                 Code = ApiResponseCode.UsersNotFound,
                 Messages = new List<string> { $"Found 0 users" }
             };
         }
 
-        return new OkJsonResponse<List<User>>
+        return new OkResponse<List<User>>
         {
             Messages = new List<string> { $"Found { apiUsers.Count } user(s)" },
             Value = apiUsers
@@ -112,7 +112,7 @@ public sealed class UserController : ControllerBase
         var svcUserInfo = await _userService.GetUserInfo(userId, externalUserId, email);
         var apiUserInfo = _autoMapper.Map<UserInfo>(svcUserInfo);
 
-        return new OkJsonResponse<UserInfo>
+        return new OkResponse<UserInfo>
         {
             Value = apiUserInfo
         };

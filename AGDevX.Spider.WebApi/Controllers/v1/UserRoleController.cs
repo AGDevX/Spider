@@ -45,7 +45,7 @@ public sealed class UserRoleController : ControllerBase
         var svcUserRoles = await _userRoleService.GetUserRoles(userId);
         var apiUserRoles = _autoMapper.Map<List<UserRole>>(svcUserRoles);
 
-        return new OkJsonResponse<List<UserRole>>
+        return new OkResponse<List<UserRole>>
         {
             Value = apiUserRoles
         };

@@ -43,7 +43,7 @@ public sealed class RoleController : ControllerBase
         var svcRoles = await _roleService.GetRoles();
         var apiRoles = _autoMapper.Map<List<Role>>(svcRoles);
 
-        return new OkJsonResponse<List<Role>>
+        return new OkResponse<List<Role>>
         {
             Value = apiRoles
         };
