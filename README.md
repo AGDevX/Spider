@@ -1,6 +1,6 @@
 ﻿# About Spider
 
-Spider is meant to be a starter / educational RESTful Web Api with a few bells and whistles built in. It is slightly opinionated, but there's nothing that can't be changed to get the desired behavior.
+Spider is meant to be a starter / educational / inspirational RESTful Web Api with a few bells and whistles built in. It is slightly opinionated, but there's nothing that can't be changed to get the desired behavior.
 
 This Api can be used out of the box for demo purposes, but if it's used as a basis for a new Api then there's a little customization that needs to happen. This README will get you going.
 
@@ -21,7 +21,7 @@ This Api can be used out of the box for demo purposes, but if it's used as a bas
 	- Authorized Roles and Scopes attributes to abstract away authZ from endpoints
 	- Custom Claims Identity hydration
 	- User authorization middleware
-		- Kick users out before they get to the controller
+		- Authorize users before they get to the controller
 	- Machine to machine access token requests for calling downstream Apis
 - Exceptions
 	- Custom exceptions to differentiate .NET and library exceptions from Spider exceptions
@@ -39,7 +39,7 @@ This Api can be used out of the box for demo purposes, but if it's used as a bas
 - Database
 	- Dapper integration w/ extension methods
 	- Companion database with User and Role tables and sprocs
-	- Publish crofiles
+	- Publish profiles
 	- Schema comparisons
 	- Seed script
 
@@ -171,7 +171,6 @@ exports.onExecutePostLogin = async (event, api) => {
 - Validation
 - Improve Exception handling
 	- Difficult to not log StackFrames when they are undesired
-	- Decide if custom exceptions are the best way to go
 - Improve config model
 	- Throw exception if required config not found
 - Improve logging
