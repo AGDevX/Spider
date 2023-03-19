@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using AGDevX.Exceptions;
 using AGDevX.Security;
 using Xunit;
@@ -13,7 +14,7 @@ public class ClaimsPrincipalExtensionsTests
         //-- Arrange
         var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
         {
-            new Claim(ClaimTypes.Email, "agdevx@gmail.com")
+            new Claim(ClaimTypes.Email, "agdevx@reddwarfjmcagdx.com")
         }, "mock"));
 
         //-- Act

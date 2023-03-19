@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using AGDevX.Assemblies;
 using AGDevX.Strings;
 using Xunit;
@@ -81,7 +82,7 @@ public class AssemblyUtilityTests
     public void AssemblyNameStartsWithAnyPrefix_NullAssemblyName_ReturnsFalse()
     {
         //-- Arrange
-        string assemblyName = null;
+        string? assemblyName = null;
         List<string> assemblyPrefixes = new List<string>
         {
             "AGDevX"
@@ -99,7 +100,7 @@ public class AssemblyUtilityTests
     {
         //-- Arrange
         string assemblyName = "AGDevX";
-        List<string> assemblyPrefixes = null;
+        List<string>? assemblyPrefixes = null;
 
         //--Act
         var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
@@ -112,8 +113,8 @@ public class AssemblyUtilityTests
     public void AssemblyNameStartsWithAnyPrefix_NullAssemblyName_NullEnumerable_ReturnsFalse()
     {
         //-- Arrange
-        string assemblyName = null;
-        List<string> assemblyPrefixes = null;
+        string? assemblyName = null;
+        List<string>? assemblyPrefixes = null;
 
         //--Act
         var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);

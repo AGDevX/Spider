@@ -1,4 +1,5 @@
 ﻿using System;
+using AGDevX.Database.Config;
 using AGDevX.Environments;
 using AGDevX.Web.AuthN.Oidc;
 using AGDevX.Web.AuthZ.OAuth;
@@ -9,7 +10,7 @@ public sealed class ApiConfig
 {
     public EnvironmentType Environment { get; set; } = EnvironmentType.Local;
     public Api Api { get; set; } = new Api();
-    public Database Database { get; set; } = new Database();
+    public DatabaseConfig Database { get; set; } = new DatabaseConfig();
     public Solution Solution { get; set; } = new Solution();
     public Security Security { get; set; } = new Security();
     public Auth Auth { get; set; } = new Auth();
@@ -18,7 +19,7 @@ public sealed class ApiConfig
 public sealed class Api
 {
     public string Author { get; set; } = "AGDevX";
-    public string AuthorEmail { get; set; } = "AGDevX@gmail.com";
+    public string AuthorEmail { get; set; } = string.Empty;
     public string AuthorUrl { get; set; } = "https://github.com/AGDevX";
     public string Name { get; set; } = "Spider Api";
     public string Description { get; set; } = "RESTful .NET API seed application";
@@ -27,11 +28,6 @@ public sealed class Api
     public bool AutoCreateUsers { get; set; }
     public bool NewUsersActiveByDefault { get; set; }
     public Guid SystemUserId { get; set; }
-}
-
-public sealed class Database
-{
-    public string SqlServerConnectionString { get; set; } = string.Empty;
 }
 
 public sealed class Solution

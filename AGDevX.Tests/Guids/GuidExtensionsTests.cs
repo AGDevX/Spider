@@ -1,4 +1,5 @@
-﻿using AGDevX.Guids;
+﻿using System;
+using AGDevX.Guids;
 using Xunit;
 
 namespace AGDevX.Tests.Guids;

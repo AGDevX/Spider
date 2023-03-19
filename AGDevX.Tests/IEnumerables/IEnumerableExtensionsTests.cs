@@ -1,4 +1,6 @@
-﻿using AGDevX.IEnumerables;
+﻿using System;
+using System.Collections.Generic;
+using AGDevX.IEnumerables;
 using Xunit;
 
 namespace AGDevX.Tests.IEnumerables;
@@ -241,7 +243,7 @@ public class IEnumerableExtensionsTests
     public void ContainsStringIgnoreCase_Null_ReturnsTrue()
     {
         //-- Arrange
-        List<string> strings = new List<string>
+        List<string?> strings = new List<string?>
         {
             "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut", null
         };

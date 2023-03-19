@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AGDevX.Assemblies;
+using AGDevX.Database.Config;
 using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
 using AGDevX.IEnumerables;
@@ -86,6 +87,8 @@ public static class Services
 
     public static void ConfigureDbConnectionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
     {
+        services.AddSingleton(apiConfig.Database);
+
         services.AddSingleton(new DatabaseConnection
         {
             SqlServerConnectionString = apiConfig.Database.SqlServerConnectionString

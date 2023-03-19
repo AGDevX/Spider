@@ -1,8 +1,8 @@
 ﻿using AGDevX.Enums;
 using AGDevX.Environments;
+using AGDevX.Hosts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
-using AGDevX.Strings;
 using AGDevX.Web.Exceptions;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;
@@ -15,8 +15,8 @@ public static class Middlware
 {
     public static WebApplication ConfigureMiddlware(this WebApplication webApi, ApiConfig apiConfig)
     {
-        if (apiConfig.Environment.IsOneOf(EnvironmentType.Local)
-            || webApi.Environment.EnvironmentName.ToString().EqualsIgnoreCase(EnvironmentType.Local.StringValue())
+        if (apiConfig.Environment.IsOneOf(EnvironmentType.Local, EnvironmentType.Dev, EnvironmentType.Development)
+            || webApi.Environment.IsOneOf(EnvironmentType.Local, EnvironmentType.Dev)
             || webApi.Environment.IsDevelopment())
         {
         }

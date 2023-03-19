@@ -44,7 +44,7 @@ public static class IEnumerableExtensions
         return dataTable;
     }
 
-    public static bool ContainsStringIgnoreCase(this IEnumerable<string>? strings, string? str, StringComparer? stringComparer = default)
+    public static bool ContainsStringIgnoreCase(this IEnumerable<string?>? strings, string? str, StringComparer? stringComparer = default)
     {
         if (strings.IsNullOrEmpty())
         {
