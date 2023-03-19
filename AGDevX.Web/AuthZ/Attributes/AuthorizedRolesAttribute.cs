@@ -21,6 +21,7 @@ public static class AuthorizedRoles
 public class AuthorizedRolesAttribute : AuthorizeAttribute, IFilterFactory
 {
     public bool IsReusable => false;
+
     private readonly List<string> _authorizedRoles;
 
     public AuthorizedRolesAttribute(params string[] authorizedRoles)
@@ -36,8 +37,8 @@ public class AuthorizedRolesAttribute : AuthorizeAttribute, IFilterFactory
 
 public class AuthorizedRolesAttributeActionFilter : IAsyncActionFilter
 {
-    private readonly List<string> _authorizedRoles;
     private readonly ILogger<AuthorizedRolesAttributeActionFilter> _logger;
+    private readonly List<string> _authorizedRoles;
 
     public AuthorizedRolesAttributeActionFilter(ILogger<AuthorizedRolesAttributeActionFilter> logger, List<string> authorizedRoles)
     {

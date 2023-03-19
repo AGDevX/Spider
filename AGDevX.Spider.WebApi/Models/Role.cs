@@ -18,6 +18,7 @@ public sealed class Role
     public required DateTime ModifiedAt { get => _modifiedAt; set => _modifiedAt = value.SpecifyKind(DateTimeKind.Utc); }
 
     public required bool IsActive { get; set; }
+    public required bool IsDefault { get; set; }
     public required string Name { get; set; }
     public required string Code { get; set; }
     public required string Description { get; set; }
