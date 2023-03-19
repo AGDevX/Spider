@@ -219,7 +219,7 @@ Microsoft offers are free tier for App Services. Custom domains are not supporte
 - More unit tests
 - Auto create user in Auth0
   - Set `given_name` and `family_name`
-  - Set _api:access_ role
+  - Set _api:access_ permission
 - Validation
 - Improve Exception handling
   - Difficult to not log StackFrames when they are undesired
