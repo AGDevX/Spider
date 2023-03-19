@@ -1,4 +1,4 @@
-﻿# About Spider
+# About Spider
 
 Spider is meant to be a starter / educational / inspirational RESTful Web API with a few bells and whistles built in. It is kind of opinionated, but there's nothing that can't be changed to get the desired behavior.
 
@@ -53,7 +53,6 @@ You can see this API running at [https://spider-netcore.azurewebsites.net/swagge
   - Publish profiles
   - Schema comparisons
   - Seed script
-- Hosting deployment instructions
 
 <br />
 
@@ -110,8 +109,8 @@ The values used for the configuration should be changed to match your API and ap
 
 4. Create a user in Auth0
 
+   - _Note_: Auth0 user management is a little cumbersome. Spider doesn't yet integrate with Auth0's Management API to eliminate the need to perform the following tasks manually.
    - Assign to the user the _api:access_ scope
-   - Assign to the user the _Employee_ role (this role is pre-defined by Auth0)
    - Use Auth0's API Explorer to set the user's `given_name` and `family_name`
 
 5. Use your Auth0 configuration to update the `appSettings` files.
@@ -195,20 +194,21 @@ exports.onExecutePostLogin = async (event, api) => {
 
 ## Microsoft Azure - App Service
 
-Microsoft offers are free tier for App Services. Custom domains are not supported with the free tier.
+Microsoft offers a free tier for Azure App Services. Custom domains are not supported with the free tier.
 
 - Set up an Azure account (these are free; the services incur the costs)
 - Create an Azure Subscription (these are free; the services incur the costs)
 - Create an App Service Plan (there is a free tier)
 - Create an App Service
-- Create a Publish Profile for the web application project
+- Create and run a Publish Profile for the web application project
+  - _Note_: This is a primitive way of deploying .NET applications. I recommend using a CI/CD pipeline to automatically handle these tasks for you.
   - Add `<EnvironmentName>ENV_NAME</EnvironmentName>` to the `.pubxml` file to set the `ASPNETCORE_ENVIRONMENT`
     - This can be set in the existing `PropertyGroup` tag
     - If this does not work, in the App Service `Configuration` blade, add a new application setting
       - Name: `ASPNETCORE_ENVIRONMENT`
       - Value: `ENV_NAME`
-- Run the Publish Profile to deploy
-  - View deployment information by looking at the `Deployment Center` blade in the App Service for the API
+  - Run the Publish Profile to deploy
+    - View deployment information by looking at the `Deployment Center` blade in the App Service for the API
 - Create a prod app registration with Auth0 using your custom URLs or the URLs provided by Azure
 
 <br />
@@ -217,7 +217,7 @@ Microsoft offers are free tier for App Services. Custom domains are not supporte
 # Tech Debt
 
 - More unit tests
-- Auto create user in Auth0
+- Auto create users in Auth0 via their Management API
   - Set `given_name` and `family_name`
   - Set _api:access_ permission
 - Validation
