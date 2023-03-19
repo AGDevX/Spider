@@ -8,7 +8,7 @@ If this is used as a basis for a new API then there's a little customization tha
 
 ## Demo
 
-You can see this API running at [https://spider-netcore.azurewebsites.net/swagger](https://spider-netcore.azurewebsites.net/swagger). Note, this API isn't hitting a database when hosted in Azure. It may be a little slow to load because it's running on an Azure App Service free tier.
+You can see this API running at [https://spider-netcore.azurewebsites.net/swagger](https://spider-netcore.azurewebsites.net/swagger). This API isn't hitting a database when hosted in Azure. It may be a little slow to load because it's running on an Azure App Service free tier.
 
 - Auth0 test credentials
   - Email: august.geier@reddwarfjmcagdx.com
@@ -68,6 +68,8 @@ The [Owl](https://github.com/AGDevX/Owl) application is a companion React SPA th
 
 If you like the behavior of the API then most of the customization only needs to happen in the `appSettings` files. Otherwise, feel free to remove or change the functionality to your liking.
 
+<br />
+
 ## Authentication & Authorization
 
 Spider leverages the Auth0 platform to authorize users and to request access tokens using the Client Credentials flow for calling downstream Apis.
@@ -110,6 +112,7 @@ The values used for the configuration should be changed to match your API and ap
 
    - Assign to the user the _api:access_ scope
    - Assign to the user the _Employee_ role (this role is pre-defined by Auth0)
+   - Use Auth0's API Explorer to set the user's `given_name` and `family_name`
 
 5. Use your Auth0 configuration to update the `appSettings` files.
 
@@ -215,7 +218,7 @@ Microsoft offers are free tier for App Services. Custom domains are not supporte
 
 - More unit tests
 - Auto create user in Auth0
-  - Set given_name and family_name
+  - Set `given_name` and `family_name`
   - Set _api:access_ role
 - Validation
 - Improve Exception handling
