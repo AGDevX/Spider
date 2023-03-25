@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using AGDevX.Web.Auth.AuthZ.OAuth;
 using AGDevX.Web.Auth0.ConfidentialClient.Contracts;
 using AGDevX.Web.Auth0.ConfidentialClient.Models;
-using AGDevX.Web.AuthZ.OAuth;
 
 namespace AGDevX.Web.Auth0.ConfidentialClient;
 
@@ -24,8 +24,8 @@ public class ConfidentialClientFactory : IConfidentialClientFactory
             RequestUri = new Uri(_oAuthProviderConfig.TokenUrl),
             TokenRequest = new TokenRequest
             {
-                client_id = _oAuthProviderConfig.ApiClient.ClientId,
-                client_secret = _oAuthProviderConfig.ApiClient.ClientSecret,
+                client_id = _oAuthProviderConfig.ClientId,
+                client_secret = _oAuthProviderConfig.ClientSecret,
                 audience = audience,
                 grant_type = "client_credentials",
             }

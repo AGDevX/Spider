@@ -1,4 +1,6 @@
-﻿using AGDevX.Core.Swagger.OperationFilter;
+﻿using System;
+using AGDevX.Core.Swagger.OperationFilter;
+using AGDevX.Strings;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -44,8 +46,8 @@ public sealed class ConfigureOAuth2SwaggerOptions : IConfigureNamedOptions<Swagg
             {
                 AuthorizationCode = new OpenApiOAuthFlow
                 {
-                    AuthorizationUrl = _swaggerConfig.AuthorizationUrl,
-                    TokenUrl = _swaggerConfig.TokenUrl,
+                    AuthorizationUrl = _swaggerConfig.AuthorizationUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.AuthorizationUrl) : null,
+                    TokenUrl = _swaggerConfig.TokenUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.TokenUrl) : null,
                     Scopes = _swaggerConfig.Scopes
                 }
             },
@@ -64,7 +66,7 @@ public sealed class ConfigureOAuth2SwaggerOptions : IConfigureNamedOptions<Swagg
             {
                 Name = _swaggerConfig.Author,
                 Email = _swaggerConfig.AuthorEmail,
-                Url = _swaggerConfig.AuthorUrl
+                Url = _swaggerConfig.AuthorUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.AuthorUrl) : null
             }
         };
 

@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
 using AGDevX.Spider.WebApi.Config;
+using AGDevX.Web.Auth.AuthZ.Attributes;
+using AGDevX.Web.Auth0;
 using AGDevX.Web.Auth0.Client.Contracts;
-using AGDevX.Web.AuthZ.Attributes;
 using AGDevX.Web.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,12 @@ namespace AGDevX.Spider.WebApi.Controllers.v1;
 public sealed class Auth0M2MController : ControllerBase
 {
     private readonly ILogger<Auth0M2MController> _logger;
-    private readonly ApiConfig _apiConfig;
+    private readonly Auth0ProviderConfig _apiConfig;
     private readonly IAuth0Client _auth0Client;
 
     public Auth0M2MController(
         ILogger<Auth0M2MController> logger,
-        ApiConfig apiConfig,
+        Auth0ProviderConfig apiConfig,
         IAuth0Client auth0Client)
     {
         _logger = logger;
@@ -42,7 +43,7 @@ public sealed class Auth0M2MController : ControllerBase
     {
         //-- This call typically wouldn't be made in a controller. It would be made in a class that needs to
         //--    make a call to a downstream api so it can send an access token to that API
-        var accessToken = await _auth0Client.GetAccessToken(_apiConfig.Auth.OAuth.Audience);
+        var accessToken = await _auth0Client.GetAccessToken(_apiConfig.Auth0ManagementApi.Audience);
 
         return new OkResponse<string>
         {

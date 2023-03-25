@@ -126,4 +126,33 @@ public class StringExtensionsTests
         //-- Assert
         Assert.False(result);
     }
+
+    [Theory]
+    [InlineData("something")]
+    public void IsNotNullOrWhiteSpace_ReturnsTrue(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsNotNullOrWhiteSpace();
+
+        //-- Assert
+        Assert.True(result);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("   ")]
+    public void IsNotNullOrWhiteSpace_ReturnsFalse(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsNotNullOrWhiteSpace();
+
+        //-- Assert
+        Assert.False(result);
+    }
 }

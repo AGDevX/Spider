@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AGDevX.Assemblies;
-using AGDevX.Database.Config;
 using AGDevX.Database.Connections;
 using AGDevX.Exceptions;
 using AGDevX.IEnumerables;
@@ -13,6 +12,9 @@ using AGDevX.Spider.WebApi.AuthN;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Spider.WebApi.Startup;
+using AGDevX.Strings;
+using AGDevX.Web.Auth;
+using AGDevX.Web.Auth.AuthZ.OAuth;
 using AGDevX.Web.AuthZ.OAuth;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Authentication;
@@ -38,6 +40,7 @@ public static class Services
 
         builder.Services.AddDefaultCorsPolicy(apiConfig);
         builder.Services.AddSecurity(apiConfig);
+        builder.Services.AddAuth(configuration, apiConfig);
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddApiVersioning();
         builder.Services.ConfigureJson();
@@ -68,7 +71,7 @@ public static class Services
     public static ApiConfig ConfigureConfigDependencyInjection(this IServiceCollection services, IConfiguration configuration)
     {
         var apiConfig = configuration.GetRequiredSection("ApiConfig").Get<ApiConfig>()
-            ?? throw new ApplicationStartupException("An exception occurred while retrieving the ApiConfig section");
+                            ?? throw new ApplicationStartupException("An exception occurred while retrieving the ApiConfig section");
 
         services.AddSingleton(apiConfig);
 
@@ -89,10 +92,13 @@ public static class Services
     {
         services.AddSingleton(apiConfig.Database);
 
-        services.AddSingleton(new DatabaseConnection
+        if (apiConfig.Database.UseDatabase && apiConfig.Database.SqlServerConnectionString.IsNotNullOrWhiteSpace())
         {
-            SqlServerConnectionString = apiConfig.Database.SqlServerConnectionString
-        });
+            services.AddSingleton(new DatabaseConnection
+            {
+                SqlServerConnectionString = apiConfig.Database.SqlServerConnectionString
+            });
+        }
     }
 
     public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
@@ -142,27 +148,40 @@ public static class Services
 
     public static void AddSecurity(this IServiceCollection services, ApiConfig apiConfig)
     {
-        services.AddOAuth(apiConfig);
-        services.AddAuth0(apiConfig.Auth.OAuth);
         services.AddScoped<IClaimsTransformation, AddUserIdentityClaimsTransformation>();
     }
 
-    public static void AddOAuth(this IServiceCollection services, ApiConfig apiConfig)
+    public static void AddAuth(this IServiceCollection services, IConfiguration configuration, ApiConfig apiConfig)
     {
-        var jwtOAuthConfig = new JwtOAuthConfig
-        {
-            AuthenticationScheme = apiConfig.Auth.OAuth.AuthenticationScheme,
-            NameClaimType = apiConfig.Auth.OAuth.NameClaimType,
-            RoleClaimType = apiConfig.Auth.OAuth.RoleClaimType,
-            Authority = apiConfig.Auth.OAuth.Authority,
-            Issuer = apiConfig.Auth.OAuth.Issuer,
-            Audience = apiConfig.Auth.OAuth.Audience,
-            RequireHttpsMetadata = apiConfig.Auth.Oidc.RequireHttpsMetadata,
-            OpenIDConnectDiscoveryUrl = apiConfig.Auth.Oidc.OpenIDConnectDiscoveryUrl
-        };
+        var auth0ProviderConfig = services.AddAuth0(configuration);
 
-        var jwtBearerEvents = new JwtBearerEventsOverrides();
-        services.AddJwtOAuth(jwtOAuthConfig, jwtBearerEvents);
+        if (auth0ProviderConfig != null)
+        {
+            apiConfig.Auth.Auth0 = auth0ProviderConfig;
+            var authConfig = apiConfig.Auth.Config;
+            services.AddOAuth(authConfig);
+        }
+    }
+
+    public static void AddOAuth(this IServiceCollection services, AuthProviderConfig? authConfig)
+    {
+        if (authConfig != null)
+        {
+            var jwtOAuthConfig = new JwtOAuthConfig
+            {
+                AuthenticationScheme = authConfig.OAuth.AuthenticationScheme,
+                NameClaimType = authConfig.OAuth.NameClaimType,
+                RoleClaimType = authConfig.OAuth.RoleClaimType,
+                Authority = authConfig.OAuth.Authority,
+                Issuer = authConfig.OAuth.Issuer,
+                Audience = authConfig.OAuth.Audience,
+                RequireHttpsMetadata = authConfig.Oidc.RequireHttpsMetadata,
+                OpenIDConnectDiscoveryUrl = authConfig.Oidc.OpenIDConnectDiscoveryUrl
+            };
+
+            var jwtBearerEvents = new JwtBearerEventsOverrides();
+            services.AddJwtOAuth(jwtOAuthConfig, jwtBearerEvents);
+        }
     }
 
     public static void AddApiVersioning(this IServiceCollection services)
@@ -210,8 +229,7 @@ public static class Services
 
     public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
     {
-        var apiScopes = apiConfig.Auth.OAuth.ApiScopes;
-        var oidcScopes = apiConfig.Auth.Oidc.Scopes;
+        var authConfig = apiConfig.Auth.Config;
 
         var swaggerConfig = new SwaggerConfig
         {
@@ -219,14 +237,14 @@ public static class Services
             ApiXmlDocumentationFilename = apiConfig.Api.ApiXmlDocumentationFilename ?? $"{Assembly.GetExecutingAssembly().GetName().Name}.xml",
             Author = apiConfig.Api.Author,
             AuthorEmail = apiConfig.Api.AuthorEmail,
-            AuthorUrl = new Uri(apiConfig.Api.AuthorUrl),
+            AuthorUrl = apiConfig.Api.AuthorUrl,
             Title = apiConfig.Api.Name,
             Description = apiConfig.Api.Description,
-            AuthorizationUrl = new Uri(apiConfig.Auth.OAuth.AuthorizationUrl),
-            TokenUrl = new Uri(apiConfig.Auth.OAuth.TokenUrl),
-            ClientId = apiConfig.Auth.OAuth.ApiClient.ClientId,
-            ClientSecret = apiConfig.Auth.OAuth.ApiClient.ClientSecret,
-            Scopes = apiScopes.Concatenate(oidcScopes).ReverseKeysAndValues()
+            AuthorizationUrl = authConfig?.OAuth.AuthorizationUrl,
+            TokenUrl = authConfig?.OAuth.TokenUrl,
+            ClientId = authConfig?.OAuth.ClientId,
+            ClientSecret = authConfig?.OAuth.ClientSecret,
+            Scopes = authConfig?.OAuth.ApiScopes.Concatenate(authConfig.Oidc.Scopes).ReverseKeysAndValues() ?? new Dictionary<string, string>()
         };
 
         services.AddSwaggerToApi(swaggerConfig);

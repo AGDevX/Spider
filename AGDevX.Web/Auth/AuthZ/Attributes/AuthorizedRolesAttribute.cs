@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Web.AuthZ.Attributes;
+namespace AGDevX.Web.Auth.AuthZ.Attributes;
 
 public static class AuthorizedRoles
 {
@@ -55,7 +55,7 @@ public class AuthorizedRolesAttributeActionFilter : IAsyncActionFilter
 
         var userRoles = context.HttpContext.User.GetRoles();
         var isAuthorized = _authorizedRoles.HasCommonStringElement(userRoles)
-                            || (_authorizedRoles.ContainsStringIgnoreCase(AuthorizedRoles.Any) && userRoles.Any());
+                            || _authorizedRoles.ContainsStringIgnoreCase(AuthorizedRoles.Any) && userRoles.Any();
 
         _logger.LogInformation($"Authorized Roles: {string.Join(',', _authorizedRoles)}");
         _logger.LogInformation($"User Roles: {string.Join(',', userRoles)}");

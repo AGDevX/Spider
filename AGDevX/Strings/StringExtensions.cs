@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AGDevX.Strings;
 
@@ -34,8 +35,13 @@ public static class StringExtensions
         return sourceString.Contains(contains, stringComparison);
     }
 
-    public static bool IsNullOrWhiteSpace(this string? str)
+    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str)
     {
         return string.IsNullOrWhiteSpace(str);
+    }
+
+    public static bool IsNotNullOrWhiteSpace([NotNullWhen(true)] this string? str)
+    {
+        return !string.IsNullOrWhiteSpace(str);
     }
 }

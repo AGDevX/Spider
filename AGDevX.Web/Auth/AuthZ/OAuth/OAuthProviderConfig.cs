@@ -5,32 +5,29 @@ using System.Security.Claims;
 using System.Text;
 using AGDevX.Enums;
 using AGDevX.Security;
-using AGDevX.Strings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace AGDevX.Web.AuthZ.OAuth;
+namespace AGDevX.Web.Auth.AuthZ.OAuth;
 
-public sealed class OAuthProviderConfig
+public class OAuthProviderConfig
 {
     public string AuthenticationScheme { get; set; } = JwtBearerDefaults.AuthenticationScheme;
     public string NameClaimType { get; set; } = ClaimTypes.NameIdentifier;
     public string RoleClaimType { get; set; } = JwtClaimType.Roles.StringValue();
 
-    public string Domain { get; set; } = string.Empty;
-    public string Authority { get; set; } = string.Empty;
-    public string Issuer { get; set; } = string.Empty;
-    public string Audience { get; set; } = string.Empty;
+    public required string Domain { get; set; }
+    public required string Authority { get; set; }
+    public required string Issuer { get; set; }
+
+    public required string Audience { get; set; }
+    public string? ClientId { get; set; }
+    public string? ClientSecret { get; set; }
 
     public string _authorizationUrl = string.Empty;
-    public string AuthorizationUrl
+    public required string AuthorizationUrl
     {
         get
         {
-            if (_authorizationUrl.IsNullOrWhiteSpace())
-            {
-                return _authorizationUrl;
-            }
-
             var queryStrings = new List<string>();
             var authZUrl = new StringBuilder(_authorizationUrl);
 
@@ -57,20 +54,12 @@ public sealed class OAuthProviderConfig
         set => _authorizationUrl = value;
     }
 
-    public bool AuthorizationUrlRequiresAudience { get; set; } = false;
-    public bool AuthorizationUrlRequiresNonce { get; set; } = false;
+    public bool AuthorizationUrlRequiresAudience { get; set; }
+    public bool AuthorizationUrlRequiresNonce { get; set; }
 
-    public string TokenUrl { get; set; } = string.Empty;
-    public string UserInfoUrl { get; set; } = string.Empty;
-    public string JsonWebKeySetUrl { get; set; } = string.Empty;
+    public required string TokenUrl { get; set; }
+    public required string UserInfoUrl { get; set; }
+    public required string JsonWebKeySetUrl { get; set; }
 
     public Dictionary<string, string> ApiScopes { get; set; } = new();
-
-    public Client ApiClient { get; set; } = new Client();
-}
-
-public sealed class Client
-{
-    public string ClientId { get; set; } = string.Empty;
-    public string ClientSecret { get; set; } = string.Empty;
 }

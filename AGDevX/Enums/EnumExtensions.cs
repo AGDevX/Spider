@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
-using AGDevX.Exceptions;
 
 namespace AGDevX.Enums;
 
@@ -12,11 +11,6 @@ public static class EnumExtensions
 
     public static string StringValue(this Enum value)
     {
-        if (value == null)
-        {
-            throw new ExtensionMethodParameterNullException($"The provided { nameof(value) } argument was null");
-        }
-
         var key = $"{ value.GetType().FullName }.{ value }";
 
         var stringValue = _displayNameCache.GetOrAdd(key, x =>
