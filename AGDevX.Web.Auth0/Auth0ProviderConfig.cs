@@ -4,11 +4,11 @@ namespace AGDevX.Web.Auth0;
 
 public sealed class Auth0ProviderConfig : AuthProviderConfig
 {
-    public required Auth0ManagementApi Auth0ManagementApi { get; set; }
+    public required ManagementApi ManagementApi { get; set; }
 
 }
 
-public sealed class Auth0ManagementApi
+public sealed class ManagementApi
 {
     public required string Audience { get; set; }
 }

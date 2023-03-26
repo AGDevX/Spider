@@ -155,4 +155,144 @@ public class StringExtensionsTests
         //-- Assert
         Assert.False(result);
     }
+
+    [Theory]
+    [InlineData(" ")]
+    [InlineData("        ")]
+    public void IsWhiteSpace_ReturnsTrue(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsWhiteSpace();
+
+        //-- Assert
+        Assert.True(result);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("a")]
+    [InlineData(" b")]
+    [InlineData("c ")]
+    [InlineData(" d ")]
+    [InlineData(" . ")]
+    public void IsWhiteSpace_ReturnsFalse(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsWhiteSpace();
+
+        //-- Assert
+        Assert.False(result);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("a")]
+    [InlineData(" b")]
+    [InlineData("c ")]
+    [InlineData(" d ")]
+    [InlineData(" . ")]
+    public void IsNotWhiteSpace_ReturnsTrue(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsNotWhiteSpace();
+
+        //-- Assert
+        Assert.True(result);
+    }
+
+    [Theory]
+    [InlineData(" ")]
+    [InlineData("        ")]
+    public void IsNotWhiteSpace_ReturnsFalse(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsNotWhiteSpace();
+
+        //-- Assert
+        Assert.False(result);
+    }
+
+    [Theory]
+    [InlineData("")]
+    public void IsEmpty_ReturnsTrue(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsEmpty();
+
+        //-- Assert
+        Assert.True(result);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("a")]
+    [InlineData(" b")]
+    [InlineData("c ")]
+    [InlineData(" d ")]
+    [InlineData(" . ")]
+    [InlineData(" ")]
+    [InlineData("      ")]
+    public void IsEmpty_ReturnsFalse(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsEmpty();
+
+        //-- Assert
+        Assert.False(result);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("a")]
+    [InlineData(" b")]
+    [InlineData("c ")]
+    [InlineData(" d ")]
+    [InlineData(" . ")]
+    [InlineData(" ")]
+    [InlineData("      ")]
+    public void IsNotEmpty_ReturnsTrue(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsNotEmpty();
+
+        //-- Assert
+        Assert.True(result);
+    }
+
+    [Theory]
+    [InlineData("")]
+    public void IsNotEmpty_ReturnsFalse(string str1)
+    {
+        //-- Arrange
+        //-- <see InlineData>
+
+        //-- Act
+        var result = str1.IsNotEmpty();
+
+        //-- Assert
+        Assert.False(result);
+    }
 }

@@ -2,5 +2,5 @@
 
 public sealed class DatabaseConnection
 {
-    public required string SqlServerConnectionString { get; set; }
+    public required string ConnectionString { get; set; }
 }

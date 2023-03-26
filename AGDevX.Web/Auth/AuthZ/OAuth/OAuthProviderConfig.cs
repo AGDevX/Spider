@@ -20,8 +20,8 @@ public class OAuthProviderConfig
     public required string Issuer { get; set; }
 
     public required string Audience { get; set; }
-    public string? ClientId { get; set; }
-    public string? ClientSecret { get; set; }
+    public required string ClientId { get; set; }
+    public required string ClientSecret { get; set; }
 
     public string _authorizationUrl = string.Empty;
     public required string AuthorizationUrl

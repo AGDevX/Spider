@@ -29,7 +29,8 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<Guid> AddUser(AddUser user)
     {
-        //-- This isn't something normally baked into APIs. This is a shim so a database doesn't have to be hosted for this API.
+        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
+        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
         if (!_databaseConfig.UseDatabase)
         {
             return new Guid();
@@ -57,7 +58,8 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<User?> GetUser(Guid? userId = default, string? email = default)
     {
-        //-- This isn't something normally baked into APIs. This is a shim so a database doesn't have to be hosted for this API.
+        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
+        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
         if (!_databaseConfig.UseDatabase)
         {
             return ReturnMockDataForGetUsers().FirstOrDefault();
@@ -80,7 +82,8 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<UserInfo?> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default)
     {
-        //-- This isn't something normally baked into APIs. This is a shim so a database doesn't have to be hosted for this API.
+        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
+        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
         if (!_databaseConfig.UseDatabase)
         {
             return ReturnMockDataForGetUserInfo().FirstOrDefault();
@@ -123,7 +126,8 @@ public sealed class UserRepository : IUserRepository
 
     private async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
     {
-        //-- This isn't something normally baked into APIs. This is a shim so a database doesn't have to be hosted for this API.
+        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
+        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
         if (!_databaseConfig.UseDatabase)
         {
             return ReturnMockDataForGetUsers();

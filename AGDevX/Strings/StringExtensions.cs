@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace AGDevX.Strings;
 
@@ -43,5 +44,25 @@ public static class StringExtensions
     public static bool IsNotNullOrWhiteSpace([NotNullWhen(true)] this string? str)
     {
         return !string.IsNullOrWhiteSpace(str);
+    }
+
+    public static bool IsWhiteSpace([NotNullWhen(true)] this string? str)
+    {
+        return str != null && str != string.Empty && str.All(s => s == ' ');
+    }
+
+    public static bool IsNotWhiteSpace([MaybeNullWhen(true)] this string? str)
+    {
+        return str == null || str == string.Empty || !str.All(s => s == ' ');
+    }
+
+    public static bool IsEmpty([NotNullWhen(true)] this string? str)
+    {
+        return str != null && str == string.Empty;
+    }
+
+    public static bool IsNotEmpty([NotNullWhen(true)] this string? str)
+    {
+        return str == null || str != string.Empty;
     }
 }

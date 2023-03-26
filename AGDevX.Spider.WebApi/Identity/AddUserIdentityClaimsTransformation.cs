@@ -69,9 +69,9 @@ public sealed class AddUserIdentityClaimsTransformation : IClaimsTransformation
 
             var userIdentity = new ClaimsIdentity(
                 claims,
-                _apiConfig.Auth.Config.OAuth.AuthenticationScheme,
-                _apiConfig.Auth.Config.OAuth.NameClaimType,
-                _apiConfig.Auth.Config.OAuth.RoleClaimType)
+                _apiConfig.Auth.OAuth.AuthenticationScheme,
+                _apiConfig.Auth.OAuth.NameClaimType,
+                _apiConfig.Auth.OAuth.RoleClaimType)
                 {
                     Label = _apiConfig.Api.Name
                 };

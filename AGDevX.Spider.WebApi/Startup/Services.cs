@@ -11,7 +11,6 @@ using AGDevX.IEnumerables;
 using AGDevX.Spider.WebApi.AuthN;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
-using AGDevX.Spider.WebApi.Startup;
 using AGDevX.Strings;
 using AGDevX.Web.Auth;
 using AGDevX.Web.Auth.AuthZ.OAuth;
@@ -36,49 +35,42 @@ public static class Services
     {
         builder.ConfigureLogging();
 
-        var apiConfig = builder.Services.ConfigureDependencyInjection(configuration);
+        var apiConfig = builder.Services.GetApiConfig(configuration);
 
-        builder.Services.AddDefaultCorsPolicy(apiConfig);
-        builder.Services.AddSecurity(apiConfig);
-        builder.Services.AddAuth(configuration, apiConfig);
+        builder.Services.ConfigureDependencyInjection(apiConfig);
+        builder.Services.ConfigureSecurity(apiConfig);
+        builder.Services.ConfigureAuth(configuration, apiConfig);
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddApiVersioning();
+        builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureJson();
-        builder.Services.AddSwaggerToApi(apiConfig);
-        builder.Services.AddAutoMapper(apiConfig);
+        builder.Services.ConfigureSwagger(apiConfig);
+        builder.Services.ConfigureAutoMapper(apiConfig);
         builder.Services.AddControllers();
 
         return apiConfig;
     }
 
-    public static void ConfigureLogging(this WebApplicationBuilder builder)
+    private static void ConfigureLogging(this WebApplicationBuilder builder)
     {
         builder.Host.UseSerilog((context, services, configuration) => configuration
-            .ReadFrom.Configuration(context.Configuration)
-            .ReadFrom.Services(services));
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services));
     }
 
-    public static ApiConfig ConfigureDependencyInjection(this IServiceCollection services, IConfiguration configuration)
+    private static ApiConfig GetApiConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var apiConfig = services.ConfigureConfigDependencyInjection(configuration);
-
-        services.ConfigureSolutionDependencyInjection(apiConfig);
-        services.ConfigureDbConnectionDependencyInjection(apiConfig);
-
-        return apiConfig;
+        return configuration.GetRequiredSection("ApiConfig").Get<ApiConfig>()
+                ?? throw new ApplicationStartupException("An exception occurred while retrieving the ApiConfig section");
     }
 
-    public static ApiConfig ConfigureConfigDependencyInjection(this IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
     {
-        var apiConfig = configuration.GetRequiredSection("ApiConfig").Get<ApiConfig>()
-                            ?? throw new ApplicationStartupException("An exception occurred while retrieving the ApiConfig section");
-
         services.AddSingleton(apiConfig);
-
-        return apiConfig;
+        services.ConfigureDependencyInjectionForSolution(apiConfig);
+        services.ConfigureDependencyInjectionForDbConnection(apiConfig);
     }
 
-    public static void ConfigureSolutionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
+    private static void ConfigureDependencyInjectionForSolution(this IServiceCollection services, ApiConfig apiConfig)
     {
         var assemblies = AssemblyUtility.GetAssemblies(null, apiConfig.Solution.AssemblyPrefixes);
 
@@ -88,20 +80,22 @@ public static class Services
                                   .WithScopedLifetime());
     }
 
-    public static void ConfigureDbConnectionDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
+    private static void ConfigureDependencyInjectionForDbConnection(this IServiceCollection services, ApiConfig apiConfig)
     {
         services.AddSingleton(apiConfig.Database);
-
-        if (apiConfig.Database.UseDatabase && apiConfig.Database.SqlServerConnectionString.IsNotNullOrWhiteSpace())
+        services.AddSingleton(new DatabaseConnection
         {
-            services.AddSingleton(new DatabaseConnection
-            {
-                SqlServerConnectionString = apiConfig.Database.SqlServerConnectionString
-            });
-        }
+            ConnectionString = apiConfig.Database.ConnectionString
+        });
     }
 
-    public static void AddDefaultCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
+    private static void ConfigureSecurity(this IServiceCollection services, ApiConfig apiConfig)
+    {
+        services.ConfigureCorsPolicy(apiConfig);
+        services.AddScoped<IClaimsTransformation, AddUserIdentityClaimsTransformation>();
+    }
+
+    private static void ConfigureCorsPolicy(this IServiceCollection services, ApiConfig apiConfig)
     {
         services.AddCors(options =>
         {
@@ -146,45 +140,31 @@ public static class Services
         });
     }
 
-    public static void AddSecurity(this IServiceCollection services, ApiConfig apiConfig)
+    private static void ConfigureAuth(this IServiceCollection services, IConfiguration configuration, ApiConfig apiConfig)
     {
-        services.AddScoped<IClaimsTransformation, AddUserIdentityClaimsTransformation>();
+        services.ConfigureAuth0(configuration, apiConfig.Auth);
+        services.ConfigureOAuth(apiConfig.Auth);
     }
 
-    public static void AddAuth(this IServiceCollection services, IConfiguration configuration, ApiConfig apiConfig)
+    private static void ConfigureOAuth(this IServiceCollection services, AuthProviderConfig authConfig)
     {
-        var auth0ProviderConfig = services.AddAuth0(configuration);
-
-        if (auth0ProviderConfig != null)
+        var jwtOAuthConfig = new JwtOAuthConfig
         {
-            apiConfig.Auth.Auth0 = auth0ProviderConfig;
-            var authConfig = apiConfig.Auth.Config;
-            services.AddOAuth(authConfig);
-        }
+            AuthenticationScheme = authConfig.OAuth.AuthenticationScheme,
+            NameClaimType = authConfig.OAuth.NameClaimType,
+            RoleClaimType = authConfig.OAuth.RoleClaimType,
+            Authority = authConfig.OAuth.Authority,
+            Issuer = authConfig.OAuth.Issuer,
+            Audience = authConfig.OAuth.Audience,
+            RequireHttpsMetadata = authConfig.Oidc.RequireHttpsMetadata,
+            OpenIDConnectDiscoveryUrl = authConfig.Oidc.OpenIDConnectDiscoveryUrl
+        };
+
+        var jwtBearerEvents = new JwtBearerEventsOverrides();
+        services.AddJwtOAuth(jwtOAuthConfig, jwtBearerEvents);
     }
 
-    public static void AddOAuth(this IServiceCollection services, AuthProviderConfig? authConfig)
-    {
-        if (authConfig != null)
-        {
-            var jwtOAuthConfig = new JwtOAuthConfig
-            {
-                AuthenticationScheme = authConfig.OAuth.AuthenticationScheme,
-                NameClaimType = authConfig.OAuth.NameClaimType,
-                RoleClaimType = authConfig.OAuth.RoleClaimType,
-                Authority = authConfig.OAuth.Authority,
-                Issuer = authConfig.OAuth.Issuer,
-                Audience = authConfig.OAuth.Audience,
-                RequireHttpsMetadata = authConfig.Oidc.RequireHttpsMetadata,
-                OpenIDConnectDiscoveryUrl = authConfig.Oidc.OpenIDConnectDiscoveryUrl
-            };
-
-            var jwtBearerEvents = new JwtBearerEventsOverrides();
-            services.AddJwtOAuth(jwtOAuthConfig, jwtBearerEvents);
-        }
-    }
-
-    public static void AddApiVersioning(this IServiceCollection services)
+    private static void ConfigureApiVersioning(this IServiceCollection services)
     {
         services.AddApiVersioning(options =>
         {
@@ -203,7 +183,7 @@ public static class Services
         });
     }
 
-    public static void ConfigureJson(this IServiceCollection services)
+    private static void ConfigureJson(this IServiceCollection services)
     {
         services.Configure<JsonOptions>(options =>
         {
@@ -227,10 +207,8 @@ public static class Services
         };
     }
 
-    public static void AddSwaggerToApi(this IServiceCollection services, ApiConfig apiConfig)
+    private static void ConfigureSwagger(this IServiceCollection services, ApiConfig apiConfig)
     {
-        var authConfig = apiConfig.Auth.Config;
-
         var swaggerConfig = new SwaggerConfig
         {
             Enabled = apiConfig.Api.EnableSwagger,
@@ -240,17 +218,17 @@ public static class Services
             AuthorUrl = apiConfig.Api.AuthorUrl,
             Title = apiConfig.Api.Name,
             Description = apiConfig.Api.Description,
-            AuthorizationUrl = authConfig?.OAuth.AuthorizationUrl,
-            TokenUrl = authConfig?.OAuth.TokenUrl,
-            ClientId = authConfig?.OAuth.ClientId,
-            ClientSecret = authConfig?.OAuth.ClientSecret,
-            Scopes = authConfig?.OAuth.ApiScopes.Concatenate(authConfig.Oidc.Scopes).ReverseKeysAndValues() ?? new Dictionary<string, string>()
+            AuthorizationUrl = apiConfig.Auth.OAuth.AuthorizationUrl,
+            TokenUrl = apiConfig.Auth.OAuth.TokenUrl,
+            ClientId = apiConfig.Auth.OAuth.ClientId,
+            ClientSecret = apiConfig.Auth.OAuth.ClientSecret,
+            Scopes = apiConfig.Auth.OAuth.ApiScopes.Concatenate(apiConfig.Auth.Oidc.Scopes).ReverseKeysAndValues() ?? new Dictionary<string, string>()
         };
 
         services.AddSwaggerToApi(swaggerConfig);
     }
 
-    public static void AddAutoMapper(this IServiceCollection services, ApiConfig apiConfig)
+    private static void ConfigureAutoMapper(this IServiceCollection services, ApiConfig apiConfig)
     {
         var assemblies = AssemblyUtility.GetAssemblies(null, apiConfig.Solution.AssemblyPrefixes);
 

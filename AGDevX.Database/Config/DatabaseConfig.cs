@@ -3,5 +3,5 @@
 public sealed class DatabaseConfig
 {
     public bool UseDatabase { get; set; } = true;
-    public string? SqlServerConnectionString { get; set; }
+    public required string ConnectionString { get; set; }
 }
