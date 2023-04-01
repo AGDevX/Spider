@@ -1,50 +1,43 @@
 ﻿using System;
 using AGDevX.Database.Config;
 using AGDevX.Environments;
-using AGDevX.Web.AuthN.Oidc;
-using AGDevX.Web.AuthZ.OAuth;
+using AGDevX.Web.Auth0;
 
 namespace AGDevX.Spider.WebApi.Config;
 
 public sealed class ApiConfig
 {
     public EnvironmentType Environment { get; set; } = EnvironmentType.Local;
-    public Api Api { get; set; } = new Api();
-    public DatabaseConfig Database { get; set; } = new DatabaseConfig();
-    public Solution Solution { get; set; } = new Solution();
-    public Security Security { get; set; } = new Security();
-    public Auth Auth { get; set; } = new Auth();
-}
+    public required BaseApiConfig Api { get; set; }
+    public required DatabaseConfig Database { get; set; }
+    public required SolutionConfig Solution { get; set; }
+    public required SecurityConfig Security { get; set; }
+    public required Auth0ProviderConfig Auth { get; set; }
 
-public sealed class Api
-{
-    public string Author { get; set; } = "AGDevX";
-    public string AuthorEmail { get; set; } = string.Empty;
-    public string AuthorUrl { get; set; } = "https://github.com/AGDevX";
-    public string Name { get; set; } = "Spider Api";
-    public string Description { get; set; } = "RESTful .NET API seed application";
-    public bool EnableSwagger { get; set; } = true;
-    public string? ApiXmlDocumentationFilename { get; set; }
-    public bool AutoCreateUsers { get; set; }
-    public bool NewUsersActiveByDefault { get; set; }
-    public Guid SystemUserId { get; set; }
-}
+    public sealed class BaseApiConfig
+    {
+        public string? Author { get; set; }
+        public string? AuthorEmail { get; set; }
+        public string? AuthorUrl { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public bool EnableSwagger { get; set; }
+        public string? ApiXmlDocumentationFilename { get; set; }
+        public bool AutoCreateUsers { get; set; } = true;
+        public bool NewUsersActiveByDefault { get; set; } = true;
+        public Guid SystemUserId { get; set; }
+    }
 
-public sealed class Solution
-{
-    public string[] AssemblyPrefixes { get; set; } = Array.Empty<string>();
-}
+    public sealed class SolutionConfig
+    {
+        public string[] AssemblyPrefixes { get; set; } = Array.Empty<string>();
+    }
 
-public sealed class Security
-{
-    public string CorsPolicy { get; set; } = "DefaultCorsPolicy";
-    public string[] AllowedOrigins { get; set; } = Array.Empty<string>();
-    public string[] AllowedMethods { get; set; } = Array.Empty<string>();
-    public string[] AllowedHeaders { get; set; } = Array.Empty<string>();
-}
-
-public sealed class Auth
-{
-    public OAuthProviderConfig OAuth { get; set; } = new OAuthProviderConfig();
-    public OidcProviderConfig Oidc { get; set; } = new OidcProviderConfig();
+    public sealed class SecurityConfig
+    {
+        public string CorsPolicy { get; set; } = "DefaultCorsPolicy";
+        public string[] AllowedOrigins { get; set; } = Array.Empty<string>();
+        public string[] AllowedMethods { get; set; } = Array.Empty<string>();
+        public string[] AllowedHeaders { get; set; } = Array.Empty<string>();
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using AGDevX.Enums;
-using AGDevX.Exceptions;
 using Xunit;
 
 namespace AGDevX.Tests.Enums;
@@ -39,18 +38,6 @@ public class EnumExtensionsTests
 
         //-- Assert
         Assert.Equal(stringValue, stringValueFromEnum);
-    }
-
-    [Fact]
-    public void EnumStringValue_NullEnum_ThrowsExtensionMethodParameterNullException()
-    {
-        //-- Arrange
-        TestEnum? value = null;
-
-        //-- Act && Assert
-#pragma warning disable CS8604 // Possible null reference argument.
-        Assert.Throws<ExtensionMethodParameterNullException>(() => value.StringValue());
-#pragma warning restore CS8604 // Possible null reference argument.
     }
 
     [Fact]

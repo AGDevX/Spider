@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AGDevX.Web.AuthZ.Attributes;
+namespace AGDevX.Web.Auth.AuthZ.Attributes;
 
 public static class AuthorizedScopes
 {
@@ -55,7 +55,7 @@ public class AuthorizedScopesAttributeActionFilter : IAsyncActionFilter
 
         var scopes = context.HttpContext.User.GetScopes();
         var isAuthorized = _authorizedScopes.HasCommonStringElement(scopes)
-                            || (_authorizedScopes.ContainsStringIgnoreCase(AuthorizedScopes.Any) && scopes.Any());
+                            || _authorizedScopes.ContainsStringIgnoreCase(AuthorizedScopes.Any) && scopes.Any();
 
         _logger.LogInformation($"Authorized Scopes: {string.Join(',', _authorizedScopes)}");
         _logger.LogInformation($"User Scopes: {string.Join(',', scopes)}");

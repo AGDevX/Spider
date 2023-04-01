@@ -19,7 +19,7 @@ public sealed class ApplicationStartupExceptionTests
     public void HasCorrectCode()
     {
         //-- Arrange
-        var code = "AGDX_STARTUP_EXCEPTION";
+        var code = "AGDX_APPLICATION_STARTUP_EXCEPTION";
 
         //-- Assert
         Assert.True(new ApplicationStartupException().Code.Equals(code));

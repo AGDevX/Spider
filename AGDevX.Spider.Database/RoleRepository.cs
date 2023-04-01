@@ -30,7 +30,8 @@ public sealed class RoleRepository : IRoleRepository
 
     public async Task<List<Role>> GetRoles()
     {
-        //-- This isn't something normally baked into APIs. This is a shim so a database doesn't have to be hosted for this API.
+        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
+        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
         if (!_databaseConfig.UseDatabase)
         {
             return ReturnMockDataForGet();

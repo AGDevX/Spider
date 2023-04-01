@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AGDevX.Spider.Service.Contracts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
-using AGDevX.Web.AuthZ.Attributes;
+using AGDevX.Web.Auth.AuthZ.Attributes;
 using AGDevX.Web.Responses;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;

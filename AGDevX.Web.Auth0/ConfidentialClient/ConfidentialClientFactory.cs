@@ -2,30 +2,29 @@
 using System.Net.Http;
 using AGDevX.Web.Auth0.ConfidentialClient.Contracts;
 using AGDevX.Web.Auth0.ConfidentialClient.Models;
-using AGDevX.Web.AuthZ.OAuth;
 
 namespace AGDevX.Web.Auth0.ConfidentialClient;
 
 public class ConfidentialClientFactory : IConfidentialClientFactory
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly OAuthProviderConfig _oAuthProviderConfig;
+    private readonly Auth0ProviderConfig _auth0ProviderConfig;
 
-    public ConfidentialClientFactory(IHttpClientFactory httpClientFactory, OAuthProviderConfig oAuthProviderConfig)
+    public ConfidentialClientFactory(IHttpClientFactory httpClientFactory, Auth0ProviderConfig auth0ProviderConfig)
     {
         _httpClientFactory = httpClientFactory;
-        _oAuthProviderConfig = oAuthProviderConfig;
+        _auth0ProviderConfig = auth0ProviderConfig;
     }
 
     public IConfidentialClient CreateClientCredentialsConfidentialClient(string audience)
     {
         var confidentialClientOptions = new ConfidentialClientOptions
         {
-            RequestUri = new Uri(_oAuthProviderConfig.TokenUrl),
+            RequestUri = new Uri(_auth0ProviderConfig.OAuth.TokenUrl),
             TokenRequest = new TokenRequest
             {
-                client_id = _oAuthProviderConfig.ApiClient.ClientId,
-                client_secret = _oAuthProviderConfig.ApiClient.ClientSecret,
+                client_id = _auth0ProviderConfig.OAuth.ClientId,
+                client_secret = _auth0ProviderConfig.OAuth.ClientSecret,
                 audience = audience,
                 grant_type = "client_credentials",
             }

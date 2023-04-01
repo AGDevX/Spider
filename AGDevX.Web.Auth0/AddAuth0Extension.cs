@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AGDevX.Web.Auth0;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AGDevX.Web.AuthZ.OAuth;
 
 public static class AddAuth0Extension
 {
-    public static IServiceCollection AddAuth0(this IServiceCollection services, OAuthProviderConfig oAuthProviderConfig)
+    public static void ConfigureAuth0(this IServiceCollection services, IConfiguration configuration, Auth0ProviderConfig auth0Config)
     {
-        //-- HTTP Client Factory
         services.AddHttpClient();
-        services.AddSingleton<OAuthProviderConfig>(oAuthProviderConfig);
-
-        return services;
+        services.AddSingleton<Auth0ProviderConfig>(auth0Config);
     }
 }

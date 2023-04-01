@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace AGDevX.Web.AuthN.Oidc;
+namespace AGDevX.Web.Auth.AuthN.Oidc;
 
-public sealed class OidcProviderConfig
+public class OidcProviderConfig
 {
-    public string OpenIDConnectDiscoveryUrl { get; set; } = string.Empty;
+    public required string OpenIDConnectDiscoveryUrl { get; set; }
     public bool RequireHttpsMetadata { get; set; } = true;
     public Dictionary<string, string> Scopes { get; set; } = new();
 }
