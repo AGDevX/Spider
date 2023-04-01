@@ -60,7 +60,7 @@ public static class Services
     private static ApiConfig GetApiConfig(this IServiceCollection services, IConfiguration configuration)
     {
         return configuration.GetRequiredSection("ApiConfig").Get<ApiConfig>()
-                ?? throw new ApplicationStartupException("An exception occurred while retrieving the ApiConfig section");
+                ?? throw new ApplicationStartupException("Unable to retrieve the API config");
     }
 
     private static void ConfigureDependencyInjection(this IServiceCollection services, ApiConfig apiConfig)
