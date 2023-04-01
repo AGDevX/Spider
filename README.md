@@ -181,6 +181,24 @@ exports.onExecutePostLogin = async (event, api) => {
 <br />
 <br />
 
+# Initial Setup
+
+When running Spider locally, make sure to use the `AGDevX.Spider.WebApi - Local` profile.
+
+If you want to quickly get into running and debugging Spider:
+
+1. Set the `UseDatabase` config to `false` in `appSettings.Local.json`.
+
+If you want to see how the database integration works:
+
+1. Install SQL Server 2016 or later (edition does not matter)
+2. Open the `AGDevX.Spider.Database.SqlServer` database solution
+3. Run the `Spider_Local.publish` publish profile
+4. Execute the `Initial Seed` script on the database
+
+<br />
+<br />
+
 # Start the application
 
 - Hit the play button
