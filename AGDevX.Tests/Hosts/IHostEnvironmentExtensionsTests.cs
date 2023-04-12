@@ -1,7 +1,5 @@
 ﻿using System;
-using AGDevX.Environments;
 using AGDevX.Hosts;
-using AGDevX.Web.Tests.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -27,7 +25,7 @@ public class IHostEnvironmentExtensionsTests
     {
         //-- Arrange
         IHostEnvironment? hostEnvironment = null;
-        EnvironmentType[]? environments = null;
+        string[]? environments = null;
 
         //-- Act
         var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
@@ -41,7 +39,7 @@ public class IHostEnvironmentExtensionsTests
     {
         //-- Arrange
         IHostEnvironment? hostEnvironment = null;
-        EnvironmentType[]? environments = Array.Empty<EnvironmentType>();
+        string[]? environments = Array.Empty<string>();
 
         //-- Act
         var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
@@ -55,7 +53,7 @@ public class IHostEnvironmentExtensionsTests
     {
         //-- Arrange
         IHostEnvironment? hostEnvironment = _hostEnvironment;
-        EnvironmentType[]? environments = new EnvironmentType[1] { EnvironmentType.Prod };
+        string[]? environments = new string[1] { "Prod" };
 
         //-- Act
         var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
@@ -69,7 +67,7 @@ public class IHostEnvironmentExtensionsTests
     {
         //-- Arrange
         IHostEnvironment? hostEnvironment = _hostEnvironment;
-        EnvironmentType[]? environments = new EnvironmentType[2] { EnvironmentType.QA, EnvironmentType.Prod };
+        string[]? environments = new string[2] { "QA", "Prod" };
 
         //-- Act
         var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
@@ -83,7 +81,7 @@ public class IHostEnvironmentExtensionsTests
     {
         //-- Arrange
         IHostEnvironment? hostEnvironment = _hostEnvironment;
-        EnvironmentType[]? environments = new EnvironmentType[1] { EnvironmentType.Development };
+        string[]? environments = new string[1] { "Development" };
 
         //-- Act
         var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
@@ -97,12 +95,20 @@ public class IHostEnvironmentExtensionsTests
     {
         //-- Arrange
         IHostEnvironment? hostEnvironment = _hostEnvironment;
-        EnvironmentType[]? environments = new EnvironmentType[2] { EnvironmentType.Local, EnvironmentType.Dev };
+        string[]? environments = new string[2] { "Local", "Dev" };
 
         //-- Act
         var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
 
         //-- Assert
         Assert.False(isNullOrEmpty);
+    }
+
+    public class HostEnvironment : IHostEnvironment
+    {
+        public required string EnvironmentName { get; set; }
+        public required string ApplicationName { get; set; }
+        public required string ContentRootPath { get; set; }
+        public required IFileProvider ContentRootFileProvider { get; set; }
     }
 }
