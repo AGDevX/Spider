@@ -15,6 +15,6 @@ public static class IHostEnvironmentExtensions
             return false;
         }
 
-        return environments!.Select(env => env.StringValue()).ContainsStringIgnoreCase(webHostEnvironment.EnvironmentName);
+        return environments!.Select(env => env.StringValue()).ContainsIgnoreCase(webHostEnvironment.EnvironmentName);
     }
 }

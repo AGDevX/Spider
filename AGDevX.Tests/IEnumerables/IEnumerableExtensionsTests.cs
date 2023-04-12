@@ -222,7 +222,7 @@ public class IEnumerableExtensionsTests
     }
 
     [Fact]
-    public void ContainsStringIgnoreCase_ReturnsTrue()
+    public void ContainsIgnoreCase_ReturnsTrue()
     {
         //-- Arrange
         List<string> strings = new List<string>
@@ -233,14 +233,14 @@ public class IEnumerableExtensionsTests
         var str = "hello";
 
         //-- Act
-        var contains = strings.ContainsStringIgnoreCase(str);
+        var contains = strings.ContainsIgnoreCase(str);
 
         //-- Assert
         Assert.True(contains);
     }
 
     [Fact]
-    public void ContainsStringIgnoreCase_Null_ReturnsTrue()
+    public void ContainsIgnoreCase_Null_ReturnsTrue()
     {
         //-- Arrange
         List<string?> strings = new List<string?>
@@ -251,14 +251,14 @@ public class IEnumerableExtensionsTests
         string? str = null;
 
         //-- Act
-        var contains = strings.ContainsStringIgnoreCase(str);
+        var contains = strings.ContainsIgnoreCase(str);
 
         //-- Assert
         Assert.True(contains);
     }
 
     [Fact]
-    public void ContainsStringIgnoreCase_ReturnsFalse()
+    public void ContainsIgnoreCase_ReturnsFalse()
     {
         //-- Arrange
         List<string> strings = new List<string>
@@ -269,14 +269,14 @@ public class IEnumerableExtensionsTests
         var str = "hey";
 
         //-- Act
-        var contains = strings.ContainsStringIgnoreCase(str);
+        var contains = strings.ContainsIgnoreCase(str);
 
         //-- Assert
         Assert.False(contains);
     }
 
     [Fact]
-    public void ContainsStringIgnoreCase_NullStrings_ReturnsFalse()
+    public void ContainsIgnoreCase_NullStrings_ReturnsFalse()
     {
         //-- Arrange
         List<string>? strings = null;
@@ -284,14 +284,14 @@ public class IEnumerableExtensionsTests
         var str = "hello";
 
         //-- Act
-        var contains = strings.ContainsStringIgnoreCase(str);
+        var contains = strings.ContainsIgnoreCase(str);
 
         //-- Assert
         Assert.False(contains);
     }
 
     [Fact]
-    public void ContainsStringIgnoreCase_NullString_ReturnsFalse()
+    public void ContainsIgnoreCase_NullString_ReturnsFalse()
     {
         //-- Arrange
         List<string> strings = new List<string>
@@ -302,7 +302,7 @@ public class IEnumerableExtensionsTests
         string? str = null;
 
         //-- Act
-        var contains = strings.ContainsStringIgnoreCase(str);
+        var contains = strings.ContainsIgnoreCase(str);
 
         //-- Assert
         Assert.False(contains);

@@ -55,8 +55,8 @@ public class AuthorizedScopesAttributeActionFilter : IAsyncActionFilter
 
         var scopes = context.HttpContext.User.GetScopes();
         var isAuthorized = _authorizedScopes.HasCommonStringElement(scopes)
-                            || _authorizedScopes.ContainsStringIgnoreCase(AuthorizedScopes.Any) && scopes.Any();
-
+                            || _authorizedScopes.ContainsIgnoreCase(AuthorizedScopes.Any) && scopes.Any();
+        
         _logger.LogInformation($"Authorized Scopes: {string.Join(',', _authorizedScopes)}");
         _logger.LogInformation($"User Scopes: {string.Join(',', scopes)}");
         _logger.LogInformation($"IsAuthorized: {isAuthorized}");
