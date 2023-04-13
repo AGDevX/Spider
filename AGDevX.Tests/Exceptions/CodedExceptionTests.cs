@@ -4,16 +4,16 @@ using Xunit;
 
 namespace AGDevX.Database.Tests.Exceptions;
 
-public sealed class AcquireTokenExceptionTests
+public sealed class CodedExceptionTests
 {
     [Fact]
     public void HasCorrectCode()
     {
         //-- Arrange
-        var code = "ACQUIRE_TOKEN_EXCEPTION";
+        var code = "CODED_EXCEPTION";
 
         //-- Assert
-        Assert.True(new AcquireTokenException().Code.Equals(code));
+        Assert.True(new CodedException().Code.Equals(code));
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public sealed class AcquireTokenExceptionTests
         var message = "Test message";
 
         //-- Assert
-        Assert.True(new AcquireTokenException(message).Message.Equals(message));
+        Assert.True(new CodedException(message).Message.Equals(message));
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public sealed class AcquireTokenExceptionTests
         var innerException = new Exception(innerExceptionMessage);
 
         //-- Assert
-        Assert.True(new AcquireTokenException(message, innerException).Message.Equals(message));
-        Assert.True(new AcquireTokenException(message, innerException).InnerException == innerException);
+        Assert.True(new CodedException(message, innerException).Message.Equals(message));
+        Assert.True(new CodedException(message, innerException).InnerException == innerException);
     }
 }

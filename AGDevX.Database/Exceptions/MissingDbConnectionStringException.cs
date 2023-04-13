@@ -3,10 +3,9 @@ using AGDevX.Exceptions;
 
 namespace AGDevX.Database.Exceptions;
 
-public sealed class MissingDbConnectionStringException : AGDevXException
+public sealed class MissingDbConnectionStringException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.InternalServerError;
-    public override string Code => "AGDX_MISSING_DATABASE_CONNECTION_STRING_EXCEPTION";
+    public override string Code => "MISSING_DATABASE_CONNECTION_STRING_EXCEPTION";
 
     public MissingDbConnectionStringException()
     {

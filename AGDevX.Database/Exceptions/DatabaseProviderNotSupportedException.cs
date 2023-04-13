@@ -3,10 +3,9 @@ using AGDevX.Exceptions;
 
 namespace AGDevX.Database.Exceptions;
 
-public sealed class DatabaseProviderNotSupportedException : AGDevXException
+public sealed class DatabaseProviderNotSupportedException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.InternalServerError;
-    public override string Code => "AGDX_DATABASE_PROVIDER_NOT_SUPPORTED_EXCEPTION";
+    public override string Code => "DATABASE_PROVIDER_NOT_SUPPORTED_EXCEPTION";
 
     public DatabaseProviderNotSupportedException()
     {

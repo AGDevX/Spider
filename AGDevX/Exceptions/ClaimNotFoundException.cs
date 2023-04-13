@@ -2,10 +2,9 @@
 
 namespace AGDevX.Exceptions;
 
-public sealed class ClaimNotFoundException : AGDevXException
+public sealed class ClaimNotFoundException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.Unauthorized;
-    public override string Code => "AGDX_CLAIM_NOT_FOUND_EXCEPTION";
+    public override string Code => "CLAIM_NOT_FOUND_EXCEPTION";
 
     public ClaimNotFoundException()
     {

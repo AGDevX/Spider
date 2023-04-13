@@ -4,35 +4,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using AGDevX.Assemblies;
-using AGDevX.Strings;
 
-namespace AGDevX.Web.Exceptions;
-
-public sealed class ExceptionDetail
-{
-    public required int HttpStatusCode { get; set; }
-    public required string Code { get; set; }
-    public required string Message { get; set; }
-    public IEnumerable<StackFrameModel>? StackFrames { get; set; }
-    public ExceptionDetail? InnerException { get; set; }
-}
-
-public class StackFrameModel
-{
-    public int LineNumber { get; set; }
-    public string? Method { get; set; }
-    public string? Class { get; set; }
-    public string? AssemblyName { get; set; }
-    public string? AssemblyFile { get; set; }
-    public string? CodeFile { get; set; }
-}
+namespace AGDevX.Exceptions;
 
 public static class ExceptionDetailExtensions
 {
     //-- Inspired by https://stackoverflow.com/a/65972998/5372598
 
-    public static ExceptionDetail CreateExceptionDetail(this Exception ex, int httpStatusCode, string code, bool includeStackFrames = true, bool filterStackFrames = false, IEnumerable<string>? assemblyPrefixes = default)
+    public static ExceptionDetail GetExceptionDetail(this Exception ex, string code, bool includeStackFrames = true, bool filterStackFrames = false, IEnumerable<string>? assemblyPrefixes = default)
     {
         assemblyPrefixes ??= new List<string>();
 
@@ -40,7 +21,6 @@ public static class ExceptionDetailExtensions
 
         var exceptionDetail = new ExceptionDetail
         {
-            HttpStatusCode = httpStatusCode,
             Code = code,
             Message = ex.Message,
             StackFrames = includeStackFrames
@@ -52,12 +32,11 @@ public static class ExceptionDetailExtensions
                     AssemblyName = sfm.GetMethod()?.DeclaringType?.Assembly?.FullName,
                     AssemblyFile = sfm.GetMethod()?.DeclaringType?.Assembly?.Location,
                     CodeFile = sfm.GetFileName(),
-                }).Where(sf => !(sf.Class?.ContainsIgnoreCase(nameof(AGDevX.Web.Exceptions.UnhandledExceptionMiddleware)) ?? false)
-                    && (!filterStackFrames || (filterStackFrames && !assemblyPrefixes.Any() || AssemblyUtility.AssemblyNameStartsWithAnyPrefix(sf.AssemblyName, assemblyPrefixes))))
+                }).Where(sf => !filterStackFrames || filterStackFrames && !assemblyPrefixes.Any() || AssemblyUtility.AssemblyNameStartsWithAnyPrefix(sf.AssemblyName, assemblyPrefixes))
                 : null
         };
 
-        exceptionDetail.InnerException = ex?.InnerException?.CreateExceptionDetail(httpStatusCode, code) ?? null;
+        exceptionDetail.InnerException = ex?.InnerException?.GetExceptionDetail(code) ?? null;
 
         return exceptionDetail;
     }
@@ -69,7 +48,17 @@ public static class ExceptionDetailExtensions
             return null;
         }
 
-        var methodSignatureStringBuilder = new StringBuilder(methodBase.Name);
+        var methodNameRegex = new Regex(@"(<)(.*?)(>)");
+        var methodNameMatch = methodNameRegex.Match(methodBase.DeclaringType?.Name ?? string.Empty);
+
+        var methodName = methodBase.Name;
+
+        if (methodNameMatch.Success)
+        {
+            methodName = methodNameMatch.Groups[2].Value;
+        }
+
+        var methodSignatureStringBuilder = new StringBuilder(methodName);
 
         //-- Generic Method
         if (methodBase is MethodInfo && ((MethodInfo)methodBase).IsGenericMethod)
@@ -90,4 +79,22 @@ public static class ExceptionDetailExtensions
 
         return methodSignatureStringBuilder.ToString();
     }
+}
+
+public sealed class ExceptionDetail
+{
+    public required string Code { get; set; }
+    public required string Message { get; set; }
+    public IEnumerable<StackFrameModel>? StackFrames { get; set; }
+    public ExceptionDetail? InnerException { get; set; }
+}
+
+public sealed class StackFrameModel
+{
+    public int LineNumber { get; set; }
+    public string? Method { get; set; }
+    public string? Class { get; set; }
+    public string? AssemblyName { get; set; }
+    public string? AssemblyFile { get; set; }
+    public string? CodeFile { get; set; }
 }

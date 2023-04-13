@@ -43,20 +43,20 @@ public class UnhandledExceptionMiddleware
 
         switch (exception)
         {
-            case AGDevXException agdxEx:
-                _logger.LogError(agdxEx, agdxEx.Message);
-                context.Response.StatusCode = agdxEx.HttpStatusCode;
-                exceptionDetail = agdxEx.CreateExceptionDetail(context.Response.StatusCode, agdxEx.Code, true, true, _assemblyPrefixes);
+            case CodedException codedEx:
+                _logger.LogError(codedEx, codedEx.Message);
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                exceptionDetail = codedEx.GetExceptionDetail(codedEx.Code, true, true, _assemblyPrefixes);
                 break;
             case SqlException sqlEx:
                 _logger.LogError(sqlEx, sqlEx.Message);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                exceptionDetail = sqlEx.CreateExceptionDetail(context.Response.StatusCode, "SQL_EXCEPTION", true, true, _assemblyPrefixes);
+                exceptionDetail = sqlEx.GetExceptionDetail("SQL_EXCEPTION", true, true, _assemblyPrefixes);
                 break;
             case Exception ex:
                 _logger.LogError(ex, ex.Message);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                exceptionDetail = ex.CreateExceptionDetail(context.Response.StatusCode, HttpStatusCode.InternalServerError.ToString(), true, true, _assemblyPrefixes);
+                exceptionDetail = ex.GetExceptionDetail(HttpStatusCode.InternalServerError.ToString(), true, true, _assemblyPrefixes);
                 break;
             default:
                 throw new Exception("Unable to determine exception type");

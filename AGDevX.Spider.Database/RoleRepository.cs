@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AGDevX.Database.Config;
 using AGDevX.Database.Connections;
 using AGDevX.Database.Dapper;
+using AGDevX.Exceptions;
 using AGDevX.Spider.Database.Models;
 using Microsoft.Extensions.Logging;
 
@@ -30,6 +31,8 @@ public sealed class RoleRepository : IRoleRepository
 
     public async Task<List<Role>> GetRoles()
     {
+        throw new NotAuthorizedException("asdf", new System.Exception("inner", new System.Exception("inner inner ex")));
+
         //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
         //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
         if (!_databaseConfig.UseDatabase)

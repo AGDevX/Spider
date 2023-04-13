@@ -2,10 +2,9 @@
 
 namespace AGDevX.Exceptions;
 
-public sealed class ExtensionMethodException : AGDevXException
+public sealed class ExtensionMethodException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.BadRequest;
-    public override string Code => "AGDX_EXTENSION_METHOD_EXCEPTION";
+    public override string Code => "EXTENSION_METHOD_EXCEPTION";
 
     public ExtensionMethodException()
     {
