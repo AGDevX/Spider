@@ -16,36 +16,39 @@ public class AttributeExtensionsTests
         Vash
     }
 
-    [Fact]
-    public void GetDescription_ReturnsDescription()
+    public class When_calling_GetDescription
     {
-        //-- Arrange
-        var description = "From Cowboy Bebop";
+        [Fact]
+        public void And_matches_expected_description_then_return_true()
+        {
+            //-- Arrange
+            var description = "From Cowboy Bebop";
 
-        //-- Act
-        var descriptionFromEnum = TestEnum.Spike.GetDescription();
+            //-- Act
+            var descriptionFromEnum = TestEnum.Spike.GetDescription();
 
-        //-- Assert
-        Assert.Equal(description, descriptionFromEnum);
-    }
+            //-- Assert
+            Assert.Equal(description, descriptionFromEnum);
+        }
 
-    [Fact]
-    public void GetDescription_ReturnsNull()
-    {
-        //-- Act
-        var descriptionFromEnum = TestEnum.Vash.GetDescription();
+        [Fact]
+        public void And_enum_does_not_have_a_description_then_return_null()
+        {
+            //-- Act
+            var descriptionFromEnum = TestEnum.Vash.GetDescription();
 
-        //-- Assert
-        Assert.Null(descriptionFromEnum);
-    }
+            //-- Assert
+            Assert.Null(descriptionFromEnum);
+        }
 
-    [Fact]
-    public void GetDescription_NullSource_ReturnsNull()
-    {
-        //-- Arrange
-        string? source = null;
+        [Fact]
+        public void And_has_a_null_source_then_throw_ExtensionMethodParameterNullException()
+        {
+            //-- Arrange
+            string? source = null;
 
-        //-- Act && Assert
-        Assert.Throws<ExtensionMethodParameterNullException>(() => source.GetDescription());
+            //-- Act && Assert
+            Assert.Throws<ExtensionMethodParameterNullException>(() => source.GetDescription());
+        }
     }
 }

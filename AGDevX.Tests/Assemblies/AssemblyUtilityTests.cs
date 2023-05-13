@@ -11,7 +11,7 @@ public class AssemblyUtilityTests
     public class When_calling_GetAssemblies
     {
         [Fact]
-        public void With_null_parent_and_null_prefix_list_return_all_asemblies()
+        public void With_null_parent_and_null_prefix_list_then_return_all_asemblies()
         {
             //-- Arrange
             Assembly? parent = null;
@@ -49,7 +49,7 @@ public class AssemblyUtilityTests
     public class When_calling_AssemblyNameStartsWithAnyPrefix
     {
         [Fact]
-        public void And_assembly_name_matches_a_prefix_return_true()
+        public void With_assembly_name_matches_a_prefix_then_return_true()
         {
             //-- Arrange
             string assemblyName = "AGDevX";
@@ -66,7 +66,7 @@ public class AssemblyUtilityTests
         }
 
         [Fact]
-        public void And_assembly_name_does_not_match_prefix_return_false()
+        public void With_assembly_name_does_not_match_prefix_then_return_false()
         {
             //-- Arrange
             string assemblyName = "AGDevX";
@@ -83,7 +83,7 @@ public class AssemblyUtilityTests
         }
 
         [Fact]
-        public void And_a_null_assembly_name_does_not_match_prefix_return_false()
+        public void With_a_null_assembly_name_does_not_match_prefix_then_return_false()
         {
             //-- Arrange
             string? assemblyName = null;
@@ -100,7 +100,7 @@ public class AssemblyUtilityTests
         }
 
         [Fact]
-        public void And_a_null_assembly_prefix_list_is_provided_return_false()
+        public void With_a_null_assembly_prefix_list_is_provided_then_return_false()
         {
             //-- Arrange
             string assemblyName = "AGDevX";
@@ -114,7 +114,7 @@ public class AssemblyUtilityTests
         }
 
         [Fact]
-        public void And_a_null_assembly_name_and_null_assembly_list_are_provided_return_false()
+        public void With_a_null_assembly_name_and_null_assembly_list_are_provided_then_return_false()
         {
             //-- Arrange
             string? assemblyName = null;

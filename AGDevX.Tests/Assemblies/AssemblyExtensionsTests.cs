@@ -10,7 +10,7 @@ public class AssemblyExtensionsTests
     public class When_calling_FullNameStartsWithPrefix
     {
         [Fact]
-        public void And_prefix_is_mixed_case_then_return_true()
+        public void With_mixed_case_prefix_then_return_true()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -24,7 +24,7 @@ public class AssemblyExtensionsTests
         }
 
         [Fact]
-        public void And_prefix_is_lower_case_then_return_true()
+        public void With_lower_case_prefix_then_return_true()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -38,7 +38,7 @@ public class AssemblyExtensionsTests
         }
 
         [Fact]
-        public void And_prefix_is_uppercase_case_then_return_true()
+        public void With_upper_case_prefix_then_return_true()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -52,7 +52,7 @@ public class AssemblyExtensionsTests
         }
 
         [Fact]
-        public void And_prefix_does_not_match_anything_then_return_false()
+        public void With_non_matching_prefix_then_return_false()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -69,7 +69,7 @@ public class AssemblyExtensionsTests
     public class When_calling_FullNameStartsWithPrefixes
     {
         [Fact]
-        public void And_starts_with_one_prefix_return_true()
+        public void With_one_matching_prefix_then_return_true()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -86,7 +86,7 @@ public class AssemblyExtensionsTests
         }
 
         [Fact]
-        public void And_does_not_start_with_one_prefix_return_false()
+        public void With_non_matching_prefix_then_return_false()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -103,7 +103,7 @@ public class AssemblyExtensionsTests
         }
 
         [Fact]
-        public void And_starts_with_multiple_prefixes_return_false()
+        public void With_at_least_one_matching_prefix_then_return_true()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
@@ -121,7 +121,7 @@ public class AssemblyExtensionsTests
         }
 
         [Fact]
-        public void And_does_not_start_with_any_prefix_return_false()
+        public void With_empty_prefix_list_then_return_false()
         {
             //-- Arrange
             var assembly = Assembly.GetExecutingAssembly();
