@@ -3,10 +3,9 @@ using AGDevX.Exceptions;
 
 namespace AGDevX.Database.Exceptions;
 
-public sealed class AttemptedDatabaseAccessException : AGDevXException
+public sealed class AttemptedDatabaseAccessException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.InternalServerError;
-    public override string Code => "AGDX_ATTEMPTED_DATABASE_ACCESS_EXCEPTION";
+    public override string Code => "ATTEMPTED_DATABASE_ACCESS_EXCEPTION";
 
     public AttemptedDatabaseAccessException()
     {

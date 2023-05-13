@@ -4,13 +4,13 @@ namespace AGDevX.Objects;
 
 public static class ObjectExtensions
 {
-    public static bool IsNull([NotNullWhen(false)] this object? str)
+    public static bool IsNull([NotNullWhen(false)] this object? obj)
     {
-        return str == null;
+        return obj == null;
     }
 
-    public static bool IsNotNull([NotNullWhen(true)] this object? str)
+    public static bool IsNotNull([NotNullWhen(true)] this object? obj)
     {
-        return str != null;
+        return obj != null;
     }
 }

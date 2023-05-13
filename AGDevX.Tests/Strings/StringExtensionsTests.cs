@@ -5,294 +5,321 @@ namespace AGDevX.Tests.Strings;
 
 public class StringExtensionsTests
 {
-    [Theory]
-    [InlineData("equal", "EQUAL")]
-    [InlineData("equal", "equal")]
-    public void EqualsIgnoreCase_ReturnsTrue(string str1, string str2)
+    public class When_calling_EqualsIgnoreCase
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData("equal", "EQUAL")]
+        [InlineData("equal", "equal")]
+        public void And_the_string_are_equal_then_return_true(string str1, string str2)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.EqualsIgnoreCase(str2);
+            //-- Act
+            var result = str1.EqualsIgnoreCase(str2);
 
-        //-- Assert
-        Assert.True(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData("equal", "not equal")]
+        [InlineData(null, "not equal")]
+        [InlineData("equal", null)]
+        public void And_the_string_are_not_equal_then_return_false(string str1, string str2)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.EqualsIgnoreCase(str2);
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("equal", "not equal")]
-    [InlineData(null, "not equal")]
-    [InlineData("equal", null)]
-    public void EqualsIgnoreCase_ReturnsFalse(string str1, string str2)
+    public class When_calling_StartsWithIgnoreCase
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData("equal", "EQUAL")]
+        [InlineData("equal", "equal")]
+        public void And_the_string_starts_with_string_then_return_true(string str1, string str2)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.EqualsIgnoreCase(str2);
+            //-- Act
+            var result = str1.StartsWithIgnoreCase(str2);
 
-        //-- Assert
-        Assert.False(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData("equal", "not equal")]
+        [InlineData(null, "not equal")]
+        [InlineData("equal", null)]
+        public void And_the_string_does_not_start_with_string_then_return_false(string str1, string str2)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.StartsWithIgnoreCase(str2);
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("equal", "EQUAL")]
-    [InlineData("equal", "equal")]
-    public void StartsWithIgnoreCase_ReturnsTrue(string str1, string str2)
+    public class When_calling_ContainsIgnoreCase
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData("equal", "EQUAL")]
+        [InlineData("equal", "equal")]
+        public void And_the_string_contains_the_string_then_return_true(string str1, string str2)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.StartsWithIgnoreCase(str2);
+            //-- Act
+            var result = str1.ContainsIgnoreCase(str2);
 
-        //-- Assert
-        Assert.True(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData("equal", "not equal")]
+        [InlineData(null, "not equal")]
+        [InlineData("equal", null)]
+        public void And_the_string_does_not_contain_the_string_then_return_false(string str1, string str2)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.ContainsIgnoreCase(str2);
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("equal", "not equal")]
-    [InlineData(null, "not equal")]
-    [InlineData("equal", null)]
-    public void StartsWithIgnoreCase_ReturnsFalse(string str1, string str2)
+    public class When_calling_IsNullOrWhiteSpace
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData(null)]
+        [InlineData("   ")]
+        public void And_the_string_is_null_or_whitespace_then_return_true(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.StartsWithIgnoreCase(str2);
+            //-- Act
+            var result = str1.IsNullOrWhiteSpace();
 
-        //-- Assert
-        Assert.False(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData("something")]
+        public void And_the_string_is_not_null_or_whitespace_then_return_false(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.IsNullOrWhiteSpace();
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("equal", "EQUAL")]
-    [InlineData("equal", "equal")]
-    public void ContainsIgnoreCase_ReturnsTrue(string str1, string str2)
+    public class When_calling_IsNotNullOrWhiteSpace
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData("something")]
+        public void And_the_string_is_not_null_or_whitespace_then_return_true(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.ContainsIgnoreCase(str2);
+            //-- Act
+            var result = str1.IsNotNullOrWhiteSpace();
 
-        //-- Assert
-        Assert.True(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("   ")]
+        public void And_the_string_null_or_whitespace_then_return_false(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.IsNotNullOrWhiteSpace();
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("equal", "not equal")]
-    [InlineData(null, "not equal")]
-    [InlineData("equal", null)]
-    public void ContainsIgnoreCase_ReturnsFalse(string str1, string str2)
+    public class When_calling_IsWhiteSpace
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("        ")]
+        public void And_the_string_is_whitespace_then_return_true(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.ContainsIgnoreCase(str2);
+            //-- Act
+            var result = str1.IsWhiteSpace();
 
-        //-- Assert
-        Assert.False(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("a")]
+        [InlineData(" b")]
+        [InlineData("c ")]
+        [InlineData(" d ")]
+        [InlineData(" . ")]
+        public void And_the_string_is_not_whitespace_then_return_false(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.IsWhiteSpace();
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("   ")]
-    public void IsNullOrWhiteSpace_ReturnsTrue(string str1)
+    public class When_calling_IsNotWhiteSpace
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("a")]
+        [InlineData(" b")]
+        [InlineData("c ")]
+        [InlineData(" d ")]
+        [InlineData(" . ")]
+        public void And_the_string_is_null_or_not_whitespace_then_return_true(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.IsNullOrWhiteSpace();
+            //-- Act
+            var result = str1.IsNotWhiteSpace();
 
-        //-- Assert
-        Assert.True(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("        ")]
+        public void And_the_string_is_whitespace_only_then_return_false(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.IsNotWhiteSpace();
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("something")]
-    public void IsNullOrWhiteSpace_ReturnsFalse(string str1)
+    public class When_calling_IsEmpty
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData("")]
+        public void And_the_string_is_empty_only_then_return_true(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.IsNullOrWhiteSpace();
+            //-- Act
+            var result = str1.IsEmpty();
 
-        //-- Assert
-        Assert.False(result);
+            //-- Assert
+            Assert.True(result);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("a")]
+        [InlineData(" b")]
+        [InlineData("c ")]
+        [InlineData(" d ")]
+        [InlineData(" . ")]
+        [InlineData(" ")]
+        [InlineData("      ")]
+        public void And_the_string_is_null_or_whitespace_or_has_non_whitespace_value_then_return_false(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
+
+            //-- Act
+            var result = str1.IsEmpty();
+
+            //-- Assert
+            Assert.False(result);
+        }
     }
 
-    [Theory]
-    [InlineData("something")]
-    public void IsNotNullOrWhiteSpace_ReturnsTrue(string str1)
+    public class When_calling_IsNotEmpty
     {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData(null)]
+        [InlineData("a")]
+        [InlineData(" b")]
+        [InlineData("c ")]
+        [InlineData(" d ")]
+        [InlineData(" . ")]
+        [InlineData(" ")]
+        [InlineData("      ")]
+        public void And_the_string_is_null_or_whitespace_or_has_non_whitespace_value_then_return_true(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.IsNotNullOrWhiteSpace();
+            //-- Act
+            var result = str1.IsNotEmpty();
 
-        //-- Assert
-        Assert.True(result);
-    }
+            //-- Assert
+            Assert.True(result);
+        }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("   ")]
-    public void IsNotNullOrWhiteSpace_ReturnsFalse(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
+        [Theory]
+        [InlineData("")]
+        public void And_the_string_is_empty_only_then_return_false(string str1)
+        {
+            //-- Arrange
+            //-- <see InlineData>
 
-        //-- Act
-        var result = str1.IsNotNullOrWhiteSpace();
+            //-- Act
+            var result = str1.IsNotEmpty();
 
-        //-- Assert
-        Assert.False(result);
-    }
-
-    [Theory]
-    [InlineData(" ")]
-    [InlineData("        ")]
-    public void IsWhiteSpace_ReturnsTrue(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsWhiteSpace();
-
-        //-- Assert
-        Assert.True(result);
-    }
-
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("a")]
-    [InlineData(" b")]
-    [InlineData("c ")]
-    [InlineData(" d ")]
-    [InlineData(" . ")]
-    public void IsWhiteSpace_ReturnsFalse(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsWhiteSpace();
-
-        //-- Assert
-        Assert.False(result);
-    }
-
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("a")]
-    [InlineData(" b")]
-    [InlineData("c ")]
-    [InlineData(" d ")]
-    [InlineData(" . ")]
-    public void IsNotWhiteSpace_ReturnsTrue(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsNotWhiteSpace();
-
-        //-- Assert
-        Assert.True(result);
-    }
-
-    [Theory]
-    [InlineData(" ")]
-    [InlineData("        ")]
-    public void IsNotWhiteSpace_ReturnsFalse(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsNotWhiteSpace();
-
-        //-- Assert
-        Assert.False(result);
-    }
-
-    [Theory]
-    [InlineData("")]
-    public void IsEmpty_ReturnsTrue(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsEmpty();
-
-        //-- Assert
-        Assert.True(result);
-    }
-
-    [Theory]
-    [InlineData(null)]
-    [InlineData("a")]
-    [InlineData(" b")]
-    [InlineData("c ")]
-    [InlineData(" d ")]
-    [InlineData(" . ")]
-    [InlineData(" ")]
-    [InlineData("      ")]
-    public void IsEmpty_ReturnsFalse(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsEmpty();
-
-        //-- Assert
-        Assert.False(result);
-    }
-
-    [Theory]
-    [InlineData(null)]
-    [InlineData("a")]
-    [InlineData(" b")]
-    [InlineData("c ")]
-    [InlineData(" d ")]
-    [InlineData(" . ")]
-    [InlineData(" ")]
-    [InlineData("      ")]
-    public void IsNotEmpty_ReturnsTrue(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsNotEmpty();
-
-        //-- Assert
-        Assert.True(result);
-    }
-
-    [Theory]
-    [InlineData("")]
-    public void IsNotEmpty_ReturnsFalse(string str1)
-    {
-        //-- Arrange
-        //-- <see InlineData>
-
-        //-- Act
-        var result = str1.IsNotEmpty();
-
-        //-- Assert
-        Assert.False(result);
+            //-- Assert
+            Assert.False(result);
+        }
     }
 }

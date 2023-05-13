@@ -2,10 +2,9 @@
 
 namespace AGDevX.Exceptions;
 
-public sealed class NotAuthorizedException : AGDevXException
+public sealed class NotAuthorizedException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.Unauthorized;
-    public override string Code => "AGDX_NOT_AUTHORIZED_EXCEPTION";
+    public override string Code => "NOT_AUTHORIZED_EXCEPTION";
 
     public NotAuthorizedException()
     {

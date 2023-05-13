@@ -63,7 +63,7 @@ public sealed class AddUserIdentityClaimsTransformation : IClaimsTransformation
 
             claims.AddRange(new List<Claim>
             {
-                new Claim(AGDevXClaimType.IsActive.StringValue(), userInfo!.User.IsActive.ToString()),
+                new Claim(CustomClaimType.IsActive.StringValue(), userInfo!.User.IsActive.ToString()),
                 new Claim(JwtClaimType.Roles.StringValue(), string.Join(' ', userInfo!.Roles.Select(r => r.RoleCode)))
             });
 

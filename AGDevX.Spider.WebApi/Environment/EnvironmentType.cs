@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using AGDevX.Enums;
 
-namespace AGDevX.Environments;
+namespace AGDevX.Spider.WebApi.Environment;
 
 //-- E.g. Local, Dev, QA, Prod
 

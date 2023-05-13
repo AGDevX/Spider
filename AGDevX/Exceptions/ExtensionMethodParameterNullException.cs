@@ -2,10 +2,9 @@
 
 namespace AGDevX.Exceptions;
 
-public sealed class ExtensionMethodParameterNullException : AGDevXException
+public sealed class ExtensionMethodParameterNullException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.BadRequest;
-    public override string Code => "AGDX_EXTENSION_METHOD_PARAMETER_NULL_EXCEPTION";
+    public override string Code => "EXTENSION_METHOD_PARAMETER_NULL_EXCEPTION";
 
     public ExtensionMethodParameterNullException()
     {

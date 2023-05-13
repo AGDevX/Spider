@@ -3,10 +3,9 @@ using AGDevX.Exceptions;
 
 namespace AGDevX.Web.Auth0;
 
-public sealed class Auth0ProviderNotConfiguredException : AGDevXException
+public sealed class Auth0ProviderNotConfiguredException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.InternalServerError;
-    public override string Code => "AGDX_AUTH0_PROVIDER_NOT_CONFIGURED_EXCEPTION";
+    public override string Code => "AUTH0_PROVIDER_NOT_CONFIGURED_EXCEPTION";
 
     public Auth0ProviderNotConfiguredException()
     {

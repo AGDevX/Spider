@@ -2,10 +2,9 @@
 
 namespace AGDevX.Exceptions;
 
-public sealed class MissingRequiredClaimException : AGDevXException
+public sealed class MissingRequiredClaimException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.Unauthorized;
-    public override string Code => "AGDX_MISSING_REQUIRED_CLAIM_EXCEPTION";
+    public override string Code => "MISSING_REQUIRED_CLAIM_EXCEPTION";
 
     public MissingRequiredClaimException()
     {

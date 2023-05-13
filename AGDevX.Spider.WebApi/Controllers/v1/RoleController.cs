@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AGDevX.Spider.Service.Contracts;
-using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Models;
-using AGDevX.Web.Auth.AuthZ.Attributes;
 using AGDevX.Web.Responses;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -35,8 +33,8 @@ public sealed class RoleController : ControllerBase
     /// Returns all Roles configured for this API
     /// </summary>
     [HttpGet]
-    [AuthorizedScopes(Scopes.ApiAccess)]
-    [AuthorizedRoles(Roles.AGDevXAdmin, Roles.Admin)]
+    //[AuthorizedScopes(Scopes.ApiAccess)]
+    //[AuthorizedRoles(Roles.AGDevXAdmin, Roles.Admin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Get()
     {

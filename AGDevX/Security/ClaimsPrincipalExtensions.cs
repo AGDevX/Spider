@@ -260,7 +260,7 @@ public static class ClaimsPrincipalExtensions
     public static string? GetExternalId(this ClaimsPrincipal claimsPrincipal, bool throwExceptionWhenMissing = true)
     {
         var externalId = claimsPrincipal.GetSubject(false)
-                            ?? claimsPrincipal.GetClaimValue<string>(AGDevXClaimType.UserId.StringValue());
+                            ?? claimsPrincipal.GetClaimValue<string>(CustomClaimType.UserId.StringValue());
 
         if (externalId.IsNullOrWhiteSpace() && throwExceptionWhenMissing)
         {
@@ -272,7 +272,7 @@ public static class ClaimsPrincipalExtensions
 
     public static bool IsActive(this ClaimsPrincipal claimsPrincipal)
     {
-        return claimsPrincipal.GetClaimValue<bool>(AGDevXClaimType.IsActive.StringValue());
+        return claimsPrincipal.GetClaimValue<bool>(CustomClaimType.IsActive.StringValue());
     }
 
     public static string GetGrantType(this ClaimsPrincipal claimsPrincipal)

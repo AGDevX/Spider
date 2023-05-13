@@ -3,10 +3,9 @@ using AGDevX.Exceptions;
 
 namespace AGDevX.Database.Exceptions;
 
-public sealed class MissingSprocArgument : AGDevXException
+public sealed class MissingSprocArgument : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.InternalServerError;
-    public override string Code => "AGDX_MISSING_SPROC_ARG_EXCEPTION";
+    public override string Code => "MISSING_SPROC_ARG_EXCEPTION";
 
     public MissingSprocArgument()
     {

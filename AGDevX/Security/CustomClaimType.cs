@@ -3,7 +3,7 @@ using AGDevX.Enums;
 
 namespace AGDevX.Security;
 
-public enum AGDevXClaimType
+public enum CustomClaimType
 {
     [Description("request_ip")]
     [EnumStringValue("request_ip")]

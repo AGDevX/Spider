@@ -2,10 +2,9 @@
 
 namespace AGDevX.Exceptions;
 
-public sealed class AcquireTokenException : AGDevXException
+public sealed class AcquireTokenException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.BadRequest;
-    public override string Code => "AGDX_ACQUIRE_TOKEN_EXCEPTION";
+    public override string Code => "ACQUIRE_TOKEN_EXCEPTION";
 
     public AcquireTokenException()
     {

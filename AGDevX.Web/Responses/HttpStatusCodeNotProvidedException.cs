@@ -3,10 +3,9 @@ using AGDevX.Exceptions;
 
 namespace AGDevX.Web.Responses;
 
-public sealed class HttpStatusCodeNotProvidedException : AGDevXException
+public sealed class HttpStatusCodeNotProvidedException : CodedException
 {
-    public override int HttpStatusCode => (int)System.Net.HttpStatusCode.FailedDependency;
-    public override string Code => "AGDX_HTTP_STATUS_CODE_NOT_PROVIDED_EXCEPTION";
+    public override string Code => "HTTP_STATUS_CODE_NOT_PROVIDED_EXCEPTION";
 
     public HttpStatusCodeNotProvidedException()
     {
