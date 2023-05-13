@@ -6,55 +6,74 @@ namespace AGDevX.Tests.Guids;
 
 public class GuidExtensionsTests
 {
-    [Fact]
-    public void IsEmpty_EmptyGuid_ReturnsTrue()
+    public class When_calling_IsEmpty
     {
-        //-- Arrange
-        var guid = Guid.Empty;
+        [Fact]
+        public void And_the_guid_is_empty_then_return_true()
+        {
+            //-- Arrange
+            var guid = Guid.Empty;
 
-        //-- Act
-        var isEmpty = guid.IsEmpty();
+            //-- Act
+            var isEmpty = guid.IsEmpty();
 
-        //-- Assert
-        Assert.True(isEmpty);
+            //-- Assert
+            Assert.True(isEmpty);
+        }
+
+        [Fact]
+        public void And_the_guid_is_not_empty_then_return_false()
+        {
+            //-- Arrange
+            var guid = Guid.NewGuid();
+
+            //-- Act
+            var isEmpty = guid.IsEmpty();
+
+            //-- Assert
+            Assert.False(isEmpty);
+        }
     }
 
-    [Fact]
-    public void IsEmpty_NewGuid_ReturnsFalse()
+    public class When_calling_IsNullOrEmpty
     {
-        //-- Arrange
-        var guid = Guid.NewGuid();
+        [Fact]
+        public void And_the_guid_is_empty_then_return_true()
+        {
+            //-- Arrange
+            Guid? guid = Guid.Empty;
 
-        //-- Act
-        var isEmpty = guid.IsEmpty();
+            //-- Act
+            var isNullOrEmpty = guid.IsNullOrEmpty();
 
-        //-- Assert
-        Assert.False(isEmpty);
-    }
+            //-- Assert
+            Assert.True(isNullOrEmpty);
+        }
 
-    [Fact]
-    public void IsNullOrEmpty_EmptyGuid_ReturnsTrue()
-    {
-        //-- Arrange
-        Guid? guid = Guid.Empty;
+        [Fact]
+        public void And_the_guid_is_null_then_return_false()
+        {
+            //-- Arrange
+            Guid? guid = null;
 
-        //-- Act
-        var isNullOrEmpty = guid.IsNullOrEmpty();
+            //-- Act
+            var isNullOrEmpty = guid.IsNullOrEmpty();
 
-        //-- Assert
-        Assert.True(isNullOrEmpty);
-    }
+            //-- Assert
+            Assert.True(isNullOrEmpty);
+        }
 
-    [Fact]
-    public void IsNullOrEmpty_NullGuid_ReturnsTrue()
-    {
-        //-- Arrange
-        Guid? guid = null;
+        [Fact]
+        public void And_the_guid_is_not_empty_and_not_null_then_return_false()
+        {
+            //-- Arrange
+            Guid? guid = Guid.NewGuid();
 
-        //-- Act
-        var isNullOrEmpty = guid.IsNullOrEmpty();
+            //-- Act
+            var isEmpty = guid.IsNullOrEmpty();
 
-        //-- Assert
-        Assert.True(isNullOrEmpty);
+            //-- Assert
+            Assert.False(isEmpty);
+        }
     }
 }
