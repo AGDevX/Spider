@@ -23,7 +23,9 @@ public static class SwaggerExtensions
                     options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
                 }
             });
+
             services.ConfigureOptions<ConfigureDefault>();
+            services.ConfigureOptions<ConfigureOAuth2Pkce>();
         }
     }
 
