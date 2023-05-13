@@ -251,7 +251,7 @@ public class IEnumerableExtensionsTests
         }
 
         [Fact]
-        public void And_list_has_null_element_with_null_element_match_return_true()
+        public void And_list_has_null_element_with_null_element_match_then_return_true()
         {
             //-- Arrange
             var strings = new List<string?>
@@ -302,7 +302,7 @@ public class IEnumerableExtensionsTests
         }
 
         [Fact]
-        public void And_list_does_not_have_null_element_with_null_element_match_return_false()
+        public void And_list_does_not_have_null_element_with_null_element_match_then_return_false()
         {
             //-- Arrange
             var strings = new List<string>
@@ -323,7 +323,7 @@ public class IEnumerableExtensionsTests
     public class When_calling_AnySafe
     {
         [Fact]
-        public void And_list_is_non_empty_return_true()
+        public void And_list_is_non_empty_then_return_true()
         {
             //-- Arrange
             var strings = new List<string>
@@ -339,7 +339,7 @@ public class IEnumerableExtensionsTests
         }
 
         [Fact]
-        public void And_list_is_null_return_false()
+        public void And_list_is_null_then_return_false()
         {
             //-- Arrange
             List<string>? strings = null;
@@ -352,7 +352,7 @@ public class IEnumerableExtensionsTests
         }
 
         [Fact]
-        public void And_list_is_empty_return_false()
+        public void And_list_is_empty_then_return_false()
         {
             //-- Arrange
             List<string> strings = new();
