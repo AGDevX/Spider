@@ -15,10 +15,10 @@ public static class AssemblyUtility
         assemblyPrefixes ??= Enumerable.Empty<string>();
 
         return (referencedAssemblies ?? currentDomainAssemblies)
-            .Where(a => !assemblyPrefixes.Any() || a.StartsWithPrefixes(assemblyPrefixes))
+            .Where(a => !assemblyPrefixes.Any() || a.FullNameStartsWithPrefixes(assemblyPrefixes))
             .SelectMany(a => GetAssemblies(a, assemblyPrefixes))
             .Concat(parent == null ? Enumerable.Empty<Assembly>() : new[] { parent })
-            .Where(a => !assemblyPrefixes.Any() || a.StartsWithPrefixes(assemblyPrefixes))
+            .Where(a => !assemblyPrefixes.Any() || a.FullNameStartsWithPrefixes(assemblyPrefixes))
             .Distinct()
             .ToList();
     }
