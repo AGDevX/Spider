@@ -8,48 +8,51 @@ namespace AGDevX.Tests.Security;
 
 public class ClaimsPrincipalExtensionsTests
 {
-    [Fact]
-    public void GetEmail_ReturnsEmail()
+    public class When_calling_GetEmail
     {
-        //-- Arrange
-        var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        [Fact]
+        public void And_the_claims_principal_has_the_claim_then_return_claim_value()
         {
-            new Claim(ClaimTypes.Email, "agdevx@reddwarfjmcagdx.com")
-        }, "mock"));
+            //-- Arrange
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, "agdevx@reddwarfjmcagdx.com")
+            }, "mock"));
 
-        //-- Act
-        var claimValue = user.GetEmail();
+            //-- Act
+            var claimValue = user.GetEmail();
 
-        //-- Assert
-        Assert.NotNull(claimValue);
-    }
+            //-- Assert
+            Assert.NotNull(claimValue);
+        }
 
-    [Fact]
-    public void GetEmail_ReturnsNull()
-    {
-        //-- Arrange
-        var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        [Fact]
+        public void And_the_claims_principal_does_not_have_the_claim_with_do_not_throw_param_then_return_null()
         {
-            new Claim(ClaimTypes.Name, "August Geier"),
-        }, "mock"));
+            //-- Arrange
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, "August Geier"),
+            }, "mock"));
 
-        //-- Act
-        var claimValue = user.GetEmail(false);
+            //-- Act
+            var claimValue = user.GetEmail(false);
 
-        //-- Assert
-        Assert.Null(claimValue);
-    }
+            //-- Assert
+            Assert.Null(claimValue);
+        }
 
-    [Fact]
-    public void GetEmail_ThrowsException()
-    {
-        //-- Arrange
-        var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        [Fact]
+        public void And_the_claims_principal_does_not_have_the_claim_without_do_not_throw_param_then_throw_ClaimNotFoundException()
         {
-            new Claim(ClaimTypes.Name, "August Geier"),
-        }, "mock"));
+            //-- Arrange
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, "August Geier"),
+            }, "mock"));
 
-        //-- Act && Assert
-        Assert.Throws<ClaimNotFoundException>(() => user.GetEmail());
+            //-- Act && Assert
+            Assert.Throws<ClaimNotFoundException>(() => user.GetEmail());
+        }
     }
 }
