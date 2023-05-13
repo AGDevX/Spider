@@ -13,6 +13,42 @@ public static class ExceptionDetailExtensions
 {
     //-- Inspired by https://stackoverflow.com/a/65972998/5372598
 
+    public static ExceptionDetail GetExceptionDetail(this CodedException codedEx, bool includeStackFrames = true, bool filterStackFrames = false, IEnumerable<string>? assemblyPrefixes = default)
+    {
+        assemblyPrefixes ??= new List<string>();
+        var code = codedEx.Code;
+
+        var stackTrace = new StackTrace(codedEx, true);
+
+        var exceptionDetail = new ExceptionDetail
+        {
+            Code = code,
+            Message = codedEx.Message,
+            StackFrames = includeStackFrames
+                ? stackTrace.GetFrames().Select(sfm => new StackFrameModel
+                {
+                    LineNumber = sfm.GetFileLineNumber(),
+                    Method = GetMethodSignature(sfm.GetMethod()),
+                    Class = sfm.GetMethod()?.DeclaringType?.FullName,
+                    AssemblyName = sfm.GetMethod()?.DeclaringType?.Assembly?.FullName,
+                    AssemblyFile = sfm.GetMethod()?.DeclaringType?.Assembly?.Location,
+                    CodeFile = sfm.GetFileName(),
+                }).Where(sf => !filterStackFrames || filterStackFrames && !assemblyPrefixes.Any() || AssemblyUtility.AssemblyNameStartsWithAnyPrefix(sf.AssemblyName, assemblyPrefixes))
+                : null
+        };
+
+        if (codedEx.InnerException is CodedException innerCodedEx)
+        {
+            exceptionDetail.InnerException = innerCodedEx.GetExceptionDetail() ?? null;
+        }
+        else
+        {
+            exceptionDetail.InnerException = codedEx?.InnerException?.GetExceptionDetail("EXCEPTION") ?? null;
+        }
+
+        return exceptionDetail;
+    }
+
     public static ExceptionDetail GetExceptionDetail(this Exception ex, string code, bool includeStackFrames = true, bool filterStackFrames = false, IEnumerable<string>? assemblyPrefixes = default)
     {
         assemblyPrefixes ??= new List<string>();
@@ -48,10 +84,20 @@ public static class ExceptionDetailExtensions
             return null;
         }
 
-        var methodNameRegex = new Regex(@"(<)(.*?)(>)");
-        var methodNameMatch = methodNameRegex.Match(methodBase.DeclaringType?.Name ?? string.Empty);
+        var declaringTypeNameRegex = new Regex(@"(<)(.*?)(>)");
+        var declaringTypeNameMatch = declaringTypeNameRegex.Match(methodBase.DeclaringType?.Name ?? string.Empty);
+        //-- "<GetRoles>d__5"
 
         var methodName = methodBase.Name;
+        //-- scoped method <GetExceptionDetail_IncludeStackFrames_FilterStackFrames>g__asdfasdfasdf|7_0
+
+        var methodNameRegex = new Regex(@"(__)(.*?)(\|)");
+        var methodNameMatch = methodNameRegex.Match(methodName);
+
+        if (declaringTypeNameMatch.Success)
+        {
+            methodName = declaringTypeNameMatch.Groups[2].Value;
+        }
 
         if (methodNameMatch.Success)
         {
