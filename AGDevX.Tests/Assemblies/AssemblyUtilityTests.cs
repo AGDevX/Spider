@@ -8,118 +8,123 @@ namespace AGDevX.Tests.Assemblies;
 
 public class AssemblyUtilityTests
 {
-    //-- TODO: Can't load all assemblies for some reason
-    //[Fact]
-    //public void GetAssemblies_NullParentNullPrefixes_ReturnsAllAssemblies()
-    //{
-    //    //-- Arrange
-    //    Assembly? parent = null;
-    //    List<string>? assemblyPrefixes = null;
-
-    //    //--Act
-    //    var assemblies = AssemblyUtility.GetAssemblies(parent, assemblyPrefixes);
-
-    //    //-- Assert
-    //    Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("System"));
-    //    Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("AGDevX"));
-    //}
-
-    [Fact]
-    public void GetAssemblies_NullParentWithPrefixes_DoesNotReturnSystemAssemblies()
+    public class When_calling_GetAssemblies
     {
-        //-- Arrange
-        Assembly? parent = null;
-        var assemblyPrefixes = new List<string>
+        [Fact]
+        public void With_null_parent_and_null_prefix_list_return_all_asemblies()
         {
-            "Microsoft",
-            "AGDevX"
-        };
+            //-- Arrange
+            Assembly? parent = null;
+            List<string>? assemblyPrefixes = null;
 
-        //--Act
-        var assemblies = AssemblyUtility.GetAssemblies(parent, assemblyPrefixes);
+            //--Act
+            var assemblies = AssemblyUtility.GetAssemblies(parent, assemblyPrefixes);
 
-        //-- Assert
-        Assert.DoesNotContain(assemblies, a => a.FullName.StartsWithIgnoreCase("System"));
-        Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("Microsoft"));
-        Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("AGDevx"));
-    }
+            //-- Assert
+            Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("System"));
+            Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("AGDevX"));
+        }
 
-    [Fact]
-    public void AssemblyNameStartsWithAnyPrefix_ReturnsTrue()
-    {
-        //-- Arrange
-        string assemblyName = "AGDevX";
-        List<string> assemblyPrefixes = new List<string>
+        [Fact]
+        public void With_null_parent_without_a_system_prefix_then_do_not_return_system_assemblies()
         {
-            "AGDevX"
-        };
+            //-- Arrange
+            Assembly? parent = null;
+            var assemblyPrefixes = new List<string>
+            {
+                "Microsoft",
+                "AGDevX"
+            };
 
-        //--Act
-        var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
+            //--Act
+            var assemblies = AssemblyUtility.GetAssemblies(parent, assemblyPrefixes);
 
-        //-- Assert
-        Assert.True(any);
+            //-- Assert
+            Assert.DoesNotContain(assemblies, a => a.FullName.StartsWithIgnoreCase("System"));
+            Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("Microsoft"));
+            Assert.Contains(assemblies, a => a.FullName.StartsWithIgnoreCase("AGDevx"));
+        }
     }
 
-    [Fact]
-    public void AssemblyNameStartsWithAnyPrefix_ReturnsFalse()
+    public class When_calling_AssemblyNameStartsWithAnyPrefix
     {
-        //-- Arrange
-        string assemblyName = "AGDevX";
-        List<string> assemblyPrefixes = new List<string>
+        [Fact]
+        public void And_assembly_name_matches_a_prefix_return_true()
         {
-            "Spider"
-        };
+            //-- Arrange
+            string assemblyName = "AGDevX";
+            var assemblyPrefixes = new List<string>
+            {
+                "AGDevX"
+            };
 
-        //--Act
-        var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
+            //--Act
+            var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
 
-        //-- Assert
-        Assert.False(any);
-    }
+            //-- Assert
+            Assert.True(any);
+        }
 
-    [Fact]
-    public void AssemblyNameStartsWithAnyPrefix_NullAssemblyName_ReturnsFalse()
-    {
-        //-- Arrange
-        string? assemblyName = null;
-        List<string> assemblyPrefixes = new List<string>
+        [Fact]
+        public void And_assembly_name_does_not_match_prefix_return_false()
         {
-            "AGDevX"
-        };
+            //-- Arrange
+            string assemblyName = "AGDevX";
+            var assemblyPrefixes = new List<string>
+            {
+                "Spider"
+            };
 
-        //--Act
-        var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
+            //--Act
+            var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
 
-        //-- Assert
-        Assert.False(any);
-    }
+            //-- Assert
+            Assert.False(any);
+        }
 
-    [Fact]
-    public void AssemblyNameStartsWithAnyPrefix_NullEnumerable_ReturnsFalse()
-    {
-        //-- Arrange
-        string assemblyName = "AGDevX";
-        List<string>? assemblyPrefixes = null;
+        [Fact]
+        public void And_a_null_assembly_name_does_not_match_prefix_return_false()
+        {
+            //-- Arrange
+            string? assemblyName = null;
+            var assemblyPrefixes = new List<string>
+            {
+                "AGDevX"
+            };
 
-        //--Act
-        var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
+            //--Act
+            var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
 
-        //-- Assert
-        Assert.False(any);
-    }
+            //-- Assert
+            Assert.False(any);
+        }
 
-    [Fact]
-    public void AssemblyNameStartsWithAnyPrefix_NullAssemblyName_NullEnumerable_ReturnsFalse()
-    {
-        //-- Arrange
-        string? assemblyName = null;
-        List<string>? assemblyPrefixes = null;
+        [Fact]
+        public void And_a_null_assembly_prefix_list_is_provided_return_false()
+        {
+            //-- Arrange
+            string assemblyName = "AGDevX";
+            List<string>? assemblyPrefixes = null;
 
-        //--Act
-        var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
+            //--Act
+            var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
 
-        //-- Assert
-        Assert.False(any);
+            //-- Assert
+            Assert.False(any);
+        }
+
+        [Fact]
+        public void And_a_null_assembly_name_and_null_assembly_list_are_provided_return_false()
+        {
+            //-- Arrange
+            string? assemblyName = null;
+            List<string>? assemblyPrefixes = null;
+
+            //--Act
+            var any = AssemblyUtility.AssemblyNameStartsWithAnyPrefix(assemblyName, assemblyPrefixes);
+
+            //-- Assert
+            Assert.False(any);
+        }
     }
 }
