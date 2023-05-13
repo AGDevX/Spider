@@ -1,5 +1,4 @@
 ﻿using System;
-using AGDevX.Core.Swagger.OperationFilter;
 using AGDevX.Strings;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,16 +8,14 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AGDevX.Web.Swagger;
 
-public sealed class ConfigureOAuth2SwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
+public sealed class ConfigureDefault : IConfigureNamedOptions<SwaggerGenOptions>
 {
-    private readonly string _scheme = "OAuth2";
-
-    private readonly IApiVersionDescriptionProvider _provider;
+    private readonly IApiVersionDescriptionProvider _apiVersionDescriptionProvider;
     private readonly SwaggerConfig _swaggerConfig;
 
-    public ConfigureOAuth2SwaggerOptions(IApiVersionDescriptionProvider provider, SwaggerConfig swaggerConfig)
+    public ConfigureDefault(IApiVersionDescriptionProvider apiVersionDescriptionProvider, SwaggerConfig swaggerConfig)
     {
-        _provider = provider;
+        _apiVersionDescriptionProvider = apiVersionDescriptionProvider;
         _swaggerConfig = swaggerConfig;
     }
 
@@ -29,30 +26,13 @@ public sealed class ConfigureOAuth2SwaggerOptions : IConfigureNamedOptions<Swagg
 
     public void Configure(SwaggerGenOptions options)
     {
-        foreach (var description in _provider.ApiVersionDescriptions)
+        foreach (var description in _apiVersionDescriptionProvider.ApiVersionDescriptions)
         {
             options.SwaggerDoc(description.GroupName, CreateVersionInfo(description));
         }
         
-        options.OperationFilter<AuthorizeOperationFilter>(_scheme);
-
         options.DescribeAllParametersInCamelCase();
         options.CustomSchemaIds(x => x.FullName);
-
-        options.AddSecurityDefinition(_scheme, new OpenApiSecurityScheme
-        {
-            Type = SecuritySchemeType.OAuth2,
-            Flows = new OpenApiOAuthFlows()
-            {
-                AuthorizationCode = new OpenApiOAuthFlow
-                {
-                    AuthorizationUrl = _swaggerConfig.AuthorizationUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.AuthorizationUrl) : null,
-                    TokenUrl = _swaggerConfig.TokenUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.TokenUrl) : null,
-                    Scopes = _swaggerConfig.Scopes
-                }
-            },
-            Description = $"{ _scheme } - PKCE"
-        });
     }
 
     private OpenApiInfo CreateVersionInfo(ApiVersionDescription apiVersionDescription)

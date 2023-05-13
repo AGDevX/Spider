@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using AGDevX.IEnumerables;
+using AGDevX.Strings;
 
 namespace AGDevX.Web.Swagger;
 
@@ -16,4 +18,16 @@ public sealed class SwaggerConfig
     public string? ClientId { get; set; }
     public string? ClientSecret { get; set; }
     public Dictionary<string, string> Scopes { get; set; } = new Dictionary<string, string>();
+}
+
+public static class SwaggerConfigExtensions
+{
+    public static bool IsConfiguredForOAuth2(this SwaggerConfig swaggerConfig)
+    {
+        return swaggerConfig.AuthorizationUrl.IsNotNullOrWhiteSpace()
+                && swaggerConfig.TokenUrl.IsNotNullOrWhiteSpace()
+                && swaggerConfig.ClientId.IsNotNullOrWhiteSpace()
+                && swaggerConfig.ClientSecret.IsNotNullOrWhiteSpace()
+                && swaggerConfig.Scopes.AnySafe();
+    }
 }

@@ -23,7 +23,7 @@ public static class SwaggerExtensions
                     options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
                 }
             });
-            services.ConfigureOptions<ConfigureOAuth2SwaggerOptions>();
+            services.ConfigureOptions<ConfigureDefault>();
         }
     }
 
@@ -44,11 +44,14 @@ public static class SwaggerExtensions
                         options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                     }
 
-                    options.OAuthAppName(swaggerConfig.Title);
-                    options.OAuthClientId(swaggerConfig.ClientId);
-                    options.OAuthClientSecret(swaggerConfig.ClientSecret);
-                    options.OAuthScopeSeparator(" ");
-                    options.OAuthUsePkce();
+                    if (swaggerConfig.IsConfiguredForOAuth2())
+                    {
+                        options.OAuthAppName(swaggerConfig.Title);
+                        options.OAuthClientId(swaggerConfig.ClientId);
+                        options.OAuthClientSecret(swaggerConfig.ClientSecret);
+                        options.OAuthScopeSeparator(" ");
+                        options.OAuthUsePkce();
+                    }
                 });
             }
         }
