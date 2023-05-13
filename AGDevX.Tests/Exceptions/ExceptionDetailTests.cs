@@ -18,7 +18,7 @@ public sealed class ExceptionDetailTests
     public static ApplicationStartupException? _applicationStartupException;
 
     public static List<string> _assemblyPrefixes = new List<string>() { "AGDevX", "JMC", "RD" };
-    
+
     public class When_calling_GetExceptionDetail
     {
         public class And_including_stack_frames_and_filtering_stack_frames_for_a_generic_method
@@ -63,9 +63,9 @@ public sealed class ExceptionDetailTests
 
             }
         }
+
         public class And_including_stack_frames_and_filtering_stack_frames_for_a_non_generic_method
         {
-
             [Fact]
             public void Then_return_filtered_stack_frames()
             {
@@ -100,9 +100,31 @@ public sealed class ExceptionDetailTests
             }
         }
 
+        public class And_including_stack_frames_and_filtering_stack_frames_for_a_method_name_ending_in_a_symbol
+        {
+            [Fact]
+            public void GetExceptionDetail_()
+            {
+                //-- Arrange
+                _extensionMethodException = new ExtensionMethodException(_extensionMethodExceptionMessage);
+                _applicationStartupException = new ApplicationStartupException(_extensionMethodExceptionMessage, _extensionMethodException);
+
+                bool includeStackFrames = true;
+                bool filterStackFrames = true;
+
+                //-- Act
+                var exceptionDetail = _applicationStartupException.GetExceptionDetail(includeStackFrames, filterStackFrames);
+
+                //-- Assert
+                Assert.True(exceptionDetail.Code.Equals(_applicationStartupException.Code));
+                Assert.True(exceptionDetail.Message.Equals(_applicationStartupException.Message));
+                Assert.True(exceptionDetail.StackFrames.IsNotNull());
+                Assert.True(exceptionDetail.InnerException.IsNotNull());
+            }
+        }
+
         public class And_not_including_stack_frames
         {
-
             [Fact]
             public void Then_do_not_return_stack_frames()
             {
@@ -129,26 +151,6 @@ public sealed class ExceptionDetailTests
                     Assert.True(exceptionDetail.InnerException.IsNotNull());
                 }
             }
-        }
-
-        [Fact]
-        public void GetExceptionDetail_()
-        {
-            //-- Arrange
-            _extensionMethodException = new ExtensionMethodException(_extensionMethodExceptionMessage);
-            _applicationStartupException = new ApplicationStartupException(_extensionMethodExceptionMessage, _extensionMethodException);
-
-            bool includeStackFrames = true;
-            bool filterStackFrames = true;
-
-            //-- Act
-            var exceptionDetail = _applicationStartupException.GetExceptionDetail(includeStackFrames, filterStackFrames);
-
-            //-- Assert
-            Assert.True(exceptionDetail.Code.Equals(_applicationStartupException.Code));
-            Assert.True(exceptionDetail.Message.Equals(_applicationStartupException.Message));
-            Assert.True(exceptionDetail.StackFrames.IsNotNull());
-            Assert.True(exceptionDetail.InnerException.IsNotNull());
         }
     }
 }
