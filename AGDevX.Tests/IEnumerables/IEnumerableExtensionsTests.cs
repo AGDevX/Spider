@@ -7,346 +7,361 @@ namespace AGDevX.Tests.IEnumerables;
 
 public class IEnumerableExtensionsTests
 {
-    [Fact]
-    public void IsNullOrEmpty_Null_ReturnsTrue()
+    public class When_calling_IsNullOrEmpty
     {
-        //-- Arrange
-        List<string>? strings = null;
+        [Fact]
+        public void And_the_list_is_null_then_return_true()
+        {
+            //-- Arrange
+            List<string>? strings = null;
 
-        //-- Act
-        var isNullOrEmpty = strings.IsNullOrEmpty();
+            //-- Act
+            var isNullOrEmpty = strings.IsNullOrEmpty();
 
-        //-- Assert
-        Assert.True(isNullOrEmpty);
+            //-- Assert
+            Assert.True(isNullOrEmpty);
+        }
+
+        [Fact]
+        public void And_the_list_is_empty_then_return_true()
+        {
+            //-- Arrange
+            List<string> strings = new();
+
+            //-- Act
+            var isNullOrEmpty = strings.IsNullOrEmpty();
+
+            //-- Assert
+            Assert.True(isNullOrEmpty);
+        }
+
+        [Fact]
+        public void And_the_list_is_not_null_nor_empty_then_return_false()
+        {
+            //-- Arrange
+            var strings = new List<string>
+            {
+                "Hello"
+            };
+
+            //-- Act
+            var isNullOrEmpty = strings.IsNullOrEmpty();
+
+            //-- Assert
+            Assert.False(isNullOrEmpty);
+        }
     }
 
-    [Fact]
-    public void IsNullOrEmpty_Empty_ReturnsTrue()
+    public class When_calling_HasCommonStringElement
     {
-        //-- Arrange
-        List<string> strings = new();
+        [Fact]
+        public void And_list1_has_values_in_common_with_list2_then_return_true()
+        {
+            //-- Arrange
+            var strings1 = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
 
-        //-- Act
-        var isNullOrEmpty = strings.IsNullOrEmpty();
+            var strings2 = new List<string>
+            {
+                "hello"
+            };
 
-        //-- Assert
-        Assert.True(isNullOrEmpty);
+            //-- Act
+            var hasCommonElement = strings1.HasCommonStringElement(strings2);
+
+            //-- Assert
+            Assert.True(hasCommonElement);
+        }
+
+        [Fact]
+        public void And_list1_does_not_have_values_in_common_with_list2_then_return_false()
+        {
+            //-- Arrange
+            var strings1 = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
+
+            var strings2 = new List<string>
+            {
+                "oh", "my", "golly"
+            };
+
+            //-- Act
+            var hasCommonElement = strings1.HasCommonStringElement(strings2);
+
+            //-- Assert
+            Assert.False(hasCommonElement);
+        }
+
+        [Fact]
+        public void And_list1_is_null_with_list2_not_null_then_return_false()
+        {
+            //-- Arrange
+            List<string>? strings1 = null;
+
+            var strings2 = new List<string>
+            {
+                "oh", "my", "golly"
+            };
+
+            //-- Act
+            var hasCommonElement = strings1.HasCommonStringElement(strings2);
+
+            //-- Assert
+            Assert.False(hasCommonElement);
+        }
+
+        [Fact]
+        public void And_list1_is_not_null_with_list2_null_then_return_false()
+        {
+            //-- Arrange
+            var strings1 = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
+
+            List<string>? strings2 = null;
+
+            //-- Act
+            var hasCommonElement = strings1.HasCommonStringElement(strings2);
+
+            //-- Assert
+            Assert.False(hasCommonElement);
+        }
     }
 
-    [Fact]
-    public void IsNullOrEmpty_NotNullOrEmpty_ReturnsFalse()
+    public class When_calling_ToDataTable
     {
-        //-- Arrange
-        List<string> strings = new List<string>
+        [Fact]
+        public void And_list_is_null_then_return_empty_data_table()
         {
-            "Hello"
-        };
+            //-- Arrange
+            List<Guid>? ids = null;
 
-        //-- Act
-        var isNullOrEmpty = strings.IsNullOrEmpty();
-
-        //-- Assert
-        Assert.False(isNullOrEmpty);
-    }
-
-    [Fact]
-    public void HasCommonStringElement_ReturnsTrue()
-    {
-        //-- Arrange
-        List<string> strings1 = new List<string>
-        {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
-
-        List<string> strings2 = new List<string>
-        {
-            "hello"
-        };
-
-        //-- Act
-        var hasCommonElement = strings1.HasCommonStringElement(strings2);
-
-        //-- Assert
-        Assert.True(hasCommonElement);
-    }
-
-    [Fact]
-    public void HasCommonStringElement_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string> strings1 = new List<string>
-        {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
-
-        List<string> strings2 = new List<string>
-        {
-            "oh", "my", "gosh"
-        };
-
-        //-- Act
-        var hasCommonElement = strings1.HasCommonStringElement(strings2);
-
-        //-- Assert
-        Assert.False(hasCommonElement);
-    }
-
-    [Fact]
-    public void HasCommonStringElement_Null1_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string>? strings1 = null;
-
-        List<string> strings2 = new List<string>
-        {
-            "oh", "my", "gosh"
-        };
-
-        //-- Act
-        var hasCommonElement = strings1.HasCommonStringElement(strings2);
-
-        //-- Assert
-        Assert.False(hasCommonElement);
-    }
-
-    [Fact]
-    public void HasCommonStringElement_Null2_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string> strings1 = new List<string>
-        {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
-
-        List<string>? strings2 = null;
-
-        //-- Act
-        var hasCommonElement = strings1.HasCommonStringElement(strings2);
-
-        //-- Assert
-        Assert.False(hasCommonElement);
-    }
-
-    [Fact]
-    public void ToDataTable_NullEnumerable_ReturnsEmptyDataTable()
-    {
-        //-- Arrange
-        List<Guid>? ids = null;
-
-        //-- Act
+            //-- Act
 #pragma warning disable CS8604 // Possible null reference argument.
-        var dataTable = ids.ToIdDataTable();
+            var dataTable = ids.ToIdDataTable();
 #pragma warning restore CS8604 // Possible null reference argument.
 
-        //-- Assert
-        Assert.True(dataTable.Rows.Count == 0);
-    }
+            //-- Assert
+            Assert.True(dataTable.Rows.Count == 0);
+        }
 
-    [Fact]
-    public void ToDataTable_EmptyEnumerable_ReturnsEmptyDataTable()
-    {
-        //-- Arrange
-        var ids = new List<Guid>();
-
-        //-- Act
-        var dataTable = ids.ToIdDataTable();
-
-        //-- Assert
-        Assert.True(dataTable.Rows.Count == 0);
-    }
-
-    [Fact]
-    public void ToDataTable_OneRecordDefaultColumnName_ReturnsDataTableWithOneRecordAndIdColumn()
-    {
-        //-- Arrange
-        var guid = Guid.NewGuid();
-        var ids = new List<Guid>
+        [Fact]
+        public void And_list_is_empty_then_return_empty_data_table()
         {
-            guid
-        };
+            //-- Arrange
+            var ids = new List<Guid>();
 
-        //-- Act
-        var dataTable = ids.ToIdDataTable();
+            //-- Act
+            var dataTable = ids.ToIdDataTable();
 
-        //-- Assert
-        Assert.True(dataTable.Rows.Count == 1);
-        Assert.True(dataTable.Columns.Count == 1);
-        Assert.True(dataTable.Columns.Contains("Id"));
-        Assert.True(new Guid(dataTable.Rows[0]["Id"].ToString()!) == guid);
-    }
+            //-- Assert
+            Assert.True(dataTable.Rows.Count == 0);
+        }
 
-    [Fact]
-    public void ToDataTable_MultipleRecordDefaultColumnName_ReturnsDataTableWithOneRecordAndIdColumn()
-    {
-        //-- Arrange
-        var guid1 = Guid.NewGuid();
-        var guid2 = Guid.NewGuid();
-        var ids = new List<Guid>
+        [Fact]
+        public void And_list_has_1_record_with_the_default_column_name_then_return_data_table_with_1_record_and_the_default_column_name()
         {
-            guid1,
-            guid2
-        };
+            //-- Arrange
+            var guid = Guid.NewGuid();
+            var ids = new List<Guid>
+            {
+                guid
+            };
 
-        //-- Act
-        var dataTable = ids.ToIdDataTable();
+            //-- Act
+            var dataTable = ids.ToIdDataTable();
 
-        //-- Assert
-        Assert.True(dataTable.Rows.Count == 2);
-        Assert.True(dataTable.Columns.Count == 1);
-        Assert.True(dataTable.Columns.Contains("Id"));
-        Assert.True(new Guid(dataTable.Rows[0]["Id"].ToString()!) == guid1);
-        Assert.True(new Guid(dataTable.Rows[1]["Id"].ToString()!) == guid2);
-    }
+            //-- Assert
+            Assert.True(dataTable.Rows.Count == 1);
+            Assert.True(dataTable.Columns.Count == 1);
+            Assert.True(dataTable.Columns.Contains("Id"));
+            Assert.True(new Guid(dataTable.Rows[0]["Id"].ToString()!) == guid);
+        }
 
-    [Fact]
-    public void ToDataTable_MultipleRecordCustomColumnName_ReturnsDataTableWithOneRecordAndCustomColumn()
-    {
-        //-- Arrange
-        var guid1 = Guid.NewGuid();
-        var guid2 = Guid.NewGuid();
-        var ids = new List<Guid>
+        [Fact]
+        public void And_list_has_2_records_then_return_data_table_with_2_records()
         {
-            guid1,
-            guid2
-        };
+            //-- Arrange
+            var guid1 = Guid.NewGuid();
+            var guid2 = Guid.NewGuid();
+            var ids = new List<Guid>
+            {
+                guid1,
+                guid2
+            };
 
-        //-- Act
-        var dataTable = ids.ToIdDataTable("TheId");
+            //-- Act
+            var dataTable = ids.ToIdDataTable();
 
-        //-- Assert
-        Assert.True(dataTable.Rows.Count == 2);
-        Assert.True(dataTable.Columns.Count == 1);
-        Assert.True(dataTable.Columns.Contains("TheId"));
-        Assert.True(new Guid(dataTable.Rows[0]["TheId"].ToString()!) == guid1);
-        Assert.True(new Guid(dataTable.Rows[1]["TheId"].ToString()!) == guid2);
-    }
+            //-- Assert
+            Assert.True(dataTable.Rows.Count == 2);
+            Assert.True(dataTable.Columns.Count == 1);
+            Assert.True(dataTable.Columns.Contains("Id"));
+            Assert.True(new Guid(dataTable.Rows[0]["Id"].ToString()!) == guid1);
+            Assert.True(new Guid(dataTable.Rows[1]["Id"].ToString()!) == guid2);
+        }
 
-    [Fact]
-    public void ContainsIgnoreCase_ReturnsTrue()
-    {
-        //-- Arrange
-        List<string> strings = new List<string>
+        [Fact]
+        public void And_list_has_a_custom_column_name_then_return_data_table_the_custom_column_name()
         {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
+            //-- Arrange
+            var guid1 = Guid.NewGuid();
+            var guid2 = Guid.NewGuid();
+            var ids = new List<Guid>
+            {
+                guid1,
+                guid2
+            };
 
-        var str = "hello";
+            //-- Act
+            var dataTable = ids.ToIdDataTable("TheId");
 
-        //-- Act
-        var contains = strings.ContainsIgnoreCase(str);
-
-        //-- Assert
-        Assert.True(contains);
+            //-- Assert
+            Assert.True(dataTable.Rows.Count == 2);
+            Assert.True(dataTable.Columns.Count == 1);
+            Assert.True(dataTable.Columns.Contains("TheId"));
+            Assert.True(new Guid(dataTable.Rows[0]["TheId"].ToString()!) == guid1);
+            Assert.True(new Guid(dataTable.Rows[1]["TheId"].ToString()!) == guid2);
+        }
     }
 
-    [Fact]
-    public void ContainsIgnoreCase_Null_ReturnsTrue()
+    public class When_calling_ContainsIgnoreCase
     {
-        //-- Arrange
-        List<string?> strings = new List<string?>
+        [Fact]
+        public void And_list_has_matching_value_then_return_true()
         {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut", null
-        };
+            //-- Arrange
+            var strings = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
+                
+            var str = "hello";
 
-        string? str = null;
+            //-- Act
+            var contains = strings.ContainsIgnoreCase(str);
 
-        //-- Act
-        var contains = strings.ContainsIgnoreCase(str);
+            //-- Assert
+            Assert.True(contains);
+        }
 
-        //-- Assert
-        Assert.True(contains);
-    }
-
-    [Fact]
-    public void ContainsIgnoreCase_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string> strings = new List<string>
+        [Fact]
+        public void And_list_has_null_element_with_null_element_match_return_true()
         {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
+            //-- Arrange
+            var strings = new List<string?>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut", null
+            };
 
-        var str = "hey";
+            string? str = null;
 
-        //-- Act
-        var contains = strings.ContainsIgnoreCase(str);
+            //-- Act
+            var contains = strings.ContainsIgnoreCase(str);
 
-        //-- Assert
-        Assert.False(contains);
-    }
+            //-- Assert
+            Assert.True(contains);
+        }
 
-    [Fact]
-    public void ContainsIgnoreCase_NullStrings_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string>? strings = null;
-
-        var str = "hello";
-
-        //-- Act
-        var contains = strings.ContainsIgnoreCase(str);
-
-        //-- Assert
-        Assert.False(contains);
-    }
-
-    [Fact]
-    public void ContainsIgnoreCase_NullString_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string> strings = new List<string>
+        [Fact]
+        public void And_list_does_not_have_matching_value_then_return_false()
         {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
+            //-- Arrange
+            var strings = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
 
-        string? str = null;
+            var str = "hey";
 
-        //-- Act
-        var contains = strings.ContainsIgnoreCase(str);
+            //-- Act
+            var contains = strings.ContainsIgnoreCase(str);
 
-        //-- Assert
-        Assert.False(contains);
-    }
+            //-- Assert
+            Assert.False(contains);
+        }
 
-    [Fact]
-    public void AnySafe_ReturnsTrue()
-    {
-        //-- Arrange
-        List<string> strings = new List<string>
+        [Fact]
+        public void And_list_is_null_then_return_false()
         {
-            "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
-        };
+            //-- Arrange
+            List<string>? strings = null;
 
-        //-- Act
-        var contains = strings.AnySafe();
+            var str = "hello";
 
-        //-- Assert
-        Assert.True(contains);
+            //-- Act
+            var contains = strings.ContainsIgnoreCase(str);
+
+            //-- Assert
+            Assert.False(contains);
+        }
+
+        [Fact]
+        public void And_list_does_not_have_null_element_with_null_element_match_return_false()
+        {
+            //-- Arrange
+            var strings = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
+
+            string? str = null;
+
+            //-- Act
+            var contains = strings.ContainsIgnoreCase(str);
+
+            //-- Assert
+            Assert.False(contains);
+        }
     }
 
-    [Fact]
-    public void AnySafe_Null_ReturnsFalse()
+    public class When_calling_AnySafe
     {
-        //-- Arrange
-        List<string>? strings = null;
+        [Fact]
+        public void And_list_is_non_empty_return_true()
+        {
+            //-- Arrange
+            var strings = new List<string>
+            {
+                "hi", "there", "hello", "it's", "me", "I'm", "the", "adstronaut"
+            };
 
-        //-- Act
-        var contains = strings.AnySafe();
+            //-- Act
+            var contains = strings.AnySafe();
 
-        //-- Assert
-        Assert.False(contains);
-    }
+            //-- Assert
+            Assert.True(contains);
+        }
 
-    [Fact]
-    public void AnySafe_Empty_ReturnsFalse()
-    {
-        //-- Arrange
-        List<string> strings = new();
+        [Fact]
+        public void And_list_is_null_return_false()
+        {
+            //-- Arrange
+            List<string>? strings = null;
 
-        //-- Act
-        var contains = strings.AnySafe();
+            //-- Act
+            var contains = strings.AnySafe();
 
-        //-- Assert
-        Assert.False(contains);
+            //-- Assert
+            Assert.False(contains);
+        }
+
+        [Fact]
+        public void And_list_is_empty_return_false()
+        {
+            //-- Arrange
+            List<string> strings = new();
+
+            //-- Act
+            var contains = strings.AnySafe();
+
+            //-- Assert
+            Assert.False(contains);
+        }
     }
 }
