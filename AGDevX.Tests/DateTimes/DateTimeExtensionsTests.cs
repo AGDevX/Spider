@@ -6,29 +6,32 @@ namespace AGDevX.Tests.DateTimes;
 
 public class DateTimeExtensionsTests
 {
-    [Fact]
-    public void SpecifyKind_IsNotUtc_ReturnsDateTimeNotUtc()
+    public class When_calling_SpecifyKind
     {
-        //-- Arrange
-        var originalDateTime = DateTime.Now;
+        [Fact]
+        public void With_non_utc_datetime_then_return_non_utc_datetime()
+        {
+            //-- Arrange
+            var originalDateTime = DateTime.Now;
 
-        //-- Act
-        var kindSpecifiedDateTime = originalDateTime.SpecifyKind(DateTimeKind.Local);
+            //-- Act
+            var kindSpecifiedDateTime = originalDateTime.SpecifyKind(DateTimeKind.Local);
 
-        //-- Assert
-        Assert.False(kindSpecifiedDateTime.Kind == DateTimeKind.Utc);
-    }
+            //-- Assert
+            Assert.False(kindSpecifiedDateTime.Kind == DateTimeKind.Utc);
+        }
 
-    [Fact]
-    public void SpecifyKind_IsUtc_ReturnsDateTimeUtc()
-    {
-        //-- Arrange
-        var originalDateTime = DateTime.Now;
+        [Fact]
+        public void With_utc_datetime_then_return_utc_datetime()
+        {
+            //-- Arrange
+            var originalDateTime = DateTime.Now;
 
-        //-- Act
-        var kindSpecifiedDateTime = originalDateTime.SpecifyKind(DateTimeKind.Utc);
+            //-- Act
+            var kindSpecifiedDateTime = originalDateTime.SpecifyKind(DateTimeKind.Utc);
 
-        //-- Assert
-        Assert.True(kindSpecifiedDateTime.Kind == DateTimeKind.Utc);
+            //-- Assert
+            Assert.True(kindSpecifiedDateTime.Kind == DateTimeKind.Utc);
+        }
     }
 }
