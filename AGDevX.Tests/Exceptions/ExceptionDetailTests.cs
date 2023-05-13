@@ -9,15 +9,15 @@ namespace AGDevX.Tests.Exceptions;
 
 public sealed class ExceptionDetailTests
 {
-    public const string _applicationStartupExceptionMessage = "The application failed to start";
-    public const string _extensionMethodExceptionMessage = "Unhandled scenario";
-    public const string _nullReferenceExceptionMessage = "Dude, the object was null.";
+    private const string _applicationStartupExceptionMessage = "The application failed to start";
+    private const string _extensionMethodExceptionMessage = "Unhandled scenario";
+    private const string _nullReferenceExceptionMessage = "Dude, the object was null.";
 
-    public static NullReferenceException? _nullReferenceException;
-    public static ExtensionMethodException? _extensionMethodException;
-    public static ApplicationStartupException? _applicationStartupException;
+    private static NullReferenceException? _nullReferenceException;
+    private static ExtensionMethodException? _extensionMethodException;
+    private static ApplicationStartupException? _applicationStartupException;
 
-    public static List<string> _assemblyPrefixes = new List<string>() { "AGDevX", "JMC", "RD" };
+    private static List<string> _assemblyPrefixes = new List<string>() { "AGDevX", "JMC", "RD" };
 
     public class When_calling_GetExceptionDetail
     {

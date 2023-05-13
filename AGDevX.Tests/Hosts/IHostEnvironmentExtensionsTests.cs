@@ -7,101 +7,85 @@ using Xunit;
 namespace AGDevX.Tests.Hosts;
 public class IHostEnvironmentExtensionsTests
 {
-    private IHostEnvironment _hostEnvironment;
-
-    public IHostEnvironmentExtensionsTests()
+    private static IHostEnvironment _prodHostEnvironment = new HostEnvironment
     {
-        _hostEnvironment = new HostEnvironment
+        ApplicationName = "AGDevXTests",
+        EnvironmentName = "Prod",
+        ContentRootPath = "C:\\",
+        ContentRootFileProvider = new PhysicalFileProvider("C:\\")
+    };
+
+    public class When_calling_IsOneOf
+    {
+        [Fact]
+        public void And_the_host_environment_is_null_with_a_null_array_of_environments_then_return_false()
         {
-            ApplicationName = "AGDevXTests",
-            EnvironmentName = "Prod",
-            ContentRootPath = "C:\\",
-            ContentRootFileProvider = new PhysicalFileProvider("C:\\")
-        };
-    }
+            //-- Arrange
+            IHostEnvironment? hostEnvironment = null;
+            string[]? environments = null;
 
-    [Fact]
-    public void IsNullOrEmpty_Null_ReturnsFalse()
-    {
-        //-- Arrange
-        IHostEnvironment? hostEnvironment = null;
-        string[]? environments = null;
+            //-- Act
+            var isOneOf = hostEnvironment.IsOneOf(environments);
 
-        //-- Act
-        var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
+            //-- Assert
+            Assert.False(isOneOf);
+        }
 
-        //-- Assert
-        Assert.False(isNullOrEmpty);
-    }
+        [Fact]
+        public void And_the_host_environment_is_null_with_an_empty_array_of_environments_then_return_false()
+        {
+            //-- Arrange
+            IHostEnvironment? hostEnvironment = null;
+            string[]? environments = Array.Empty<string>();
 
-    [Fact]
-    public void IsNullOrEmpty_Empty_ReturnsFalse()
-    {
-        //-- Arrange
-        IHostEnvironment? hostEnvironment = null;
-        string[]? environments = Array.Empty<string>();
+            //-- Act
+            var isOneOf = hostEnvironment.IsOneOf(environments);
 
-        //-- Act
-        var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
+            //-- Assert
+            Assert.False(isOneOf);
+        }
 
-        //-- Assert
-        Assert.False(isNullOrEmpty);
-    }
+        [Fact]
+        public void And_the_host_environment_is_a_prod_environment_with_a_prod_environment_then_return_true()
+        {
+            //-- Arrange
+            IHostEnvironment? hostEnvironment = _prodHostEnvironment;
+            string[]? environments = new string[1] { "Prod" };
 
-    [Fact]
-    public void IsOneOf_Prod_ReturnsFalse()
-    {
-        //-- Arrange
-        IHostEnvironment? hostEnvironment = _hostEnvironment;
-        string[]? environments = new string[1] { "Prod" };
+            //-- Act
+            var isOneOf = hostEnvironment.IsOneOf(environments);
 
-        //-- Act
-        var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
+            //-- Assert
+            Assert.True(isOneOf);
+        }
 
-        //-- Assert
-        Assert.True(isNullOrEmpty);
-    }
+        [Fact]
+        public void And_the_host_environment_is_a_prod_environment_with_a_prod_and_non_prod_environment_then_return_true()
+        {
+            //-- Arrange
+            IHostEnvironment? hostEnvironment = _prodHostEnvironment;
+            string[]? environments = new string[2] { "QA", "Prod" };
 
-    [Fact]
-    public void IsOneOfMultiple_Prod_ReturnsFalse()
-    {
-        //-- Arrange
-        IHostEnvironment? hostEnvironment = _hostEnvironment;
-        string[]? environments = new string[2] { "QA", "Prod" };
+            //-- Act
+            var isOneOf = hostEnvironment.IsOneOf(environments);
 
-        //-- Act
-        var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
+            //-- Assert
+            Assert.True(isOneOf);
+        }
 
-        //-- Assert
-        Assert.True(isNullOrEmpty);
-    }
+        [Fact]
+        public void And_the_host_environment_is_a_prod_environment_with_a_non_prod_environment_then_return_false()
+        {
+            //-- Arrange
+            IHostEnvironment? hostEnvironment = _prodHostEnvironment;
+            string[]? environments = new string[2] { "Local", "Dev" };
 
-    [Fact]
-    public void IsNotOneOf_Prod_ReturnsFalse()
-    {
-        //-- Arrange
-        IHostEnvironment? hostEnvironment = _hostEnvironment;
-        string[]? environments = new string[1] { "Development" };
+            //-- Act
+            var isOneOf = hostEnvironment.IsOneOf(environments);
 
-        //-- Act
-        var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
-
-        //-- Assert
-        Assert.False(isNullOrEmpty);
-    }
-
-    [Fact]
-    public void IsNotOneOfMultiple_Prod_ReturnsFalse()
-    {
-        //-- Arrange
-        IHostEnvironment? hostEnvironment = _hostEnvironment;
-        string[]? environments = new string[2] { "Local", "Dev" };
-
-        //-- Act
-        var isNullOrEmpty = hostEnvironment.IsOneOf(environments);
-
-        //-- Assert
-        Assert.False(isNullOrEmpty);
+            //-- Assert
+            Assert.False(isOneOf);
+        }
     }
 
     public class HostEnvironment : IHostEnvironment
