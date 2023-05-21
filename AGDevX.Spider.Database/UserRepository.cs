@@ -29,13 +29,6 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<Guid> AddUser(AddUser user)
     {
-        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
-        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
-        if (!_databaseConfig.UseDatabase)
-        {
-            return new Guid();
-        }
-
         using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
         {
             var args = new
@@ -58,13 +51,6 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<User?> GetUser(Guid? userId = default, string? email = default)
     {
-        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
-        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
-        if (!_databaseConfig.UseDatabase)
-        {
-            return ReturnMockDataForGetUsers().FirstOrDefault();
-        }
-
         if (userId.IsNullOrEmpty() && email.IsNullOrWhiteSpace())
         {
             throw new MissingSprocArgumentException("At least one argument must be provided");
@@ -82,13 +68,6 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<UserInfo?> GetUserInfo(Guid? userId = default, string? externalUserId = default, string? email = default)
     {
-        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
-        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
-        if (!_databaseConfig.UseDatabase)
-        {
-            return ReturnMockDataForGetUserInfo().FirstOrDefault();
-        }
-
         if (userId.IsNullOrEmpty() && externalUserId.IsNullOrWhiteSpace() && email.IsNullOrWhiteSpace())
         {
             throw new MissingSprocArgumentException("At least one argument must be provided");
@@ -126,13 +105,6 @@ public sealed class UserRepository : IUserRepository
 
     private async Task<List<User>> GetUsers(Guid? userId = default, string? email = default)
     {
-        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
-        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
-        if (!_databaseConfig.UseDatabase)
-        {
-            return ReturnMockDataForGetUsers();
-        }
-
         using (var conn = await _dbConnectionFactory.CreateAndOpenConnection(DatabaseProviderType.SqlServer))
         {
             var args = new
@@ -154,113 +126,5 @@ public sealed class UserRepository : IUserRepository
     public Task DeleteUser(Guid? userId = default, string? email = default)
     {
         throw new NotImplementedException();
-    }
-
-    private List<User> ReturnMockDataForGetUsers()
-    {
-        return new List<User>
-        {
-            new User
-            {
-                Id = new Guid("FF939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                CreatedBy = new Guid("F3939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                CreatedAt = DateTime.UtcNow,
-                ModifiedBy = new Guid("F3939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                ModifiedAt = DateTime.UtcNow,
-                IsActive = true,
-                FirstName = "Dave",
-                LastName = "Lister",
-                Suffix = "Sir",
-                Email = "dave.lister@reddwarfjmcagdx.com",
-            },
-            new User
-            {
-                Id = new Guid("FF939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                CreatedBy = new Guid("F3939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                CreatedAt = DateTime.UtcNow,
-                ModifiedBy = new Guid("F3939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                ModifiedAt = DateTime.UtcNow,
-                IsActive = true,
-                FirstName = "Arnold",
-                MiddleName = "J",
-                LastName = "Rimmer",
-                Email = "arnold.rimmer@reddwarfjmcagdx.com",
-            }
-        };
-    }
-
-    private List<UserInfo> ReturnMockDataForGetUserInfo()
-    {
-        return new List<UserInfo>
-        {
-            new UserInfo
-            {
-                User = new UserInfo.Person
-                {
-                    Id = new Guid("F5939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                    IsActive = true,
-                    FirstName = "Dave",
-                    LastName = "Lister",
-                    Suffix = "Sir",
-                    Email = "dave.lister@reddwarfjmcagdx.com"
-                },
-                ExternalUserIds = new List<UserInfo.ExternalUserId>
-                {
-                    new UserInfo.ExternalUserId
-                    {
-                        Id = new Guid("FA939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        IsActive = true,
-                        UserId = new Guid("F5939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        ExternalId = "EX_ID_DL_1"
-                    }
-                },
-                Roles = new List<UserInfo.UserRole>
-                {
-                    new UserInfo.UserRole
-                    {
-                        UserId = new Guid("F5939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        RoleId = new Guid("FE939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        RoleIsActive = true,
-                        RoleCode = "ADMIN",
-                        RoleName = "Admin",
-                        RoleDescription = "Administrator"
-                    }
-                }
-            },
-            new UserInfo
-            {
-                User = new UserInfo.Person
-                {
-                    Id = new Guid("F6939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                    IsActive = true,
-                    FirstName = "Arnold",
-                    MiddleName = "J",
-                    LastName = "Rimmer",
-                    Email = "arnold.rimmer@reddwarfjmcagdx.com",
-                },
-                ExternalUserIds = new List<UserInfo.ExternalUserId>
-                {
-                    new UserInfo.ExternalUserId
-                    {
-                        Id = new Guid("FB939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        IsActive = true,
-                        UserId = new Guid("F6939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        ExternalId = "EX_ID_DL_1"
-                    }
-                },
-                Roles = new List<UserInfo.UserRole>
-                {
-                    new UserInfo.UserRole
-                    {
-                        UserId = new Guid("F6939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        RoleId = new Guid("FF939B25-D6AF-ED11-BA8D-8C85907AE767"),
-                        RoleIsActive = true,
-                        RoleCode = "NORMAL",
-                        RoleName = "Normal",
-                        RoleDescription = "Typical user access level"
-                    }
-                }
-            }
-        };
     }
 }

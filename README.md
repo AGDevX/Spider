@@ -5,16 +5,6 @@ Spider is meant to be a starter / educational / inspirational RESTful Web API wi
 If this is used as a basis for a new API then there's a little customization that needs to happen. This README will get you going.
 
 <br />
-
-## Demo
-
-You can see this API running at [https://spider-netcore.azurewebsites.net/swagger](https://spider-netcore.azurewebsites.net/swagger). This API isn't hitting a database when hosted in Azure. It may be a little slow to load because it's running on an Azure App Service free tier.
-
-- Auth0 test credentials
-  - Email: august.geier@reddwarfjmcagdx.com
-  - Password: Itscoldoutside1
-
-<br />
 <br />
 
 # Features
@@ -185,12 +175,6 @@ exports.onExecutePostLogin = async (event, api) => {
 
 When running Spider locally, make sure to use the `AGDevX.Spider.WebApi - Local` profile.
 
-If you want to quickly get into running and debugging Spider:
-
-1. Set the `UseDatabase` config to `false` in `appSettings.Local.json`.
-
-If you want to see how the database integration works:
-
 1. Install SQL Server 2016 or later (edition does not matter)
 2. Open the `AGDevX.Spider.Database.SqlServer` database solution
 3. Run the `Spider_Local.publish` publish profile
@@ -239,8 +223,6 @@ Microsoft offers a free tier for Azure App Services. Custom domains are not supp
   - Set `given_name` and `family_name`
   - Set _api:access_ permission
 - Validation
-- Improve Exception handling
-  - Difficult to not log StackFrames when they are undesired
 - Improve config model
   - Throw exception if required config not found
 - Improve logging
