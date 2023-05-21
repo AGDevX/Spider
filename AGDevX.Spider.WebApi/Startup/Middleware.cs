@@ -1,8 +1,8 @@
 ﻿using AGDevX.Enums;
-using AGDevX.Hosts;
 using AGDevX.Spider.WebApi.AuthZ;
 using AGDevX.Spider.WebApi.Config;
 using AGDevX.Spider.WebApi.Environment;
+using AGDevX.Spider.WebApi.Extensions;
 using AGDevX.Web.Exceptions;
 using AGDevX.Web.Swagger;
 using Microsoft.AspNetCore.Builder;

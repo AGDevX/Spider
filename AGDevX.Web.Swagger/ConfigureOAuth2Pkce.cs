@@ -37,8 +37,8 @@ public sealed class ConfigureOAuth2Pkce : IConfigureNamedOptions<SwaggerGenOptio
             {
                 AuthorizationCode = new OpenApiOAuthFlow
                 {
-                    AuthorizationUrl = _swaggerConfig.AuthorizationUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.AuthorizationUrl) : null,
-                    TokenUrl = _swaggerConfig.TokenUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.TokenUrl) : null,
+                    AuthorizationUrl = _swaggerConfig.AuthorizationUrl.IsNotNullNorWhiteSpace() ? new Uri(_swaggerConfig.AuthorizationUrl) : null,
+                    TokenUrl = _swaggerConfig.TokenUrl.IsNotNullNorWhiteSpace() ? new Uri(_swaggerConfig.TokenUrl) : null,
                     Scopes = _swaggerConfig.Scopes
                 }
             },

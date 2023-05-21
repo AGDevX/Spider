@@ -46,7 +46,7 @@ public sealed class ConfigureDefault : IConfigureNamedOptions<SwaggerGenOptions>
             {
                 Name = _swaggerConfig.Author,
                 Email = _swaggerConfig.AuthorEmail,
-                Url = _swaggerConfig.AuthorUrl.IsNotNullOrWhiteSpace() ? new Uri(_swaggerConfig.AuthorUrl) : null
+                Url = _swaggerConfig.AuthorUrl.IsNotNullNorWhiteSpace() ? new Uri(_swaggerConfig.AuthorUrl) : null
             }
         };
 

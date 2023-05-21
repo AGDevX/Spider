@@ -4,18 +4,18 @@ using Xunit;
 
 namespace AGDevX.Database.Tests.Exceptions;
 
-public sealed class MissingDbConnectionStringExceptionTests
+public sealed class MissingSprocArgumentExceptionTests
 {
-    public class When_throwing_a_MissingDbConnectionStringException
+    public class When_throwing_a_MissingSprocArgumentException
     {
         [Fact]
         public void And_has_correct_default_code_then_assert_true()
         {
             //-- Arrange
-            var defaultCode = "MISSING_DATABASE_CONNECTION_STRING_EXCEPTION";
+            var defaultCode = "MISSING_SPROC_ARG_EXCEPTION";
 
             //-- Assert
-            Assert.True(new MissingDbConnectionStringException().Code.Equals(defaultCode));
+            Assert.True(new MissingSprocArgumentException().Code.Equals(defaultCode));
         }
 
         [Fact]
@@ -25,17 +25,18 @@ public sealed class MissingDbConnectionStringExceptionTests
             var code = "ex";
 
             //-- Assert
-            Assert.True(new MissingDbConnectionStringException("msg", code).Code.Equals(code));
+            Assert.True(new MissingSprocArgumentException("msg", code).Code.Equals(code));
         }
 
         [Fact]
         public void And_has_correct_message_then_assert_true()
         {
             //-- Arrange
-            var message = "Test message";
+            var argumentName = "argumentName";
+            var message = "Value cannot be null. (Parameter 'argumentName')";
 
             //-- Assert
-            Assert.True(new MissingDbConnectionStringException(message).Message.Equals(message));
+            Assert.True(new MissingSprocArgumentException(argumentName).Message.Equals(message));
         }
 
         [Fact]
@@ -47,8 +48,8 @@ public sealed class MissingDbConnectionStringExceptionTests
             var innerException = new Exception(innerExceptionMessage);
 
             //-- Assert
-            Assert.True(new MissingDbConnectionStringException(message, innerException).Message.Equals(message));
-            Assert.True(new MissingDbConnectionStringException(message, innerException).InnerException == innerException);
+            Assert.True(new MissingSprocArgumentException(message, innerException).Message.Equals(message));
+            Assert.True(new MissingSprocArgumentException(message, innerException).InnerException == innerException);
         }
 
         [Fact]
@@ -61,9 +62,9 @@ public sealed class MissingDbConnectionStringExceptionTests
             var innerException = new Exception(innerExceptionMessage);
 
             //-- Assert
-            Assert.True(new MissingDbConnectionStringException(message, code, innerException).Message.Equals(message));
-            Assert.True(new MissingDbConnectionStringException(message, code, innerException).Code.Equals(code));
-            Assert.True(new MissingDbConnectionStringException(message, code, innerException).InnerException == innerException);
+            Assert.True(new MissingSprocArgumentException(message, code, innerException).Message.Equals(message));
+            Assert.True(new MissingSprocArgumentException(message, code, innerException).Code.Equals(code));
+            Assert.True(new MissingSprocArgumentException(message, code, innerException).InnerException == innerException);
         }
     }
 }

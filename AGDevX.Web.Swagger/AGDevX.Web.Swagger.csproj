@@ -7,12 +7,9 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<PackageReference Include="AGDevX" Version="0.0.1-alpha" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <ProjectReference Include="..\AGDevX\AGDevX.csproj" />
 	</ItemGroup>
 
 </Project>

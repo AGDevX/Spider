@@ -30,13 +30,6 @@ public sealed class UserRoleRepository : IUserRoleRepository
 
     public async Task<List<UserRole>> GetUserRoles(Guid userId)
     {
-        //-- The UseDatabase is only here because of not wanting to host a database somewhere, but still wanting an API demo to work
-        //--    If this is used as a basis for a real API, please remove the concept of "UseDatabase" and get rid of this shim
-        if (!_databaseConfig.UseDatabase)
-        {
-            return ReturnMockDataForGetUserRoles();
-        }
-
         var args = new
         {
             userId
