@@ -48,7 +48,7 @@ public sealed class UserRepository : IUserRepository
                 suffix = user.Suffix,
                 email = user.Email,
                 externalId = user.ExternalId,
-                roleIds = user.RoleIds.ToIdDataTable()
+                roleIds = user.RoleIds.ToDataTable()
             };
 
             var userId = (await conn.ExecuteSproc<Guid>("[agdevx].AddUser", args)).First();
@@ -67,7 +67,7 @@ public sealed class UserRepository : IUserRepository
 
         if (userId.IsNullOrEmpty() && email.IsNullOrWhiteSpace())
         {
-            throw new MissingSprocArgument("At least one argument must be provided");
+            throw new MissingSprocArgumentException("At least one argument must be provided");
         }
 
         var users = await GetUsers(userId, email);
@@ -91,7 +91,7 @@ public sealed class UserRepository : IUserRepository
 
         if (userId.IsNullOrEmpty() && externalUserId.IsNullOrWhiteSpace() && email.IsNullOrWhiteSpace())
         {
-            throw new MissingSprocArgument("At least one argument must be provided");
+            throw new MissingSprocArgumentException("At least one argument must be provided");
         }
 
         var args = new

@@ -24,10 +24,10 @@ public static class SwaggerConfigExtensions
 {
     public static bool IsConfiguredForOAuth2(this SwaggerConfig swaggerConfig)
     {
-        return swaggerConfig.AuthorizationUrl.IsNotNullOrWhiteSpace()
-                && swaggerConfig.TokenUrl.IsNotNullOrWhiteSpace()
-                && swaggerConfig.ClientId.IsNotNullOrWhiteSpace()
-                && swaggerConfig.ClientSecret.IsNotNullOrWhiteSpace()
+        return swaggerConfig.AuthorizationUrl.IsNotNullNorWhiteSpace()
+                && swaggerConfig.TokenUrl.IsNotNullNorWhiteSpace()
+                && swaggerConfig.ClientId.IsNotNullNorWhiteSpace()
+                && swaggerConfig.ClientSecret.IsNotNullNorWhiteSpace()
                 && swaggerConfig.Scopes.AnySafe();
     }
 }

@@ -43,7 +43,12 @@ public class UnhandledExceptionMiddleware
 
         switch (exception)
         {
-            case CodedException codedEx:
+            case CodedApplicationException codedEx:
+                _logger.LogError(codedEx, codedEx.Message);
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                exceptionDetail = codedEx.GetExceptionDetail(codedEx.Code, true, true, _assemblyPrefixes);
+                break;
+            case CodedArgumentNullException codedEx:
                 _logger.LogError(codedEx, codedEx.Message);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 exceptionDetail = codedEx.GetExceptionDetail(codedEx.Code, true, true, _assemblyPrefixes);

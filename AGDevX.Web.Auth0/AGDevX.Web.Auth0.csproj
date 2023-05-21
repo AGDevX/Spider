@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="AGDevX" Version="0.0.1-alpha" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\AGDevX.Web\AGDevX.Web.csproj" />
-	  <ProjectReference Include="..\AGDevX\AGDevX.csproj" />
 	</ItemGroup>
 
 </Project>

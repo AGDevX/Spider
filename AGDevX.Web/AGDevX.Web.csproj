@@ -7,13 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AGDevX" Version="0.0.1-alpha" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\AGDevX\AGDevX.csproj" />
 	</ItemGroup>
 
 </Project>
