@@ -40,8 +40,6 @@ public static class Services
         builder.Services.ConfigureDependencyInjection(apiConfig);
         builder.Services.ConfigureSecurity(apiConfig);
         builder.Services.ConfigureAuth(configuration, apiConfig);
-        //builder.Services.AddEndpointsApiExplorer();
-        //builder.Services.ConfigureApiVersioning();
         builder.Services.ConfigureJson();
         builder.Services.ConfigureSwagger(apiConfig);
         builder.Services.ConfigureAutoMapper(apiConfig);
