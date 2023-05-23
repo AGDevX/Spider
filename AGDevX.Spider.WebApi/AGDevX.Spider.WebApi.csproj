@@ -17,16 +17,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AGDevX.Web.Swagger" Version="0.0.1-alpha" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 		<PackageReference Include="Serilog" Version="2.12.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\AGDevX.Spider.Service\AGDevX.Spider.Service.csproj" />
 		<ProjectReference Include="..\AGDevX.Web.Auth0\AGDevX.Web.Auth0.csproj" />
-		<ProjectReference Include="..\AGDevX.Web.Swagger\AGDevX.Web.Swagger.csproj" />
 		<ProjectReference Include="..\AGDevX.Web\AGDevX.Web.csproj" />
 	</ItemGroup>
 
