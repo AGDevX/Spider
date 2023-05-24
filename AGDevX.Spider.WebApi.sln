@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.WebApi", "AGDevX.Spider.WebApi\AGDevX.Spider.WebApi.csproj", "{7E66D73C-601D-4355-97C5-7308491AFDFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Web.Swagger", "AGDevX.Web.Swagger\AGDevX.Web.Swagger.csproj", "{CF740EB9-1021-48AE-8C4A-37002CFBB289}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Spider.Database", "AGDevX.Spider.Database\AGDevX.Spider.Database.csproj", "{2476AC4E-CF5D-4A46-9261-521630E5384B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDevX.Database", "AGDevX.Database\AGDevX.Database.csproj", "{85EF46D7-ACB2-46BF-833D-9FA3BBEBC891}"
@@ -36,10 +34,6 @@ Global
 		{7E66D73C-601D-4355-97C5-7308491AFDFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E66D73C-601D-4355-97C5-7308491AFDFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E66D73C-601D-4355-97C5-7308491AFDFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF740EB9-1021-48AE-8C4A-37002CFBB289}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2476AC4E-CF5D-4A46-9261-521630E5384B}.Release|Any CPU.ActiveCfg = Release|Any CPU
